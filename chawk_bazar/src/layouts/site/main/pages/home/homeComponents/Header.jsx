@@ -469,7 +469,9 @@ export default function Header() {
               <li>
                 <div className="h-8 relative group">
                   <div className="flex justify-between items-center py-8 group mr-4">
-                    <Link className="text-[16px] px-1">Shops</Link>
+                    <Link to={"shop"} className="text-[16px] px-1">
+                      Shops
+                    </Link>
                   </div>
                 </div>
               </li>
@@ -520,7 +522,9 @@ export default function Header() {
             </Link>
           </div>
           <div className="">
-            <Link className="text-lg font-semibold">Sign In</Link>
+            <Link to={"login"} className="text-lg font-semibold">
+              Sign In
+            </Link>
           </div>
           <div className="">
             <Link className="text-2xl">

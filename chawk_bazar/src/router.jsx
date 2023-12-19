@@ -14,6 +14,7 @@ import Orders from "./layouts/dashboard/pages/Orders";
 import Products from "./layouts/dashboard/pages/Products";
 import Staff from "./layouts/dashboard/pages/Staff";
 import NotFound from "./layouts/site/main/pages/notfound/NotFound";
+import DashboardInfo from "./layouts/dashboard/pages/DashboardInfo";
 
 const router = createBrowserRouter([
   {
@@ -61,10 +62,11 @@ const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       {
-        path: "/dashboard",
-        element: (
-          <ProtectedRoute component={<DashboardLayout />} role={"superadmin"} />
-        ),
+        path: "dasboardinfo",
+        element: <DashboardInfo />,
+        // element: (
+        //   <ProtectedRoute component={<DashboardInfo />} role={"superadmin"} />
+        // ),
       },
       {
         path: "orders",
@@ -76,7 +78,8 @@ const router = createBrowserRouter([
       },
       {
         path: "staff",
-        element: <ProtectedRoute component={<Staff />} role={"superadmin"} />,
+        element: <Staff />,
+        // element: <ProtectedRoute component={<Staff />} role={"superadmin"} />,
       },
       {
         path: "*",
