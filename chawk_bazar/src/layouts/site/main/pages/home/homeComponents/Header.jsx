@@ -522,7 +522,7 @@ export default function Header() {
             </Link>
           </div>
           <div className="">
-            <Link to={"login"} className="text-lg font-semibold">
+            <Link to={"auth/login"} className="text-lg font-semibold">
               Sign In
             </Link>
           </div>

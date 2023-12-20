@@ -22,15 +22,15 @@ export default function DashboardLayout() {
         <Sider trigger={null} collapsible collapsed={collapsed}>
           <div className="demo-logo-vertical" />
           <Menu
-            className="bg-[#94D5CB]"
-            // theme="dark"
+            className="bg-[#94D5CB] h-[101vh] sticky top-0"
+            theme="light"
             // mode="inline"
             defaultSelectedKeys={["1"]}
             items={[
               {
                 key: "1",
                 icon: <FaInfo />,
-                label: <Link to={"dashboardinfo"}>Dashboard Info</Link>,
+                label: <Link to={"dashboard-info"}>Dashboard Info</Link>,
               },
               {
                 key: "2",
@@ -68,7 +68,7 @@ export default function DashboardLayout() {
             style={{
               // margin: "24px 16px",
               padding: 24,
-              minHeight: 630,
+              // minHeight: 630,
               background: colorBgContainer,
               borderRadius: borderRadiusLG,
             }}

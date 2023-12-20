@@ -62,7 +62,7 @@ const router = createBrowserRouter([
     element: <DashboardLayout />,
     children: [
       {
-        path: "dasboardinfo",
+        path: "dashboard-info",
         element: <DashboardInfo />,
         // element: (
         //   <ProtectedRoute component={<DashboardInfo />} role={"superadmin"} />

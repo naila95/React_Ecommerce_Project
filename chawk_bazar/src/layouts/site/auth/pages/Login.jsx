@@ -10,8 +10,9 @@ const onChange = (checked) => {
 export default function Login() {
   return (
     <main>
-      <div className="flex flex-center p-6 md:p-10 2xl:p-8 bg-center bg-cover bg-blue-200">
+      <div className="flex relative flex-center p-6 md:p-10 2xl:p-8 bg-center bg-cover bg-[url('https://chawkbazar.vercel.app/assets/images/page-header.jpg')] ">
         <div className="flex items-center justify-center w-full py-10 md:py-14 lg:py-20 xl:py-24 2xl:py-32">
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-20 transition duration"></div>
           <h2 className="text-xl md:text-2xl lg:text-3xl text-bold text-white">
             Sign In
           </h2>
@@ -81,7 +82,7 @@ export default function Login() {
                 <p className="text-gray-600 font-semibold text-base">
                   Don't have any account?
                   <Link
-                    to={"register"}
+                    to={"/auth/register"}
                     className="text-black font-bold underline hover:no-underline"
                   >
                     Register

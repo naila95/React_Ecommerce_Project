@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { Select, Space } from "antd";
-
+import Button from "../components/UI/Button";
+import { staffMockData } from "../../../helpers/staffConstants";
 const handleChange = (value) => {
   console.log(`selected ${value}`);
 };
@@ -10,13 +11,21 @@ const columns = [
   {
     title: "Name",
     dataIndex: "name",
-    sorter: true,
-    render: (name) => `${name.first} ${name.last}`,
-    width: "20%",
+    key: "name",
+    sorter: (a, b) => a.name.length - b.name.length,
+    width: "15%",
+  },
+  {
+    title: "Surname",
+    dataIndex: "surname",
+    key: "surname",
+    sorter: (a, b) => a.name.length - b.name.length,
+    width: "15%",
   },
   {
     title: "Gender",
     dataIndex: "gender",
+    key: "gender",
     filters: [
       {
         text: "Male",
@@ -27,11 +36,24 @@ const columns = [
         value: "female",
       },
     ],
-    width: "20%",
+    width: "15%",
   },
   {
     title: "Email",
     dataIndex: "email",
+    key: "email",
+    width: "20%",
+  },
+  {
+    title: "Phone number",
+    dataIndex: "number",
+    key: "number",
+    width: "20%",
+  },
+  {
+    title: "Role",
+    dataIndex: "role",
+    key: "role",
   },
 ];
 // const getRandomuserParams = (params) => ({
@@ -41,7 +63,7 @@ const columns = [
 // });
 
 export default function Staff() {
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [tableParams, setTableParams] = useState({
     pagination: {
@@ -49,43 +71,20 @@ export default function Staff() {
       pageSize: 10,
     },
   });
-  // const fetchData = () => {
-  //   setLoading(true);
-  //   fetch(
-  //     `https://randomuser.me/api?${qs.stringify(
-  //       getRandomuserParams(tableParams)
-  //     )}`
-  //   )
-  //     .then((res) => res.json())
-  //     .then(({ results }) => {
-  //       setData(results);
-  //       setLoading(false);
-  //       setTableParams({
-  //         ...tableParams,
-  //         pagination: {
-  //           ...tableParams.pagination,
-  //           total: 200,
-  //           // 200 is mock data, you should read it from server
-  //           // total: data.totalCount,
-  //         },
-  //       });
-  //     });
-  // };
-  // useEffect(() => {
-  //   fetchData();
-  // }, [JSON.stringify(tableParams)]);
-  // const handleTableChange = (pagination, filters, sorter) => {
-  //   setTableParams({
-  //     pagination,
-  //     filters,
-  //     ...sorter,
-  //   });
-
-  //   // `dataSource` is useless since `pageSize` changed
-  //   if (pagination.pageSize !== tableParams.pagination?.pageSize) {
-  //     setData([]);
-  //   }
-  // };
+  useEffect(() => {
+    setData(staffMockData);
+  }, []);
+  const handleTableChange = (pagination, filters, sorter) => {
+    setTableParams({
+      pagination,
+      filters,
+      ...sorter,
+    });
+    // `dataSource` is useless since `pageSize` changed
+    if (pagination.pageSize !== tableParams.pagination?.pageSize) {
+      setData([]);
+    }
+  };
   return (
     <div className="">
       <h3 className="font-bold text-xl">All Staff</h3>
@@ -113,30 +112,40 @@ export default function Staff() {
                   value: "admin",
                   label: "Admin",
                 },
+                {
+                  value: "sales-manager",
+                  label: "Sales Manager",
+                },
+                {
+                  value: "seller",
+                  label: "Seller",
+                },
+                {
+                  value: "cashier",
+                  label: "Cashier",
+                },
               ]}
             />
           </Space>
         </div>
         <div className="flex items-center gap-3">
-          <button className="bg-[#94D5CB] text-white py-3 px-6 text-base rounded-md">
-            Filter
-          </button>
-          <button className="bg-white border border-[#94D5CB] py-3 px-6 text-base rounded-md">
-            Reset
-          </button>
-          <button className="bg-[#94D5CB] text-white py-3 px-6 text-base rounded-md">
-            Add new staff
-          </button>
+          <Button label={"Filter"} fill={true} refFunc={() => {}} />
+          <Button
+            label={"Reset"}
+            refFunc={() => {
+              console.log("test");
+            }}
+          />
+          <Button fill={true} label={"Add new staff"} />
         </div>
       </div>
 
       <Table
         columns={columns}
-        rowKey={(record) => record.login.uuid}
         dataSource={data}
         pagination={tableParams.pagination}
         loading={loading}
-        // onChange={handleTableChange}
+        onChange={handleTableChange}
       />
     </div>
   );
