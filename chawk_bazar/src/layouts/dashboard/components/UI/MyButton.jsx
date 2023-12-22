@@ -1,9 +1,10 @@
 import React from "react";
 
-export default function Button({ fill = false, label, refFunc }) {
+export default function MyButton({ fill = false, label, refFunc }) {
   if (fill) {
     return (
       <button
+        type="submit"
         onClick={() => {
           refFunc();
         }}
@@ -15,6 +16,7 @@ export default function Button({ fill = false, label, refFunc }) {
   } else {
     return (
       <button
+        type="submit"
         onClick={() => {
           refFunc();
         }}

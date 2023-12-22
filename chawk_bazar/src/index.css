@@ -5,3 +5,17 @@
 body {
   font-family: "Open Sans", sans-serif;
 }
+
+.ant-btn-primary {
+  background-color: #94d5cb !important;
+  border-color: #94d5cb !important;
+}
+
+.ant-btn-link {
+  border-color: #94d5cb;
+  color: black !important;
+}
+
+.ant-select-selector {
+  border: none !important;
+}

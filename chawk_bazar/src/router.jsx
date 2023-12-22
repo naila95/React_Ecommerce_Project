@@ -10,11 +10,11 @@ import AuthLayout from "./layouts/site/auth/AuthLayout";
 import Login from "./layouts/site/auth/pages/Login";
 import Register from "./layouts/site/auth/pages/Register";
 import ProtectedRoute from "./helpers/ProtectedRoute";
-import Orders from "./layouts/dashboard/pages/Orders";
-import Products from "./layouts/dashboard/pages/Products";
-import Staff from "./layouts/dashboard/pages/Staff";
+import Orders from "./layouts/dashboard/pages/orders/Orders";
+import Products from "./layouts/dashboard/pages/products/Products";
 import NotFound from "./layouts/site/main/pages/notfound/NotFound";
-import DashboardInfo from "./layouts/dashboard/pages/DashboardInfo";
+import DashboardInfo from "./layouts/dashboard/pages/dashboardInfo/DashboardInfo";
+import Staff from "./layouts/dashboard/pages/staff/Staff";
 
 const router = createBrowserRouter([
   {
