@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Select, Space } from "antd";
-import { staffMockData } from "../../../../helpers/staffConstants";
 import MyButton from "../../components/UI/MyButton";
 import StaffTable from "./components/StaffTable";
 import StaffModalForm from "./components/StaffModalForm";
 import { MyModalContext } from "../../../../contexts/MyModalContext";
 import AddStaffModel from "./components/AddStaffModel";
+import { staffMockData } from "../../../../helpers/constants/staffConstants";
 
 export default function Staff() {
   const [data, setData] = useState([]);

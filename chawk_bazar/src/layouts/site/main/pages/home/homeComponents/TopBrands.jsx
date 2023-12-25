@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { mockData } from "../../../../../../helpers/constants";
+import { mockData } from "../../../../../../helpers/constants/brandsConstants";
 
 export default function TopBrands() {
   return (

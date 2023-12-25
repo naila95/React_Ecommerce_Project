@@ -18,7 +18,9 @@ export default function Header() {
               <li>
                 <div className="h-8 relative group">
                   <div className="flex justify-between items-center py-8 group mr-4">
-                    <Link className="text-[16px] px-1">Demos</Link>
+                    <Link to={"/"} className="text-[16px] px-1">
+                      Demos
+                    </Link>
                     <FaAngleDown className="mb-0 transition text-gray-400 text-sm group-hover:rotate-180" />
                   </div>
                   <div className="absolute left-[-30px] hidden group-hover:flex flex-col justify-between bg-gray-100 py-3 w-[200px]">
@@ -469,7 +471,7 @@ export default function Header() {
               <li>
                 <div className="h-8 relative group">
                   <div className="flex justify-between items-center py-8 group mr-4">
-                    <Link to={"shop"} className="text-[16px] px-1">
+                    <Link to={"/shop"} className="text-[16px] px-1">
                       Shops
                     </Link>
                   </div>
@@ -497,7 +499,10 @@ export default function Header() {
                     <Link className="py-2 text-s[16]  hover:text-black text-gray-600 px-4 hover:bg-gray-200">
                       Contact Us
                     </Link>
-                    <Link className="py-2 text-s[16]  hover:text-black text-gray-600 px-4 hover:bg-gray-200">
+                    <Link
+                      to={"/checkout"}
+                      className="py-2 text-s[16]  hover:text-black text-gray-600 px-4 hover:bg-gray-200"
+                    >
                       Checkout
                     </Link>
                     <Link className="py-2 text-s[16]  hover:text-black text-gray-600 px-4 hover:bg-gray-200">

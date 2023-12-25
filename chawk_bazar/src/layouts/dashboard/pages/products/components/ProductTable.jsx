@@ -5,7 +5,7 @@ import DeleteStaffModel from "../../staff/components/DeleteStaffModel";
 import { MdDeleteOutline } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 
-export default function ProductTable() {
+export default function ProductTable({ data }) {
   const columns = [
     {
       title: "Product Image",
@@ -14,8 +14,8 @@ export default function ProductTable() {
     },
     {
       title: "Product Name",
-      dataIndex: "product-name",
-      key: "product-name",
+      dataIndex: "name",
+      key: "name",
     },
     {
       title: "Brand",
@@ -81,6 +81,5 @@ export default function ProductTable() {
       },
     },
   ];
-  const data = [];
   return <Table columns={columns} dataSource={data} />;
 }

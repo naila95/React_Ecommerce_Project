@@ -1,15 +1,21 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import ProductTable from "./components/ProductTable";
 import MyButton from "../../components/UI/MyButton";
 import { Select } from "antd";
 import { MyModalContext } from "../../../../contexts/MyModalContext";
 import AddStaffModel from "../staff/components/AddStaffModel";
+import { productData } from "../../../../helpers/constants/productConstants";
 
 export default function Products() {
+  const [data, setData] = useState();
   const { setMyModal } = useContext(MyModalContext);
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
+  useEffect(() => {
+    setData(productData);
+  });
+  console.log(data);
   return (
     <>
       <h3 className="font-bold text-xl">All Products</h3>
@@ -53,7 +59,7 @@ export default function Products() {
           </div>
         </div>
       </div>
-      <ProductTable />
+      <ProductTable data={data} />
     </>
   );
 }

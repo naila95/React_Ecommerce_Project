@@ -1,116 +1,221 @@
 import React from "react";
 import img from "../../../../../assets/page-checkout.jpg";
-import { Button, Checkbox, Form, Input } from "antd";
+import { Button, Checkbox, Form, Input, Switch } from "antd";
+import MyButton from "../../../../dashboard/components/UI/MyButton";
 
 export default function Checkout() {
   const onFinish = (values) => {
     console.log("Success:", values);
   };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
   return (
     <main>
-      <div className="bg-gray-400 h-60">
-        <div className="flex justify-center items-center py-16">
-          <h3 className="text-3xl font-bold mb-7 text-white">Checkout</h3>
+      <div className="flex relative flex-center p-6 md:p-10 2xl:p-8 bg-center bg-cover bg-[url('https://chawkbazar.vercel.app/assets/images/page-header.jpg')] ">
+        <div className="flex items-center justify-center w-full py-10 md:py-14 lg:py-20 xl:py-24 2xl:py-32">
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-20 transition duration"></div>
+          <h2 className="text-xl md:text-2xl lg:text-3xl text-bold text-white">
+            Checkout
+          </h2>
         </div>
       </div>
       <div className="mx-auto px-4 md:px-8 2xl:px-16 py-4 md:py-8 lg:py-10 2xl:py-12">
-        <div className="flex justify-between">
-          <div className="">
+        <div className="flex justify-between gap-12">
+          <div className="flex flex-col w-[60%]">
             <h3 className="text-3xl font-bold mb-7">Shipping Address</h3>
             <Form
               name="basic"
-              labelCol={{
-                span: 8,
-              }}
-              wrapperCol={{
-                span: 16,
-              }}
               style={{
-                maxWidth: 600,
-              }}
-              initialValues={{
-                remember: true,
+                marginTop: 20,
               }}
               onFinish={onFinish}
-              onFinishFailed={onFinishFailed}
               autoComplete="off"
             >
-              <Form.Item
-                label="First name"
-                name="firstname"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Username"
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Username"
-                name="username"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your username!",
-                  },
-                ]}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Password"
-                name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your password!",
-                  },
-                ]}
-              >
-                <Input.Password />
-              </Form.Item>
-
-              <Form.Item
-                name="remember"
-                valuePropName="checked"
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
-                <Checkbox>Remember me</Checkbox>
-              </Form.Item>
-
-              <Form.Item
-                wrapperCol={{
-                  offset: 8,
-                  span: 16,
-                }}
-              >
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
+              <div className="flex justify-between items-center">
+                <Form.Item
+                  className="w-[49%]"
+                  name="first-name"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your username!",
+                    },
+                  ]}
+                >
+                  <label
+                    className="text-gray-600 font-semibold text-sm mb-1 block"
+                    htmlFor="first-name"
+                  >
+                    *First Name
+                  </label>
+                  <input
+                    className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
+                    type="text"
+                    name="first-name"
+                  />
+                </Form.Item>
+                <Form.Item
+                  className="w-[49%]"
+                  name="last-name"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your username!",
+                    },
+                  ]}
+                >
+                  <label
+                    className="text-gray-600 font-semibold text-sm mb-1 block"
+                    htmlFor="last-name"
+                  >
+                    *Last Name
+                  </label>
+                  <input
+                    className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
+                    type="text"
+                    name="last-name"
+                  />
+                </Form.Item>
+              </div>
+              <div className="w-full">
+                <Form.Item
+                  className="w-full"
+                  name="address"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your username!",
+                    },
+                  ]}
+                >
+                  <label
+                    className="text-gray-600 font-semibold text-sm mb-1 block"
+                    htmlFor="address"
+                  >
+                    *Address
+                  </label>
+                  <input
+                    className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
+                    type="text"
+                    name="address"
+                  />
+                </Form.Item>
+              </div>
+              <div className="flex justify-between items-center">
+                <Form.Item
+                  className="w-[49%]"
+                  name="phone-number"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your username!",
+                    },
+                  ]}
+                >
+                  <label
+                    className="text-gray-600 font-semibold text-sm mb-1 block"
+                    htmlFor="phone-number"
+                  >
+                    *Phone Number
+                  </label>
+                  <input
+                    className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
+                    type="text"
+                    name="phone-number"
+                  />
+                </Form.Item>
+                <Form.Item
+                  className="w-[49%]"
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your username!",
+                    },
+                  ]}
+                >
+                  <label
+                    className="text-gray-600 font-semibold text-sm mb-1 block"
+                    htmlFor="email"
+                  >
+                    *Email
+                  </label>
+                  <input
+                    className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
+                    type="email"
+                    name="email"
+                  />
+                </Form.Item>
+              </div>
+              <div className="flex justify-between items-center">
+                <Form.Item
+                  className="w-[49%]"
+                  name="city"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your username!",
+                    },
+                  ]}
+                >
+                  <label
+                    className="text-gray-600 font-semibold text-sm mb-1 block"
+                    htmlFor="city"
+                  >
+                    *Town/City
+                  </label>
+                  <input
+                    className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
+                    type="text"
+                    name="city"
+                  />
+                </Form.Item>
+                <Form.Item
+                  className="w-[49%]"
+                  name="postcode"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your username!",
+                    },
+                  ]}
+                >
+                  <label
+                    className="text-gray-600 font-semibold text-sm mb-1 block"
+                    htmlFor="postcode"
+                  >
+                    *Postcode
+                  </label>
+                  <input
+                    className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
+                    type="text"
+                    name="postcode"
+                  />
+                </Form.Item>
+              </div>
+              <Form.Item>
+                <button
+                  type="submit"
+                  className="bg-black rounded-md font-semibold px-8 py-4 text-white"
+                >
+                  Place Order
+                </button>
               </Form.Item>
             </Form>
           </div>
-          <div className=""></div>
+          <div className="flex flex-col w-[40%]">
+            <h3 className="text-3xl font-bold mb-7">Your Order</h3>
+            <div className="flex justify-between border-b py-5">
+              <h2>Subtotal</h2>
+              <p>0.00$</p>
+            </div>
+            <div className="flex justify-between border-b py-5">
+              <h2>Shipping</h2>
+              <p>Free</p>
+            </div>
+            <div className="flex justify-between border-b py-5">
+              <h2 className="font-semibold text-xl">Total</h2>
+              <p>0.00$</p>
+            </div>
+          </div>
         </div>
       </div>
     </main>

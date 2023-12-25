@@ -117,7 +117,6 @@ export default function StaffTable({ data }) {
               onClick={() => {
                 setMyModal({
                   open: true,
-                  //   width: "80%",
                   Component: <DeleteStaffModel />,
                 });
               }}
