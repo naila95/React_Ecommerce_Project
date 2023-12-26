@@ -5,6 +5,7 @@ import { Select } from "antd";
 import { MyModalContext } from "../../../../contexts/MyModalContext";
 import AddStaffModel from "../staff/components/AddStaffModel";
 import { productData } from "../../../../helpers/constants/productConstants";
+import AddProductModal from "./components/AddProductModal";
 
 export default function Products() {
   const [data, setData] = useState();
@@ -15,7 +16,6 @@ export default function Products() {
   useEffect(() => {
     setData(productData);
   });
-  console.log(data);
   return (
     <>
       <h3 className="font-bold text-xl">All Products</h3>
@@ -49,8 +49,8 @@ export default function Products() {
               refFunc={() => {
                 setMyModal({
                   open: true,
-                  width: "88%",
-                  Component: <AddStaffModel />,
+                  width: "98%",
+                  Component: <AddProductModal />,
                 });
               }}
               label={"Add new product"}

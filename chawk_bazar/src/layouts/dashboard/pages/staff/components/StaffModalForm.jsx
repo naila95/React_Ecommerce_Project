@@ -48,7 +48,6 @@ export default function StaffModalForm({ initialValues = {} }) {
           type="text"
           className="border border-[#94D5CB] py-3 px-4 rounded-md outline-none mr-2"
         ></input>
-        {/* <MyInput name={"surname"} type={"text"} /> */}
       </Form.Item>
       <Form.Item
         name="email"
@@ -64,7 +63,6 @@ export default function StaffModalForm({ initialValues = {} }) {
           type="email"
           className="border border-[#94D5CB] py-3 px-4 rounded-md outline-none mr-2"
         ></input>
-        {/* <MyInput name={"email"} type={"email"} /> */}
       </Form.Item>
       <Form.Item
         name="number"
@@ -80,7 +78,6 @@ export default function StaffModalForm({ initialValues = {} }) {
           type="text"
           className="border border-[#94D5CB] py-3 px-4 rounded-md outline-none mr-2"
         ></input>
-        {/* <MyInput name={"number"} type={"text"} /> */}
       </Form.Item>
       <Form.Item
         name="role"
@@ -96,7 +93,6 @@ export default function StaffModalForm({ initialValues = {} }) {
           type="text"
           className="border border-[#94D5CB] py-3 px-4 rounded-md outline-none mr-2"
         ></input>
-        {/* <MyInput name={"role"} type={"text"} /> */}
       </Form.Item>
       <Form.Item>
         <MyButton fill={true} label={"Edit"} />

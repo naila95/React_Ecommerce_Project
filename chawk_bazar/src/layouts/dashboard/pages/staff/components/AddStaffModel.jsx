@@ -65,50 +65,18 @@ export default function AddStaffModel() {
         ></input>
       </Form.Item>
       <Form.Item
-        name="number"
+        name="password"
         rules={[
           {
             required: true,
-            message: "Please input your username!",
+            message: "Please input your password!",
           },
         ]}
       >
         <input
-          placeholder="Number"
-          name="number"
-          type="text"
-          className="border border-[#94D5CB] py-3 px-4 rounded-md outline-none mr-2"
-        ></input>
-      </Form.Item>
-      <Form.Item
-        name="role"
-        rules={[
-          {
-            required: true,
-            message: "Please input your username!",
-          },
-        ]}
-      >
-        <input
-          placeholder="Role"
-          name="role"
-          type="text"
-          className="border border-[#94D5CB] py-3 px-4 rounded-md outline-none mr-2"
-        ></input>
-      </Form.Item>
-      <Form.Item
-        name="gender"
-        rules={[
-          {
-            required: true,
-            message: "Please input your username!",
-          },
-        ]}
-      >
-        <input
-          placeholder="Gender"
-          name="gender"
-          type="text"
+          placeholder="Password"
+          name="password"
+          type="password"
           className="border border-[#94D5CB] py-3 px-4 rounded-md outline-none mr-2"
         ></input>
       </Form.Item>

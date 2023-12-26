@@ -44,7 +44,7 @@ export default function Staff() {
             refFunc={() => {
               setMyModal({
                 open: true,
-                width: "88%",
+                width: "63%",
                 Component: <AddStaffModel />,
               });
             }}

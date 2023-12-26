@@ -7,6 +7,10 @@ export default function Checkout() {
   const onFinish = (values) => {
     console.log("Success:", values);
   };
+  const onFinishFailed = (err) => {
+    console.log(err);
+  };
+  const [form] = Form.useForm();
   return (
     <main>
       <div className="flex relative flex-center p-6 md:p-10 2xl:p-8 bg-center bg-cover bg-[url('https://chawkbazar.vercel.app/assets/images/page-header.jpg')] ">
@@ -23,55 +27,64 @@ export default function Checkout() {
             <h3 className="text-3xl font-bold mb-7">Shipping Address</h3>
             <Form
               name="basic"
+              form={form}
               style={{
                 marginTop: 20,
               }}
+              // initialValues={{}}
+              // onFinishFailed={onFinishFailed}
               onFinish={onFinish}
               autoComplete="off"
             >
               <div className="flex justify-between items-center">
                 <Form.Item
                   className="w-[49%]"
-                  name="first-name"
+                  name="firstName"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your username!",
+                      message: "Please input your first name!",
                     },
                   ]}
                 >
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
-                    htmlFor="first-name"
+                    htmlFor="firstName"
                   >
                     *First Name
                   </label>
                   <input
+                    onChange={(e) => {
+                      form.setFieldValue("firstName", e.target.value);
+                    }}
                     className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
                     type="text"
-                    name="first-name"
+                    name="firstName"
                   />
                 </Form.Item>
                 <Form.Item
                   className="w-[49%]"
-                  name="last-name"
+                  name="lastName"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your username!",
+                      message: "Please input your last name!",
                     },
                   ]}
                 >
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
-                    htmlFor="last-name"
+                    htmlFor="lastName"
                   >
                     *Last Name
                   </label>
                   <input
+                    onChange={(e) => {
+                      form.setFieldValue("lastName", e.target.value);
+                    }}
                     className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
                     type="text"
-                    name="last-name"
+                    name="lastName"
                   />
                 </Form.Item>
               </div>
@@ -82,7 +95,7 @@ export default function Checkout() {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your username!",
+                      message: "Please input your address!",
                     },
                   ]}
                 >
@@ -93,6 +106,9 @@ export default function Checkout() {
                     *Address
                   </label>
                   <input
+                    onChange={(e) => {
+                      form.setFieldValue("address", e.target.value);
+                    }}
                     className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
                     type="text"
                     name="address"
@@ -102,24 +118,27 @@ export default function Checkout() {
               <div className="flex justify-between items-center">
                 <Form.Item
                   className="w-[49%]"
-                  name="phone-number"
+                  name="number"
                   rules={[
                     {
                       required: true,
-                      message: "Please input your username!",
+                      message: "Please input your number!",
                     },
                   ]}
                 >
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
-                    htmlFor="phone-number"
+                    htmlFor="number"
                   >
                     *Phone Number
                   </label>
                   <input
+                    onChange={(e) => {
+                      form.setFieldValue("number", e.target.value);
+                    }}
                     className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
                     type="text"
-                    name="phone-number"
+                    name="number"
                   />
                 </Form.Item>
                 <Form.Item
@@ -128,7 +147,7 @@ export default function Checkout() {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your username!",
+                      message: "Please input your email!",
                     },
                   ]}
                 >
@@ -139,6 +158,9 @@ export default function Checkout() {
                     *Email
                   </label>
                   <input
+                    onChange={(e) => {
+                      form.setFieldValue("email", e.target.value);
+                    }}
                     className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
                     type="email"
                     name="email"
@@ -152,7 +174,7 @@ export default function Checkout() {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your username!",
+                      message: "Please input your city!",
                     },
                   ]}
                 >
@@ -163,6 +185,9 @@ export default function Checkout() {
                     *Town/City
                   </label>
                   <input
+                    onChange={(e) => {
+                      form.setFieldValue("city", e.target.value);
+                    }}
                     className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
                     type="text"
                     name="city"
@@ -174,7 +199,7 @@ export default function Checkout() {
                   rules={[
                     {
                       required: true,
-                      message: "Please input your username!",
+                      message: "Please input your postcode!",
                     },
                   ]}
                 >
@@ -185,6 +210,9 @@ export default function Checkout() {
                     *Postcode
                   </label>
                   <input
+                    onChange={(e) => {
+                      form.setFieldValue("postcode", e.target.value);
+                    }}
                     className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
                     type="text"
                     name="postcode"

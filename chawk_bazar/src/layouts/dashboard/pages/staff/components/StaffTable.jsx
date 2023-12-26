@@ -10,7 +10,6 @@ import DeleteStaffModel from "./DeleteStaffModel";
 export default function StaffTable({ data }) {
   const { setMyModal } = useContext(MyModalContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [value, setValue] = useState("");
   const [tableParams, setTableParams] = useState({
     pagination: {
       current: 1,
@@ -132,16 +131,17 @@ export default function StaffTable({ data }) {
   ];
   return (
     <>
-      <Modal
+      {/* <Modal
         width={1130}
         title="Info about staff"
         footer={null}
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-      >
-        <StaffModalForm initialValues={value} />
-      </Modal>
+      > */}
+      {/* <StaffModalForm initialValues={value} /> */}
+      {/* </Modal> */}
+      {/* <StaffModalForm initialValues={value} /> */}
       <div className="staff_table">
         <Table
           columns={columns}

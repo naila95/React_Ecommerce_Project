@@ -1,11 +1,24 @@
-import React from "react";
-import { Button, Space, Table, Tag } from "antd";
+import React, { useContext, useState } from "react";
+import { Button, Modal, Space, Table, Tag } from "antd";
 import StaffModalForm from "../../staff/components/StaffModalForm";
 import DeleteStaffModel from "../../staff/components/DeleteStaffModel";
 import { MdDeleteOutline } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
+import { MyModalContext } from "../../../../../contexts/MyModalContext";
+import ProductEditModal from "./ProductEditModal";
 
 export default function ProductTable({ data }) {
+  const { setMyModal } = useContext(MyModalContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const columns = [
     {
       title: "Product Image",
@@ -14,8 +27,13 @@ export default function ProductTable({ data }) {
     },
     {
       title: "Product Name",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "title",
+      key: "title",
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
     },
     {
       title: "Brand",
@@ -39,6 +57,11 @@ export default function ProductTable({ data }) {
       key: "price",
     },
     {
+      title: "Sale price",
+      dataIndex: "salePrice",
+      key: "salePrice",
+    },
+    {
       title: "Stock",
       dataIndex: "stock",
       key: "stock",
@@ -56,8 +79,8 @@ export default function ProductTable({ data }) {
               onClick={() => {
                 setMyModal({
                   open: true,
-                  width: "75%",
-                  Component: <StaffModalForm initialValues={record} />,
+                  width: "85%",
+                  Component: <ProductEditModal initialValues={record} />,
                 });
               }}
             >
@@ -81,5 +104,22 @@ export default function ProductTable({ data }) {
       },
     },
   ];
-  return <Table columns={columns} dataSource={data} />;
+  return (
+    <>
+      {/* <Modal
+        width={1130}
+        title="Info about staff"
+        footer={null}
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      > */}
+      {/* <StaffModalForm initialValues={value} /> */}
+      {/* </Modal> */}
+      {/* <ProductEditModal initialValues={value} /> */}
+      <div className="staff_table">
+        <Table columns={columns} dataSource={data} />
+      </div>
+    </>
+  );
 }
