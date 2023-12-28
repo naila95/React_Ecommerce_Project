@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
-import AuthRoute from "./AuthRoute";
+import { UserContext } from "../contexts/AuthContext";
 
 export default function ProtectedRoute({ component, role }) {
-  const { user } = useContext(AuthRoute);
+  const { user } = useContext(UserContext);
   if (user.role === role) {
     return component;
   } else {

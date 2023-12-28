@@ -1,7 +1,5 @@
 import React from "react";
-import img from "../../../../../assets/page-checkout.jpg";
 import { Button, Checkbox, Form, Input, Switch } from "antd";
-import MyButton from "../../../../dashboard/components/UI/MyButton";
 
 export default function Checkout() {
   const onFinish = (values) => {
@@ -31,7 +29,6 @@ export default function Checkout() {
               style={{
                 marginTop: 20,
               }}
-              // initialValues={{}}
               // onFinishFailed={onFinishFailed}
               onFinish={onFinish}
               autoComplete="off"

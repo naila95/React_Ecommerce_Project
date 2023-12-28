@@ -2,12 +2,11 @@ import React, { useContext } from "react";
 import { UserContext } from "../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
 
-export default function AuthRoute({ children }) {
+export default function AuthRouteForDashboard({ children }) {
   const { user } = useContext(UserContext);
-  console.log(user);
-  if (user) {
+  if (!user.role === "client" && user) {
     return children;
   } else {
-    return <Navigate to={"/auth/register"} />;
+    return <Navigate to={"/notFound"} />;
   }
 }

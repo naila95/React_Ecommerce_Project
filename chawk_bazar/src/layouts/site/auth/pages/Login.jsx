@@ -1,13 +1,31 @@
-import React from "react";
-import img from "../../../../assets/page-checkout.jpg";
+import React, { useContext } from "react";
 import logo from "../../../../assets/logo.svg";
-import { Link } from "react-router-dom";
-import { Switch } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { Form, Switch } from "antd";
+import { loginProcess } from "../../../../services/auth";
+import { UserContext } from "../../../../contexts/AuthContext";
 const onChange = (checked) => {
   console.log(`switch to ${checked}`);
 };
 
 export default function Login() {
+  const { user, setUser } = useContext(UserContext);
+  const navigate = useNavigate();
+  const onFinish = (values) => {
+    loginProcess(values)
+      .then(({ data }) => {
+        localStorage.setItem("token", data.data.token);
+        setUser(data.data.user);
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const onFinishFailed = (err) => {
+    console.log(err);
+  };
+  const [form] = Form.useForm();
   return (
     <main>
       <div className="flex relative flex-center p-6 md:p-10 2xl:p-8 bg-center bg-cover bg-[url('https://chawkbazar.vercel.app/assets/images/page-header.jpg')] ">
@@ -32,34 +50,67 @@ export default function Login() {
               Login with your email & password
             </p>
           </div>
-          <form>
+          <Form
+            name="basic"
+            form={form}
+            style={{
+              marginTop: 20,
+            }}
+            onFinishFailed={onFinishFailed}
+            onFinish={onFinish}
+            autoComplete="off"
+          >
             <div className="flex flex-col justify-center">
-              <div className="block">
+              <Form.Item
+                className="block"
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your email!",
+                  },
+                ]}
+              >
                 <label
-                  className="text-gray-600 font-semibold text-sm mb-3 block"
+                  className="text-gray-600 font-semibold text-sm mt-3 mb-3 block"
                   htmlFor="email"
                 >
                   Email
                 </label>
                 <input
+                  onChange={(e) => {
+                    form.setFieldValue("email", e.target.value);
+                  }}
                   className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
                   type="email"
                   name="email"
                 />
-              </div>
-              <div className="block">
+              </Form.Item>
+              <Form.Item
+                className="block"
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your password!",
+                  },
+                ]}
+              >
                 <label
-                  className="text-gray-600 font-semibold text-sm mb-3 mt-3 block"
+                  className="text-gray-600 font-semibold text-sm mt-3 mb-3 block"
                   htmlFor="password"
                 >
                   Password
                 </label>
                 <input
+                  onChange={(e) => {
+                    form.setFieldValue("password", e.target.value);
+                  }}
                   className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
                   type="password"
                   name="password"
                 />
-              </div>
+              </Form.Item>
               <div className="flex justify-between items-center mt-5">
                 <div className="flex gap-2">
                   <Switch defaultChecked onChange={onChange} />
@@ -70,27 +121,27 @@ export default function Login() {
                   Fogot Password?
                 </Link>
               </div>
-              <div className="flex justify-center mt-6">
+              <Form.Item className="flex justify-center mt-6 w-full">
                 <button
-                  className="bg-black text-white py-3 px-6 rounded-md w-full"
+                  className="bg-black text-white py-3 px-16 rounded-md w-full"
                   type="submit"
                 >
                   Login
                 </button>
-              </div>
+              </Form.Item>
               <div className="flex justify-center mt-4">
                 <p className="text-gray-600 font-semibold text-base">
                   Don't have any account?
                   <Link
                     to={"/auth/register"}
-                    className="text-black font-bold underline hover:no-underline"
+                    className="text-black ml-1 font-bold underline hover:no-underline"
                   >
                     Register
                   </Link>
                 </p>
               </div>
             </div>
-          </form>
+          </Form>
         </div>
       </div>
     </main>

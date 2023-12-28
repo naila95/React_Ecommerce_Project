@@ -15,6 +15,8 @@ import Products from "./layouts/dashboard/pages/products/Products";
 import NotFound from "./layouts/site/main/pages/notfound/NotFound";
 import DashboardInfo from "./layouts/dashboard/pages/dashboardInfo/DashboardInfo";
 import Staff from "./layouts/dashboard/pages/staff/Staff";
+import DashboardLogin from "./layouts/dashboard/auth/DashboardLogin";
+import AuthRouteForDashboard from "./helpers/AuthRouteForDashboard";
 
 const router = createBrowserRouter([
   {
@@ -31,7 +33,12 @@ const router = createBrowserRouter([
       },
       {
         path: "checkout",
-        element: <AuthRoute component={<Checkout />} redirectLink={"/login"} />,
+        element: (
+          <AuthRoute>
+            <Checkout />
+          </AuthRoute>
+        ),
+        // element: <AuthRoute component={<Checkout />} redirectLink={"/login"} />,
       },
       {
         path: "details/:itemId",
@@ -55,14 +62,22 @@ const router = createBrowserRouter([
         path: "register",
         element: <Register />,
       },
+      {
+        path: "dashboard-login",
+        element: <DashboardLogin />,
+      },
     ],
   },
   {
     path: "dashboard",
-    element: <DashboardLayout />,
+    element: (
+      <AuthRouteForDashboard>
+        <DashboardLayout />
+      </AuthRouteForDashboard>
+    ),
     children: [
       {
-        path: "dashboard-info",
+        path: "",
         element: <DashboardInfo />,
         // element: (
         //   <ProtectedRoute component={<DashboardInfo />} role={"superadmin"} />

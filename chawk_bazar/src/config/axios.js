@@ -1,5 +1,9 @@
+import axios from "axios";
+
 export const API = axios.create({
-  baseURL: "https://some-domain.com/api/",
-  timeout: 1000,
-  headers: { "X-Custom-Header": "foobar" },
+  baseURL: `${import.meta.env.VITE_BASE_URL}/${import.meta.env.VITE_API_KEY}`,
+  headers: {
+    "Content-type": "application/json",
+    Authorization: `${"Bearer " + localStorage.getItem("token")}`,
+  },
 });
