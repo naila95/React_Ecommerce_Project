@@ -10,7 +10,7 @@ export const loginProcess = (userData) => {
   return data;
 };
 
-export const profileProcess = () => {
-  let data = API.get(`login`);
+export const profileProcess = async () => {
+  let { data } = await API.get(`profile`);
   return data;
 };

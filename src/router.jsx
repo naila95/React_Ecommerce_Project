@@ -17,6 +17,11 @@ import DashboardInfo from "./layouts/dashboard/pages/dashboardInfo/DashboardInfo
 import Staff from "./layouts/dashboard/pages/staff/Staff";
 import DashboardLogin from "./layouts/dashboard/auth/DashboardLogin";
 import AuthRouteForDashboard from "./helpers/AuthRouteForDashboard";
+import { useContext, useEffect } from "react";
+import { profileProcess } from "./services/auth";
+import { UserContext } from "./contexts/AuthContext";
+import ProtectedRouteForDashboard from "./helpers/ProtectedRouteForDashboard";
+import Brands from "./layouts/dashboard/pages/brands/Brands";
 
 const router = createBrowserRouter([
   {
@@ -38,7 +43,6 @@ const router = createBrowserRouter([
             <Checkout />
           </AuthRoute>
         ),
-        // element: <AuthRoute component={<Checkout />} redirectLink={"/login"} />,
       },
       {
         path: "details/:itemId",
@@ -62,12 +66,9 @@ const router = createBrowserRouter([
         path: "register",
         element: <Register />,
       },
-      {
-        path: "dashboard-login",
-        element: <DashboardLogin />,
-      },
     ],
   },
+  { path: "dashboard/qwerty123/login", element: <DashboardLogin /> },
   {
     path: "dashboard",
     element: (
@@ -78,23 +79,38 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <DashboardInfo />,
-        // element: (
-        //   <ProtectedRoute component={<DashboardInfo />} role={"superadmin"} />
-        // ),
+        element: <Orders />,
       },
       {
         path: "orders",
         element: <Orders />,
       },
       {
+        path: "dashboard-info",
+        element: <DashboardInfo />,
+      },
+
+      {
         path: "products",
         element: <Products />,
       },
       {
         path: "staff",
-        element: <Staff />,
-        // element: <ProtectedRoute component={<Staff />} role={"superadmin"} />,
+        element: (
+          <ProtectedRouteForDashboard
+            roles={"superadmin"}
+            component={<Staff />}
+          />
+        ),
+      },
+      {
+        path: "brands",
+        element: (
+          <ProtectedRouteForDashboard
+            roles={"superadmin"}
+            component={<Brands />}
+          />
+        ),
       },
       {
         path: "*",
@@ -102,18 +118,20 @@ const router = createBrowserRouter([
       },
     ],
   },
-  //   {
-  //     path: "/dashboad/auth",
-  //     element: <DashboardAuthLayout />,
-  //     children: [
-  //       {
-  //         path: "/login",
-  //         element: <DashboardLogin />,
-  //       },
-  //     ],
-  //   },
 ]);
 
 export const MainRouter = () => {
+  const { setUser } = useContext(UserContext);
+  useEffect(() => {
+    profileProcess()
+      .then(({ data }) => {
+        console.log(data);
+        setUser(data.user);
+      })
+      .catch((err) => {
+        setUser(false);
+        console.log(err);
+      });
+  }, []);
   return <RouterProvider router={router} />;
 };

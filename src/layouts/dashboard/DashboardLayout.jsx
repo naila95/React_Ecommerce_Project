@@ -8,6 +8,7 @@ import { FaRegUser } from "react-icons/fa6";
 import { AiFillTags } from "react-icons/ai";
 import { AiFillSchedule } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import { TbBrandMeta } from "react-icons/tb";
 
 const { Header, Sider, Content } = Layout;
 
@@ -46,6 +47,11 @@ export default function DashboardLayout() {
                 key: "4",
                 icon: <FaRegUser />,
                 label: <Link to={"staff"}>Staff</Link>,
+              },
+              {
+                key: "5",
+                icon: <TbBrandMeta />,
+                label: <Link to={"brands"}>Brands</Link>,
               },
             ]}
           />

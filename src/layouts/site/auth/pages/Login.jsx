@@ -16,7 +16,7 @@ export default function Login() {
       .then(({ data }) => {
         localStorage.setItem("token", data.data.token);
         setUser(data.data.user);
-        navigate("/");
+        navigate("/checkout");
       })
       .catch((err) => {
         console.log(err);
