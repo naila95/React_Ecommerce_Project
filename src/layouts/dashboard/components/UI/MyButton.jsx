@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function MyButton({ fill = false, label, refFunc }) {
+export default function MyButton({ fill = false, label, refFunc = () => {} }) {
   if (fill) {
     return (
       <button

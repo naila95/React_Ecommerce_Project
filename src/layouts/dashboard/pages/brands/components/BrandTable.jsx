@@ -1,12 +1,13 @@
 import React, { useContext, useState } from "react";
-import { Button, Modal, Space, Table, Tag } from "antd";
+import { Avatar, Button, Table } from "antd";
 import DeleteStaffModel from "../../staff/components/DeleteStaffModel";
 import { MdDeleteOutline } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
-import ProductEditModal from "./ProductEditModal";
+import BrandEditModal from "./BrandEditModal";
 
-export default function ProductTable({ data }) {
+export default function BrandTable({ data }) {
+  console.log("data", data);
   const { setMyModal } = useContext(MyModalContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -18,52 +19,20 @@ export default function ProductTable({ data }) {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+
   const columns = [
     {
-      title: "Product Image",
-      dataIndex: "product-image",
-      key: "product-image",
+      title: "Brand Image",
+      dataIndex: "image",
+      key: "brandImage",
+      render: (text, record) => (
+        <img src={text.url} className="w-[100px] h-[70px] p-0 rounded-md" />
+      ),
     },
     {
-      title: "Product Name",
-      dataIndex: "title",
-      key: "title",
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
-      title: "Brand",
-      dataIndex: "brand",
-      key: "brand",
-      filters: [
-        {
-          text: "Male",
-          value: "male",
-        },
-        {
-          text: "Female",
-          value: "female",
-        },
-      ],
-      onFilter: (value, record) => record.brand.indexOf(value) === 0,
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-    },
-    {
-      title: "Sale price",
-      dataIndex: "salePrice",
-      key: "salePrice",
-    },
-    {
-      title: "Stock",
-      dataIndex: "stock",
-      key: "stock",
+      title: "Brand Name",
+      dataIndex: "name",
+      key: "brandName",
     },
     {
       title: "Action",
@@ -78,8 +47,8 @@ export default function ProductTable({ data }) {
               onClick={() => {
                 setMyModal({
                   open: true,
-                  width: "85%",
-                  Component: <ProductEditModal initialValues={record} />,
+                  width: "45%",
+                  Component: <BrandEditModal initialValues={record} />,
                 });
               }}
             >
@@ -105,19 +74,8 @@ export default function ProductTable({ data }) {
   ];
   return (
     <>
-      {/* <Modal
-        width={1130}
-        title="Info about staff"
-        footer={null}
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      > */}
-      {/* <StaffModalForm initialValues={value} /> */}
-      {/* </Modal> */}
-      {/* <ProductEditModal initialValues={value} /> */}
       <div className="staff_table">
-        <Table columns={columns} dataSource={data} />
+        <Table columns={columns} dataSource={data?.data?.data} />
       </div>
     </>
   );

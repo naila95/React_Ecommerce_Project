@@ -1,13 +1,16 @@
 import { UserProvider } from "./contexts/AuthContext";
+import { MyLoadingProvider } from "./contexts/LoadingContext";
 import MyModalProvider from "./contexts/MyModalContext";
 import { MainRouter } from "./router";
 
 function App() {
   return (
     <UserProvider>
-      <MyModalProvider>
-        <MainRouter />
-      </MyModalProvider>
+      <MyLoadingProvider>
+        <MyModalProvider>
+          <MainRouter />
+        </MyModalProvider>
+      </MyLoadingProvider>
     </UserProvider>
   );
 }
