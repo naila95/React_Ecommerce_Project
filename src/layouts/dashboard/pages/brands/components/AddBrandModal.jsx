@@ -4,10 +4,12 @@ import { Form, Spin } from "antd";
 import FileConverter from "../../../../../utils/fileConverter";
 import { postBrand } from "../../../../../services/brands";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
+import { MyModalContext } from "../../../../../contexts/MyModalContext";
 
-export default function AddBrandModal() {
+export default function AddBrandModal({ getBrands }) {
   const [file, setFile] = useState(null);
   const { loading, setloading } = useContext(LoadingContext);
+  const { setMyModal } = useContext(MyModalContext);
   const onFinish = (values) => {
     let brandData = {
       name: values.brandName,
@@ -18,12 +20,16 @@ export default function AddBrandModal() {
     postBrand(brandData)
       .then((res) => {
         console.log(res);
+        getBrands();
       })
       .catch((err) => {
         console.log(err);
       })
       .finally(() => {
         setloading(false);
+        setMyModal({
+          open: false,
+        });
       });
     // form.setFieldValue("brandImage", file);
   };

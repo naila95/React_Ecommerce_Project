@@ -8,16 +8,6 @@ import ProductEditModal from "./ProductEditModal";
 
 export default function ProductTable({ data }) {
   const { setMyModal } = useContext(MyModalContext);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
   const columns = [
     {
       title: "Product Image",
@@ -105,17 +95,6 @@ export default function ProductTable({ data }) {
   ];
   return (
     <>
-      {/* <Modal
-        width={1130}
-        title="Info about staff"
-        footer={null}
-        open={isModalOpen}
-        onOk={handleOk}
-        onCancel={handleCancel}
-      > */}
-      {/* <StaffModalForm initialValues={value} /> */}
-      {/* </Modal> */}
-      {/* <ProductEditModal initialValues={value} /> */}
       <div className="staff_table">
         <Table columns={columns} dataSource={data} />
       </div>

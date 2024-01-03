@@ -10,8 +10,8 @@ export const getBrand = async () => {
   return data;
 };
 
-export const updateBrand = async (id) => {
-  let data = await API.put(`/dashboard/brands/${id}`);
+export const updateBrand = async (id, userData) => {
+  let data = await API.put(`/dashboard/brands/${id}`, userData);
   return data;
 };
 

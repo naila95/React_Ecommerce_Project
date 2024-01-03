@@ -2,7 +2,7 @@ import { Button, Form } from "antd";
 import React from "react";
 import MyButton from "../../../components/UI/MyButton";
 
-export default function DeleteStaffModel() {
+export default function DeleteStaffModel({ initialValues = {} }) {
   const onFinish = (values) => {
     console.log("Success:", values);
   };
@@ -15,6 +15,7 @@ export default function DeleteStaffModel() {
       }}
       onFinish={onFinish}
       autoComplete="off"
+      initialValues={initialValues}
     >
       <div className="flex flex-col">
         <div className="mb-3">

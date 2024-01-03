@@ -1,32 +1,20 @@
 import React, { useContext, useState } from "react";
-import { Avatar, Button, Table } from "antd";
-import DeleteStaffModel from "../../staff/components/DeleteStaffModel";
+import { Button, Table } from "antd";
 import { MdDeleteOutline } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
 import BrandEditModal from "./BrandEditModal";
+import BrandDeleteModal from "./BrandDeleteModal";
 
-export default function BrandTable({ data }) {
-  console.log("data", data);
+export default function BrandTable({ data, getBrands }) {
   const { setMyModal } = useContext(MyModalContext);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
   const columns = [
     {
       title: "Brand Image",
       dataIndex: "image",
       key: "brandImage",
       render: (text, record) => (
-        <img src={text.url} className="w-[100px] h-[70px] p-0 rounded-md" />
+        <img src={text.url} className="w-[80px] h-[50px] p-0 rounded-md" />
       ),
     },
     {
@@ -45,10 +33,18 @@ export default function BrandTable({ data }) {
               type="primary"
               ghost
               onClick={() => {
+                let costomData = { ...record };
+                costomData.src = record.image?.url;
+                delete costomData.image;
                 setMyModal({
                   open: true,
                   width: "45%",
-                  Component: <BrandEditModal initialValues={record} />,
+                  Component: (
+                    <BrandEditModal
+                      getBrands={getBrands}
+                      initialValues={costomData}
+                    />
+                  ),
                 });
               }}
             >
@@ -59,7 +55,12 @@ export default function BrandTable({ data }) {
                 setMyModal({
                   open: true,
                   //   width: "80%",
-                  Component: <DeleteStaffModel />,
+                  Component: (
+                    <BrandDeleteModal
+                      getBrands={getBrands}
+                      initialValues={record}
+                    />
+                  ),
                 });
               }}
               danger

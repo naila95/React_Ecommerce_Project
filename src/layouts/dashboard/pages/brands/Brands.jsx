@@ -4,23 +4,28 @@ import { MyModalContext } from "../../../../contexts/MyModalContext";
 import BrandTable from "./components/BrandTable";
 import AddBrandModal from "./components/AddBrandModal";
 import { getBrand } from "../../../../services/brands";
+import { LoadingContext } from "../../../../contexts/LoadingContext";
 
 export default function Brands() {
   const [data, setData] = useState();
   const { setMyModal } = useContext(MyModalContext);
-  console.log(data);
-  const GetBrands = async () => {
-    await getBrand()
+  const { setloading } = useContext(LoadingContext);
+  const getBrands = () => {
+    setloading(true);
+    getBrand()
       .then((data) => {
         setData(data);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setloading(false);
       });
   };
 
   useEffect(() => {
-    GetBrands();
+    getBrands();
   }, []);
   return (
     <>
@@ -45,7 +50,7 @@ export default function Brands() {
                 setMyModal({
                   open: true,
                   width: "40%",
-                  Component: <AddBrandModal />,
+                  Component: <AddBrandModal getBrands={getBrands} />,
                 });
               }}
               label={"Add new brand"}
@@ -54,7 +59,7 @@ export default function Brands() {
           </div>
         </div>
       </div>
-      <BrandTable data={data} />
+      <BrandTable data={data} getBrands={getBrands} />
     </>
   );
 }
