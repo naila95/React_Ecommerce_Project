@@ -1,48 +1,86 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import ProductTable from "./components/ProductTable";
 import MyButton from "../../components/UI/MyButton";
 import { Select } from "antd";
 import { MyModalContext } from "../../../../contexts/MyModalContext";
-import AddStaffModel from "../staff/components/AddStaffModel";
-import { productData } from "../../../../helpers/constants/productConstants";
 import AddProductModal from "./components/AddProductModal";
+import { getProduct } from "../../../../services/product";
+import { getBrand } from "../../../../services/brands";
+import { dynamicUrl } from "../../../../utils/generateUrlForDashboard";
 
 export default function Products() {
-  const [data, setData] = useState();
+  const [prod, setProd] = useState([]);
+  const inpRef = useRef(null);
+  const [query, setQuery] = useState({});
   const { setMyModal } = useContext(MyModalContext);
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
+  const [brands, setBrands] = useState([]);
+  const form = useRef(null);
+  const getBrands = () => {
+    getBrand()
+      .then(({ data }) => {
+        setBrands(
+          data.data.map((item) => {
+            return { label: item.name, value: item._id };
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {});
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    setQuery({ ...query, search: inpRef.current.value });
+    getDatas();
+  };
+
+  const handleChange = (key, value) => {
+    setQuery({ ...query, [key]: value });
+  };
+  const getDatas = () => {
+    getProduct(dynamicUrl(query))
+      .then(({ data }) => {
+        setProd(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   useEffect(() => {
-    setData(productData);
-  });
+    getBrands();
+    getDatas();
+  }, []);
+
   return (
     <>
       <h3 className="font-bold text-xl">All Products</h3>
       <div className="py-5 flex flex-col gap-1">
-        <div className="flex items-center">
+        <form onSubmit={submitHandler} ref={form} className="flex items-center">
           <input
+            ref={inpRef}
             className="bg-white border w-[17%] h-11 md:h-12 rounded-md border-[#94D5CB] py-1 px-4 md:px-5 outline-none mr-3"
             type="search"
             placeholder="Search by Product name"
           />
           <Select
-            className="bg-white w-[10%] border rounded-md border-[#94D5CB] py-1 px-2 h-11 md:h-12 mr-3"
+            className="bg-white w-[17%] border rounded-md border-[#94D5CB] py-1 px-2 h-11 md:h-12 mr-3"
             defaultValue="Brand"
             style={{ outline: "none" }}
-            onChange={handleChange}
-            options={[
-              { value: "delivered", label: "Delivered" },
-              { value: "pending", label: "Pending" },
-            ]}
+            onChange={(e) => {
+              handleChange("brandId", e);
+            }}
+            options={brands}
           />
 
           <div className="flex items-center gap-3">
-            <MyButton label={"Filter"} fill={true} refFunc={() => {}} />
+            <MyButton label={"Filter"} fill={true} />
             <MyButton
               label={"Reset"}
               refFunc={() => {
-                console.log("test");
+                setQuery({});
+                form.current.reset();
               }}
             />
             <MyButton
@@ -50,16 +88,16 @@ export default function Products() {
                 setMyModal({
                   open: true,
                   width: "98%",
-                  Component: <AddProductModal />,
+                  Component: <AddProductModal getDatas={getDatas} />,
                 });
               }}
               label={"Add new product"}
               fill={true}
             />
           </div>
-        </div>
+        </form>
       </div>
-      <ProductTable data={data} />
+      <ProductTable data={prod} setQuery={setQuery} getDatas={getDatas} />
     </>
   );
 }

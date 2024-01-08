@@ -6,7 +6,7 @@ import Spinner from "../layouts/dashboard/components/UI/Spinner";
 
 export default function AuthRouteForDashboard({ children }) {
   const { user } = useContext(UserContext);
-  console.log(user);
+  // console.log(user);
   if (user == null) {
     return <Spinner />;
   } else if (user.role === "admin" || user.role === "superadmin") {

@@ -31,7 +31,6 @@ export default function AddBrandModal({ getBrands }) {
           open: false,
         });
       });
-    // form.setFieldValue("brandImage", file);
   };
 
   const [form] = Form.useForm();

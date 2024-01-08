@@ -1,44 +1,32 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Select, Space } from "antd";
 import MyButton from "../../components/UI/MyButton";
 import StaffTable from "./components/StaffTable";
-import StaffModalForm from "./components/StaffModalForm";
 import { MyModalContext } from "../../../../contexts/MyModalContext";
 import AddStaffModel from "./components/AddStaffModel";
-import { staffMockData } from "../../../../helpers/constants/staffConstants";
+import { getStaff } from "../../../../services/staff";
 
 export default function Staff() {
   const [data, setData] = useState([]);
   const { setMyModal } = useContext(MyModalContext);
+  const getStaffData = () => {
+    getStaff()
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
-    setData(staffMockData);
+    getStaffData;
   }, []);
 
   return (
     <div className="">
       <h3 className="font-bold text-xl">All Staff</h3>
       <div className="flex items-center gap-3 py-5">
-        <div className="">
-          <input
-            className="bg-white border h-11 md:h-12 rounded-md border-[#94D5CB] py-1 px-4 md:px-5 outline-none mr-3"
-            type="search"
-            placeholder="Search by name"
-          />
-          <input
-            className="bg-white border h-11 md:h-12 rounded-md border-[#94D5CB] py-1 px-4 md:px-5 outline-none"
-            type="search"
-            placeholder="Search by surname"
-          />
-        </div>
         <div className="flex items-center gap-3">
-          <MyButton label={"Filter"} fill={true} refFunc={() => {}} />
-          <MyButton
-            label={"Reset"}
-            refFunc={() => {
-              console.log("test");
-            }}
-          />
           <MyButton
             fill={true}
             refFunc={() => {

@@ -5,7 +5,7 @@ import Spinner from "../layouts/dashboard/components/UI/Spinner";
 
 export default function AuthRoute({ children }) {
   const { user } = useContext(UserContext);
-  console.log(user);
+  // console.log(user);
   if (user) {
     return children;
   } else if (user === null) return <Spinner />;

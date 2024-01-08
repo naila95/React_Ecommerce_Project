@@ -22,6 +22,7 @@ import { profileProcess } from "./services/auth";
 import { UserContext } from "./contexts/AuthContext";
 import ProtectedRouteForDashboard from "./helpers/ProtectedRouteForDashboard";
 import Brands from "./layouts/dashboard/pages/brands/Brands";
+import Cart from "./layouts/site/main/pages/home/homeComponents/Cart";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
       {
         path: "shop",
         element: <Shop />,
+      },
+      {
+        path: "cart",
+        element: <Cart />,
       },
       {
         path: "checkout",
@@ -125,7 +130,6 @@ export const MainRouter = () => {
   useEffect(() => {
     profileProcess()
       .then(({ data }) => {
-        console.log(data);
         setUser(data.user);
       })
       .catch((err) => {

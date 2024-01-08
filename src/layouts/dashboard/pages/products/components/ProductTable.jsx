@@ -1,18 +1,37 @@
-import React, { useContext, useState } from "react";
-import { Button, Modal, Space, Table, Tag } from "antd";
-import DeleteStaffModel from "../../staff/components/DeleteStaffModel";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
+import { Button, Switch, Table, Tag } from "antd";
 import { MdDeleteOutline } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
 import ProductEditModal from "./ProductEditModal";
+import { getBrand } from "../../../../../services/brands";
+import ProductDeleteModal from "./ProductDeleteModal";
 
-export default function ProductTable({ data }) {
+export default function ProductTable({ data, getDatas, setQuery }) {
   const { setMyModal } = useContext(MyModalContext);
+
+  useEffect(() => {
+    getBrand();
+  }, []);
+
+  const onChange = (checked) => {
+    console.log(`switch to ${checked}`);
+  };
+
   const columns = [
     {
       title: "Product Image",
-      dataIndex: "product-image",
       key: "product-image",
+      render: (_, record) => {
+        return (
+          <>
+            <img
+              className="rounded-md w-[70px] h-[50px]"
+              src={record.images[0].url}
+            />
+          </>
+        );
+      },
     },
     {
       title: "Product Name",
@@ -20,29 +39,16 @@ export default function ProductTable({ data }) {
       key: "title",
     },
     {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-    },
-    {
       title: "Brand",
-      dataIndex: "brand",
       key: "brand",
-      filters: [
-        {
-          text: "Male",
-          value: "male",
-        },
-        {
-          text: "Female",
-          value: "female",
-        },
-      ],
-      onFilter: (value, record) => record.brand.indexOf(value) === 0,
+      render: (_, record) => {
+        let brand = brands.find((item) => item._id === record.brandId);
+        return <>{brand && brand.name}</>;
+      },
     },
     {
       title: "Price",
-      dataIndex: "price",
+      dataIndex: "productPrice",
       key: "price",
     },
     {
@@ -56,9 +62,23 @@ export default function ProductTable({ data }) {
       key: "stock",
     },
     {
+      title: "Published",
+      key: "published",
+      render: (_, record) => {
+        return (
+          <>
+            <Switch defaultChecked onChange={onChange} />
+          </>
+        );
+      },
+    },
+    {
       title: "Action",
       key: "action",
       render: (_, record) => {
+        let costomData = { ...record };
+        costomData.src = record.images;
+        delete costomData.images;
         return (
           <>
             <Button
@@ -69,7 +89,7 @@ export default function ProductTable({ data }) {
                 setMyModal({
                   open: true,
                   width: "85%",
-                  Component: <ProductEditModal initialValues={record} />,
+                  Component: <ProductEditModal initialValues={costomData} />,
                 });
               }}
             >
@@ -80,7 +100,12 @@ export default function ProductTable({ data }) {
                 setMyModal({
                   open: true,
                   //   width: "80%",
-                  Component: <DeleteStaffModel />,
+                  Component: (
+                    <ProductDeleteModal
+                      initialValues={record}
+                      getDatas={getDatas}
+                    />
+                  ),
                 });
               }}
               danger
@@ -93,6 +118,7 @@ export default function ProductTable({ data }) {
       },
     },
   ];
+
   return (
     <>
       <div className="staff_table">

@@ -1,19 +1,19 @@
 import { Button, Form, Spin } from "antd";
 import React, { useContext } from "react";
-import { deleteBrand } from "../../../../../services/brands";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
+import { deleteProduct } from "../../../../../services/product";
 
-export default function BrandDeleteModal({ initialValues = {}, getBrands }) {
+export default function ProductDeleteModal({ initialValues = {}, getDatas }) {
   const { setMyModal } = useContext(MyModalContext);
   const { loading, setloading } = useContext(LoadingContext);
 
   const onFinish = (values) => {
     setloading(true);
-    deleteBrand(initialValues._id)
+    deleteProduct(initialValues._id)
       .then((res) => {
         console.log(res);
-        getBrands();
+        getDatas();
       })
       .catch((err) => {
         console.log(err);
@@ -35,7 +35,6 @@ export default function BrandDeleteModal({ initialValues = {}, getBrands }) {
         }}
         onFinish={onFinish}
         autoComplete="off"
-        initialValues={{ buttonClicked: "" }}
       >
         <div className="flex flex-col">
           <div className="mb-3">
@@ -43,24 +42,15 @@ export default function BrandDeleteModal({ initialValues = {}, getBrands }) {
           </div>
           <div className="flex justify-end">
             <Form.Item>
-              <Button
-                name="buttonClicked"
-                value="delete"
-                className="mr-2"
-                type="default"
-                danger
-                htmlType="submit"
-              >
+              <Button className="mr-2" type="default" danger htmlType="submit">
                 Delete
               </Button>
               <Button
-                name="buttonClicked"
                 onClick={() => {
                   setMyModal({
                     open: false,
                   });
                 }}
-                value="cancel"
                 ghost
                 type="primary"
               >

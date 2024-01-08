@@ -76,7 +76,7 @@ export default function BrandTable({ data, getBrands }) {
   return (
     <>
       <div className="staff_table">
-        <Table columns={columns} dataSource={data?.data?.data} />
+        <Table columns={columns} dataSource={data} />
       </div>
     </>
   );

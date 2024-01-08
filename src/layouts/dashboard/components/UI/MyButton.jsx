@@ -8,7 +8,7 @@ export default function MyButton({ fill = false, label, refFunc = () => {} }) {
         onClick={() => {
           refFunc();
         }}
-        className="bg-[#94D5CB] text-white py-3 px-6 text-base rounded-md"
+        className="bg-[#94D5CB] text-white py-3 px-12 text-base rounded-md"
       >
         {label}
       </button>
@@ -20,7 +20,7 @@ export default function MyButton({ fill = false, label, refFunc = () => {} }) {
         onClick={() => {
           refFunc();
         }}
-        className="bg-white border border-[#94D5CB] py-3 px-6 text-base rounded-md"
+        className="bg-white border border-[#94D5CB] py-3 px-12 text-base rounded-md"
       >
         {label}
       </button>

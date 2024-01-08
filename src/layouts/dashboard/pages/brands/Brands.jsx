@@ -7,14 +7,14 @@ import { getBrand } from "../../../../services/brands";
 import { LoadingContext } from "../../../../contexts/LoadingContext";
 
 export default function Brands() {
-  const [data, setData] = useState();
+  const [brand, setBrand] = useState();
   const { setMyModal } = useContext(MyModalContext);
   const { setloading } = useContext(LoadingContext);
   const getBrands = () => {
     setloading(true);
     getBrand()
-      .then((data) => {
-        setData(data);
+      .then(({ data }) => {
+        setBrand(data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -59,7 +59,7 @@ export default function Brands() {
           </div>
         </div>
       </div>
-      <BrandTable data={data} getBrands={getBrands} />
+      <BrandTable data={brand} getBrands={getBrands} />
     </>
   );
 }

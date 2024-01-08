@@ -1,12 +1,11 @@
-import React from "react";
-import { Button, Checkbox, Form, Input, Switch } from "antd";
+import React, { useState } from "react";
+import { Form } from "antd";
 
 export default function Checkout() {
+  const [value, setValue] = useState();
   const onFinish = (values) => {
-    console.log("Success:", values);
-  };
-  const onFinishFailed = (err) => {
-    console.log(err);
+    // setValue(values);
+    console.log(values);
   };
   const [form] = Form.useForm();
   return (
@@ -29,7 +28,6 @@ export default function Checkout() {
               style={{
                 marginTop: 20,
               }}
-              // onFinishFailed={onFinishFailed}
               onFinish={onFinish}
               autoComplete="off"
             >

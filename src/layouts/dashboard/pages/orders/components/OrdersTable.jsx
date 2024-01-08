@@ -24,6 +24,30 @@ export default function OrdersTable() {
       key: "amount",
     },
     {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      filters: [
+        {
+          text: "Pending",
+          value: "pending",
+        },
+        {
+          text: "Processing",
+          value: "processing",
+        },
+        {
+          text: "Pending",
+          value: "pending",
+        },
+        {
+          text: "Delivered",
+          value: "delivered",
+        },
+      ],
+      onFilter: (value, record) => record.brand.indexOf(value) === 0,
+    },
+    {
       title: "Tags",
       key: "tags",
       dataIndex: "tags",

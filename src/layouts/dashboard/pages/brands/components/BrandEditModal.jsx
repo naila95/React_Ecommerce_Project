@@ -9,8 +9,8 @@ import { MyModalContext } from "../../../../../contexts/MyModalContext";
 export default function BrandEditModal({ initialValues = {}, getBrands }) {
   const { loading, setloading } = useContext(LoadingContext);
   const { setMyModal } = useContext(MyModalContext);
-
   const [file, setFile] = useState(null);
+
   const onFinish = (values) => {
     values.image = file ? file[0] : null;
     setloading(true);
