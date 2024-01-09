@@ -97,7 +97,12 @@ export default function Products() {
           </div>
         </form>
       </div>
-      <ProductTable data={prod} setQuery={setQuery} getDatas={getDatas} />
+      <ProductTable
+        data={prod}
+        brands={brands}
+        setQuery={setQuery}
+        getDatas={getDatas}
+      />
     </>
   );
 }

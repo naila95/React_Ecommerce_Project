@@ -4,22 +4,29 @@ import StaffTable from "./components/StaffTable";
 import { MyModalContext } from "../../../../contexts/MyModalContext";
 import AddStaffModel from "./components/AddStaffModel";
 import { getStaff } from "../../../../services/staff";
+import { LoadingContext } from "../../../../contexts/LoadingContext";
 
 export default function Staff() {
   const [data, setData] = useState([]);
   const { setMyModal } = useContext(MyModalContext);
+  const { setloading } = useContext(LoadingContext);
+
   const getStaffData = () => {
+    setloading(true);
     getStaff()
-      .then((res) => {
-        console.log(res);
+      .then(({ data }) => {
+        setData(data.data);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setloading(false);
       });
   };
 
   useEffect(() => {
-    getStaffData;
+    getStaffData();
   }, []);
 
   return (

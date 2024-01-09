@@ -19,7 +19,11 @@ export default function AddProductModal({ getDatas }) {
     setloading(true);
     postProduct(values)
       .then((res) => {
+        console.log(res);
         getDatas();
+        setMyModal({
+          open: false,
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -125,15 +129,7 @@ export default function AddProductModal({ getDatas }) {
             className="border border-[#94D5CB] py-3 w-[95%] px-4 rounded-md outline-none mr-2"
           ></input>
         </Form.Item>
-        <Form.Item
-          name="salePrice"
-          rules={[
-            {
-              required: true,
-              message: "Please input sale price!",
-            },
-          ]}
-        >
+        <Form.Item name="salePrice">
           <input
             placeholder="Sale Price"
             name="salePrice"

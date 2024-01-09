@@ -7,8 +7,9 @@ import ProductEditModal from "./ProductEditModal";
 import { getBrand } from "../../../../../services/brands";
 import ProductDeleteModal from "./ProductDeleteModal";
 
-export default function ProductTable({ data, getDatas, setQuery }) {
+export default function ProductTable({ data, getDatas, setQuery, brands }) {
   const { setMyModal } = useContext(MyModalContext);
+  console.log(brands);
 
   useEffect(() => {
     getBrand();
@@ -42,8 +43,8 @@ export default function ProductTable({ data, getDatas, setQuery }) {
       title: "Brand",
       key: "brand",
       render: (_, record) => {
-        let brand = brands.find((item) => item._id === record.brandId);
-        return <>{brand && brand.name}</>;
+        let brand = brands.find((item) => item.value === record.brandId);
+        return <>{brand && brand.label}</>;
       },
     },
     {

@@ -24,11 +24,6 @@ export default function StaffTable({ data }) {
       key: "email",
       width: "15%",
     },
-    {
-      title: "Password",
-      dataIndex: "password",
-      key: "password",
-    },
   ];
   return (
     <>
