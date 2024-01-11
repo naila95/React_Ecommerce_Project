@@ -92,7 +92,12 @@ const router = createBrowserRouter([
       },
       {
         path: "dashboard-info",
-        element: <DashboardInfo />,
+        element: (
+          <ProtectedRouteForDashboard
+            roles={"superadmin"}
+            component={<DashboardInfo />}
+          />
+        ),
       },
 
       {
@@ -110,12 +115,7 @@ const router = createBrowserRouter([
       },
       {
         path: "brands",
-        element: (
-          <ProtectedRouteForDashboard
-            roles={"superadmin"}
-            component={<Brands />}
-          />
-        ),
+        element: <Brands />,
       },
       {
         path: "*",

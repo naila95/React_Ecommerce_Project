@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import img from "../../../../../../assets/logo.svg";
 import { Link } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { FiShoppingCart } from "react-icons/fi";
 
-export default function Header() {
+export default function Header({ setShowSearch, showSearch }) {
   return (
-    <header className="sticky z-20 w-full bg-white h-16 px-4 sm:h-20 md:px-8 lg:h-24">
+    <header className="w-full bg-white h-16 px-4 sm:h-20 md:px-8 lg:h-24">
       <div className="flex justify-between items-center ">
         <div className="flex justify-between">
           <div className="py-8">
@@ -522,9 +522,16 @@ export default function Header() {
         </div>
         <div className="flex justify-between items-center gap-5">
           <div className="">
-            <Link className="text-2xl font-semibold">
-              <IoSearch />
-            </Link>
+            <IoSearch
+              className="text-2xl font-semibold cursor-pointer"
+              onClick={() => {
+                if (showSearch) {
+                  setShowSearch(false);
+                } else if (!showSearch) {
+                  setShowSearch(true);
+                }
+              }}
+            />
           </div>
           <div className="">
             <Link to={"auth/login"} className="text-lg font-semibold">
@@ -532,8 +539,8 @@ export default function Header() {
             </Link>
           </div>
           <div className="">
-            <Link className="text-2xl">
-              <FiShoppingCart />
+            <Link>
+              <FiShoppingCart className="text-2xl" />
             </Link>
           </div>
         </div>

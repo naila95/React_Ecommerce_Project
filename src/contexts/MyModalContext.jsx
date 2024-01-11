@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Modal } from "antd";
 import { createContext } from "react";
 
 export const MyModalContext = createContext();
 
 function MyModalProvider({ children }) {
-  const [Component, setComponent] = React.useState(null);
-  const [ComponentProps, setProps] = React.useState({
+  const [Component, setComponent] = useState(null);
+  const [ComponentProps, setProps] = useState({
     open: false,
   });
 

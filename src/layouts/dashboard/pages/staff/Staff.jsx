@@ -40,7 +40,7 @@ export default function Staff() {
               setMyModal({
                 open: true,
                 width: "63%",
-                Component: <AddStaffModel />,
+                Component: <AddStaffModel getStaffData={getStaffData} />,
               });
             }}
             label={"Add new staff"}

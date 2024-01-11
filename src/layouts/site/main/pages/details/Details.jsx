@@ -25,20 +25,31 @@ export default function Details() {
     window.scrollTo(0, 0);
     getSingleProductData();
   }, []);
-
+  console.log(details);
   return (
     <div className="px-4 py-8 md:px-12 2xl:px-16">
       <div className="flex gap-10">
-        <div className="w-[27%] flex flex-col gap-2">
-          <div className="">
-            <img src={details?.images[0].url} />
+        {details.images ? (
+          <div className="w-[27%] flex flex-col gap-2">
+            <div className="">
+              <img src={details?.images[0]?.url} />
+            </div>
+            <div className="flex gap-2">
+              <img
+                className="w-[112px] h-[140px]"
+                src={details?.images[1].url}
+              />
+              <img
+                className="w-[112px] h-[140px]"
+                src={details?.images[2].url}
+              />
+              <img
+                className="w-[112px] h-[140px]"
+                src={details?.images[3].url}
+              />
+            </div>
           </div>
-          <div className="flex gap-2">
-            <img className="w-[112px] h-[140px]" src={details?.images[1].url} />
-            <img className="w-[112px] h-[140px]" src={details?.images[2].url} />
-            <img className="w-[112px] h-[140px]" src={details?.images[3].url} />
-          </div>
-        </div>
+        ) : null}
         <div className="flex flex-col w-[60%]">
           <div className="flex flex-col gap-2 border-b border-gray-300 pb-5">
             <h2 className="text-4xl font-semibold"></h2>

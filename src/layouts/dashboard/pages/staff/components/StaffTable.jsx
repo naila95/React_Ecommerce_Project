@@ -2,7 +2,6 @@ import { Table } from "antd";
 import React, { useContext, useState } from "react";
 
 export default function StaffTable({ data }) {
-  console.log(data);
   const columns = [
     {
       title: "Name",

@@ -4,9 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Form, Switch } from "antd";
 import { loginProcess } from "../../../../services/auth";
 import { UserContext } from "../../../../contexts/AuthContext";
-const onChange = (checked) => {
-  console.log(`switch to ${checked}`);
-};
 
 export default function Login() {
   const { user, setUser } = useContext(UserContext);

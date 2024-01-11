@@ -5,7 +5,7 @@ import { postStaff } from "../../../../../services/staff";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
 
-export default function AddStaffModel() {
+export default function AddStaffModel({ getStaffData }) {
   const { loading, setloading } = useContext(LoadingContext);
   const { setMyModal } = useContext(MyModalContext);
 
@@ -23,6 +23,7 @@ export default function AddStaffModel() {
         setMyModal({
           open: false,
         });
+        getStaffData();
       });
   };
   return (

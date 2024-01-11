@@ -96,8 +96,8 @@ export default function Shop() {
                       onChange={(e) => {
                         if (e.target.checked) {
                           handleChange("brandId", item._id);
-                        } else {
-                          getDatas();
+                        } else if (!e.target.checked) {
+                          setQuery("");
                         }
                       }}
                     >
@@ -110,10 +110,32 @@ export default function Shop() {
             <div className="py-3">
               <h3 className="text-lg font-semibold mb-7">Stock</h3>
               <div className="">
-                <Checkbox className="text-lg mb-2">In Stock</Checkbox>
+                <Checkbox
+                  className="text-lg mb-2"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      handleChange("stock", "inStock");
+                    } else if (!e.target.checked) {
+                      setQuery("");
+                    }
+                  }}
+                >
+                  In Stock
+                </Checkbox>
               </div>
               <div className="">
-                <Checkbox className="text-lg">Not In Stock</Checkbox>
+                <Checkbox
+                  className="text-lg"
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      handleChange("stock", "outStock");
+                    } else if (!e.target.checked) {
+                      setQuery("");
+                    }
+                  }}
+                >
+                  Out Stock
+                </Checkbox>
               </div>
             </div>
           </div>

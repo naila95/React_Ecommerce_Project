@@ -10,19 +10,10 @@ import { updateProduct } from "../../../../../services/product";
 
 export default function ProductTable({ data, getDatas, setQuery, brands }) {
   const { setMyModal } = useContext(MyModalContext);
-  // const [recordData, setRecordData] = useState({});
 
   useEffect(() => {
     getBrand();
   }, []);
-
-  // const onChange = (checked) => {
-  //   console.log(checked);
-  //   console.log(recordData._id);
-  //   // if (checked) {
-  //   //   postProduct(record);
-  //   // }
-  // };
 
   const columns = [
     {
@@ -106,7 +97,6 @@ export default function ProductTable({ data, getDatas, setQuery, brands }) {
         );
       },
     },
-    // onChange={onChange}
     {
       title: "Action",
       key: "action",
