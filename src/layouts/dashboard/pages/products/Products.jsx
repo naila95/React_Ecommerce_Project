@@ -6,16 +6,21 @@ import { MyModalContext } from "../../../../contexts/MyModalContext";
 import AddProductModal from "./components/AddProductModal";
 import { getProduct } from "../../../../services/product";
 import { getBrand } from "../../../../services/brands";
-import { dynamicUrl } from "../../../../utils/generateUrlForDashboard";
+import { dynamicUrl } from "../../../../utils/generateUrl";
+import { LoadingContext } from "../../../../contexts/LoadingContext";
 
 export default function Products() {
   const [prod, setProd] = useState([]);
-  const inpRef = useRef(null);
   const [query, setQuery] = useState({});
   const { setMyModal } = useContext(MyModalContext);
+  const { setloading } = useContext(LoadingContext);
   const [brands, setBrands] = useState([]);
+  const [selectInitialVal, setselectInitialVal] = useState("Brand");
   const form = useRef(null);
+  const selectRef = useRef(null);
+
   const getBrands = () => {
+    setloading(true);
     getBrand()
       .then(({ data }) => {
         setBrands(
@@ -27,12 +32,13 @@ export default function Products() {
       .catch((err) => {
         console.log(err);
       })
-      .finally(() => {});
+      .finally(() => {
+        setloading(false);
+      });
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    setQuery({ ...query, search: inpRef.current.value });
     getDatas();
   };
 
@@ -40,35 +46,42 @@ export default function Products() {
     setQuery({ ...query, [key]: value });
   };
   const getDatas = () => {
+    setloading(true);
     getProduct(dynamicUrl(query))
       .then(({ data }) => {
-        setProd(data.data);
+        setProd(data.data.product);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setloading(false);
       });
   };
   useEffect(() => {
     getBrands();
     getDatas();
   }, []);
-
   return (
     <>
       <h3 className="font-bold text-xl">All Products</h3>
       <div className="py-5 flex flex-col gap-1">
         <form onSubmit={submitHandler} ref={form} className="flex items-center">
           <input
-            ref={inpRef}
+            onChange={(e) => {
+              setQuery({ ...query, search: e.target.value });
+            }}
             className="bg-white border w-[17%] h-11 md:h-12 rounded-md border-[#94D5CB] py-1 px-4 md:px-5 outline-none mr-3"
             type="search"
             placeholder="Search by Product name"
           />
           <Select
+            ref={selectRef}
             className="bg-white w-[17%] border rounded-md border-[#94D5CB] py-1 px-2 h-11 md:h-12 mr-3"
-            defaultValue="Brand"
+            value={selectInitialVal}
             style={{ outline: "none" }}
             onChange={(e) => {
+              setselectInitialVal(e);
               handleChange("brandId", e);
             }}
             options={brands}
@@ -81,6 +94,7 @@ export default function Products() {
               refFunc={() => {
                 setQuery({});
                 form.current.reset();
+                setselectInitialVal("Brand");
               }}
             />
             <MyButton

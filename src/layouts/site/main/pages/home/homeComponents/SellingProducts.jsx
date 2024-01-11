@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function SellingProducts({ data }) {
   return (
@@ -13,12 +14,12 @@ export default function SellingProducts({ data }) {
               key={item._id}
               className="rounded-md flex flex-col cursor-pointer group transition duration-200 ease-in-out transform hover:-translate-y-1 hover:shadow-xl bg-white"
             >
-              <div className="">
+              <Link to={`/details/${item._id}`} className="">
                 <img
                   className="rounded-md group-hover:rounded-none"
                   src={item.images[0].url}
                 />
-              </div>
+              </Link>
               <div className="w-full px-3 py-4">
                 <h2 className="text-lg font-semibold">{item.title}</h2>
                 <p className="text-sm">{item.description}</p>

@@ -4,12 +4,11 @@ import { getSaleProduct } from "../../../../../../services/homeProduct";
 
 export default function FlashSale() {
   const [data, setData] = useState([]);
-  console.log(data);
 
   const getSaleProd = () => {
     getSaleProduct()
       .then(({ data }) => {
-        setData(data.data);
+        setData(data.data.product);
       })
       .catch((err) => {
         console.log(err);

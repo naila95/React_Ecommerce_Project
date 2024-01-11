@@ -10,14 +10,14 @@ import OffSale from "./homeComponents/OffSale";
 import NewExclusive from "./homeComponents/NewExclusive";
 import BazarApp from "./homeComponents/BazarApp";
 import TalkToPeople from "./homeComponents/TalkToPeople";
-import { getProduct } from "../../../../../services/homeProduct";
+import { getIsPublishedProduct } from "../../../../../services/homeProduct";
 
 export default function Home() {
   const [data, setData] = useState([]);
   const getProductForHome = () => {
-    getProduct()
+    getIsPublishedProduct()
       .then(({ data }) => {
-        setData(data.data);
+        setData(data.data.product);
       })
       .catch((err) => {
         console.log(err);

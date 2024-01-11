@@ -31,32 +31,18 @@ export default function Brands() {
     <>
       <h3 className="font-bold text-xl">Brands</h3>
       <div className="py-5 flex flex-col gap-1">
-        <div className="flex items-center">
-          <input
-            className="bg-white border w-[17%] h-11 md:h-12 rounded-md border-[#94D5CB] py-1 px-4 md:px-5 outline-none mr-3"
-            type="search"
-            placeholder="Search by Brand name"
+        <div className="flex items-center gap-3">
+          <MyButton
+            refFunc={() => {
+              setMyModal({
+                open: true,
+                width: "40%",
+                Component: <AddBrandModal getBrands={getBrands} />,
+              });
+            }}
+            label={"Add new brand"}
+            fill={true}
           />
-          <div className="flex items-center gap-3">
-            <MyButton label={"Filter"} fill={true} refFunc={() => {}} />
-            <MyButton
-              label={"Reset"}
-              refFunc={() => {
-                console.log("test");
-              }}
-            />
-            <MyButton
-              refFunc={() => {
-                setMyModal({
-                  open: true,
-                  width: "40%",
-                  Component: <AddBrandModal getBrands={getBrands} />,
-                });
-              }}
-              label={"Add new brand"}
-              fill={true}
-            />
-          </div>
         </div>
       </div>
       <BrandTable data={brand} getBrands={getBrands} />

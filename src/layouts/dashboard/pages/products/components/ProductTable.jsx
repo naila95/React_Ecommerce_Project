@@ -6,18 +6,23 @@ import { MyModalContext } from "../../../../../contexts/MyModalContext";
 import ProductEditModal from "./ProductEditModal";
 import { getBrand } from "../../../../../services/brands";
 import ProductDeleteModal from "./ProductDeleteModal";
+import { updateProduct } from "../../../../../services/product";
 
 export default function ProductTable({ data, getDatas, setQuery, brands }) {
   const { setMyModal } = useContext(MyModalContext);
-  console.log(brands);
+  // const [recordData, setRecordData] = useState({});
 
   useEffect(() => {
     getBrand();
   }, []);
 
-  const onChange = (checked) => {
-    console.log(`switch to ${checked}`);
-  };
+  // const onChange = (checked) => {
+  //   console.log(checked);
+  //   console.log(recordData._id);
+  //   // if (checked) {
+  //   //   postProduct(record);
+  //   // }
+  // };
 
   const columns = [
     {
@@ -28,7 +33,7 @@ export default function ProductTable({ data, getDatas, setQuery, brands }) {
           <>
             <img
               className="rounded-md w-[70px] h-[50px]"
-              src={record.images[0].url}
+              src={record.images[record.images.length - 1].url}
             />
           </>
         );
@@ -51,16 +56,19 @@ export default function ProductTable({ data, getDatas, setQuery, brands }) {
       title: "Price",
       dataIndex: "productPrice",
       key: "price",
+      sorter: (a, b) => a.productPrice - b.productPrice,
     },
     {
       title: "Sale price",
       dataIndex: "salePrice",
       key: "salePrice",
+      sorter: (a, b) => a.salePrice - b.salePrice,
     },
     {
       title: "Stock",
       dataIndex: "stock",
       key: "stock",
+      sorter: (a, b) => a.stock - b.stock,
     },
     {
       title: "Published",
@@ -68,11 +76,37 @@ export default function ProductTable({ data, getDatas, setQuery, brands }) {
       render: (_, record) => {
         return (
           <>
-            <Switch defaultChecked onChange={onChange} />
+            <Switch
+              defaultChecked={true}
+              onChange={(checked) => {
+                if (checked) {
+                  let newData = record;
+                  newData.isPublish = true;
+                  updateProduct(record._id, newData)
+                    .then((res) => {
+                      console.log(res);
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                } else {
+                  let newData = record;
+                  newData.isPublish = false;
+                  updateProduct(record._id, newData)
+                    .then((res) => {
+                      console.log(res);
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }
+              }}
+            />
           </>
         );
       },
     },
+    // onChange={onChange}
     {
       title: "Action",
       key: "action",
@@ -90,7 +124,13 @@ export default function ProductTable({ data, getDatas, setQuery, brands }) {
                 setMyModal({
                   open: true,
                   width: "85%",
-                  Component: <ProductEditModal initialValues={costomData} />,
+                  Component: (
+                    <ProductEditModal
+                      brands={brands}
+                      initialValues={costomData}
+                      getDatas={getDatas}
+                    />
+                  ),
                 });
               }}
             >
@@ -100,7 +140,6 @@ export default function ProductTable({ data, getDatas, setQuery, brands }) {
               onClick={() => {
                 setMyModal({
                   open: true,
-                  //   width: "80%",
                   Component: (
                     <ProductDeleteModal
                       initialValues={record}

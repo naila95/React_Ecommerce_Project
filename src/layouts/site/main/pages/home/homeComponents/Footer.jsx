@@ -5,10 +5,8 @@ import { TiSocialTwitter } from "react-icons/ti";
 import { MdFacebook } from "react-icons/md";
 import { FaYoutube } from "react-icons/fa";
 import img from "../../../../../../assets/visa.svg";
-import img2 from "../../../../../../assets/skrill.svg";
 import img3 from "../../../../../../assets/paypal.svg";
 import img4 from "../../../../../../assets/mastercard.svg";
-import img5 from "../../../../../../assets/jcb.svg";
 
 export default function Footer() {
   return (
@@ -191,10 +189,8 @@ export default function Footer() {
         </div>
         <div className="flex justify-between items-center gap-5">
           <img src={img} />
-          <img src={img2} />
           <img src={img3} />
           <img src={img4} />
-          <img src={img5} />
         </div>
       </div>
     </footer>
