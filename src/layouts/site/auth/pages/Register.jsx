@@ -43,9 +43,9 @@ export default function Register() {
               </Link>
             </div>
           </div>
-          <div className="flex justify-center mt-2 mb-8 sm:mb-10">
+          <div className="flex justify-center mt-3 mb-5 sm:mb-10">
             <p className="text-sm md:text-base text-gray-600">
-              Login with your email & password
+              Register with your name, surname, email & password
             </p>
           </div>
           <Form

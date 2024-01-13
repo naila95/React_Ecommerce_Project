@@ -47,7 +47,7 @@ export default function Staff() {
           />
         </div>
       </div>
-      <StaffTable data={data} />
+      <StaffTable data={data} getStaffData={getStaffData} />
     </div>
   );
 }

@@ -1,24 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoCart } from "react-icons/io5";
 import { FaArrowsRotate } from "react-icons/fa6";
 import { RiTruckLine } from "react-icons/ri";
 import { FaCheck } from "react-icons/fa6";
 import BarChart from "./components/BarChart";
-import { staffMockData } from "../../../../helpers/Constants/staffConstants";
 import LineChart from "./components/LineChart";
 import PieChart from "./components/PieChart";
 import AreaChart from "./components/AreaChart";
+import { getProductForDashboardChart } from "../../../../services/product";
 
 const DashboardInfo = () => {
-  const [barData, setBarData] = useState({
-    labels: staffMockData.map((data) => data.name),
-    datasets: [
-      {
-        label: "Id",
-        data: staffMockData.map((data) => data.id),
-      },
-    ],
-  });
+  const [barData, setBarData] = useState(null);
+  const [filteredBarData, setFilteredBarData] = useState(null);
+
+  const getProductForDashboardInfo = () => {
+    getProductForDashboardChart()
+      .then(({ data }) => {
+        setBarData(data.data.product);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const chart = () => {
+    if (barData != null) {
+      let chData = {
+        labels: barData?.map((data) => data.title),
+        datasets: [
+          {
+            label: "Count",
+            data: barData?.map((data) => data.stock),
+          },
+        ],
+      };
+      setFilteredBarData({ ...chData });
+    }
+  };
+
+  useEffect(() => {
+    getProductForDashboardInfo();
+  }, []);
+
+  useEffect(() => {
+    chart();
+  }, [barData]);
   return (
     <>
       <div className="flex items-center justify-between">
@@ -59,20 +85,22 @@ const DashboardInfo = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-wrap mt-12 px-5 gap-12">
-        <div className="w-[45%]">
-          <BarChart chartData={barData} />
+      {filteredBarData != null && (
+        <div className="flex flex-wrap mt-12 px-5 gap-12">
+          <div className="w-[45%]">
+            <BarChart chartData={filteredBarData} />
+          </div>
+          <div className="w-[45%]">
+            <LineChart chartData={filteredBarData} />
+          </div>
+          <div className="w-[45%]">
+            <PieChart chartData={filteredBarData} />
+          </div>
+          <div className="w-[45%]">
+            <AreaChart chartData={filteredBarData} />
+          </div>
         </div>
-        <div className="w-[45%]">
-          <LineChart chartData={barData} />
-        </div>
-        <div className="w-[45%]">
-          <PieChart chartData={barData} />
-        </div>
-        <div className="w-[45%]">
-          <AreaChart chartData={barData} />
-        </div>
-      </div>
+      )}
     </>
   );
 };

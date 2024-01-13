@@ -1,11 +1,13 @@
-import { Form } from "antd";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { dynamicUrl } from "../../../../../../utils/generateUrl";
 import { getProduct } from "../../../../../../services/product";
+import { LoadingContext } from "../../../../../../contexts/LoadingContext";
+import { Link } from "react-router-dom";
 
 const MySearch = ({ setShowSearch }) => {
   const [query, setQuery] = useState({});
   const [prod, setProd] = useState([]);
+  const { setloading } = useContext(LoadingContext);
   const form = useRef(null);
 
   const submitHandler = (e) => {
@@ -14,7 +16,7 @@ const MySearch = ({ setShowSearch }) => {
   };
 
   const getDatas = () => {
-    // setloading(true);
+    setloading(true);
     getProduct(dynamicUrl(query))
       .then(({ data }) => {
         setProd(data.data.product);
@@ -23,7 +25,8 @@ const MySearch = ({ setShowSearch }) => {
         console.log(err);
       })
       .finally(() => {
-        // setloading(false);
+        form.current.reset();
+        setloading(false);
       });
   };
 
@@ -59,12 +62,15 @@ const MySearch = ({ setShowSearch }) => {
             console.log(item);
             return (
               <div className="flex px-3 py-3">
-                <div className="">
+                <Link to={`/details/${item._id}`}>
                   <img
+                    onClick={() => {
+                      setShowSearch(false);
+                    }}
                     className="w-[100px] h-[120px]"
                     src={item.images[0].url}
                   />
-                </div>
+                </Link>
                 <div className="px-3 py-2">
                   <h2 className="text-lg text-gray-600">{item.title}</h2>
                   <h2 className="text-base text-gray-600">

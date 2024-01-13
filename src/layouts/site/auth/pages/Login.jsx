@@ -19,9 +19,7 @@ export default function Login() {
         console.log(err);
       });
   };
-  const onFinishFailed = (err) => {
-    console.log(err);
-  };
+
   const [form] = Form.useForm();
   return (
     <main>
@@ -53,7 +51,6 @@ export default function Login() {
             style={{
               marginTop: 20,
             }}
-            onFinishFailed={onFinishFailed}
             onFinish={onFinish}
             autoComplete="off"
           >
@@ -110,7 +107,7 @@ export default function Login() {
               </Form.Item>
               <div className="flex justify-between items-center mt-5">
                 <div className="flex gap-2">
-                  <Switch defaultChecked onChange={onChange} />
+                  <Switch defaultChecked />
                   <p>Remember Me</p>
                 </div>
 

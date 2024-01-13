@@ -5,6 +5,11 @@ export const getProduct = async (query) => {
   return data;
 };
 
+export const getProductForDashboardChart = async () => {
+  let data = await API.get("/dashboard/products");
+  return data;
+};
+
 export const postProduct = async (prodData) => {
   let data = await API.post("/dashboard/products", prodData);
   return data;

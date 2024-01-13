@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Form, Spin } from "antd";
-import Spinner from "../components/UI/Spinner";
+import { Form } from "antd";
 import { UserContext } from "../../../contexts/AuthContext";
 import { loginProcess } from "../../../services/auth";
 import { LoadingContext } from "../../../contexts/LoadingContext";
@@ -38,78 +37,76 @@ export default function DashboardLogin() {
                 Login with your email & password
               </p>
             </div>
-            <Spin spinning={loading}>
-              <Form
-                name="basic"
-                form={form}
-                style={{
-                  marginTop: 20,
-                }}
-                onFinish={onFinish}
-                autoComplete="off"
-              >
-                <div className="flex flex-col justify-center">
-                  <Form.Item
-                    className="block"
+            <Form
+              name="basic"
+              form={form}
+              style={{
+                marginTop: 20,
+              }}
+              onFinish={onFinish}
+              autoComplete="off"
+            >
+              <div className="flex flex-col justify-center">
+                <Form.Item
+                  className="block"
+                  name="email"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your email!",
+                    },
+                  ]}
+                >
+                  <label
+                    className="text-gray-600 font-semibold text-sm mt-3 mb-3 block"
+                    htmlFor="email"
+                  >
+                    Email
+                  </label>
+                  <input
+                    onChange={(e) => {
+                      form.setFieldValue("email", e.target.value);
+                    }}
+                    className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
+                    type="email"
                     name="email"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your email!",
-                      },
-                    ]}
+                  />
+                </Form.Item>
+                <Form.Item
+                  className="block"
+                  name="password"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your password!",
+                    },
+                  ]}
+                >
+                  <label
+                    className="text-gray-600 font-semibold text-sm mt-3 mb-3 block"
+                    htmlFor="password"
                   >
-                    <label
-                      className="text-gray-600 font-semibold text-sm mt-3 mb-3 block"
-                      htmlFor="email"
-                    >
-                      Email
-                    </label>
-                    <input
-                      onChange={(e) => {
-                        form.setFieldValue("email", e.target.value);
-                      }}
-                      className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
-                      type="email"
-                      name="email"
-                    />
-                  </Form.Item>
-                  <Form.Item
-                    className="block"
+                    Password
+                  </label>
+                  <input
+                    onChange={(e) => {
+                      form.setFieldValue("password", e.target.value);
+                    }}
+                    className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
+                    type="password"
                     name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input your password!",
-                      },
-                    ]}
+                  />
+                </Form.Item>
+                <Form.Item className="flex justify-center mt-6 w-full">
+                  <button
+                    className="bg-black text-white py-3 px-16 rounded-md w-full"
+                    type="submit"
                   >
-                    <label
-                      className="text-gray-600 font-semibold text-sm mt-3 mb-3 block"
-                      htmlFor="password"
-                    >
-                      Password
-                    </label>
-                    <input
-                      onChange={(e) => {
-                        form.setFieldValue("password", e.target.value);
-                      }}
-                      className="bg-white border h-11 md:h-12 w-full rounded-md border-gray-300 py-2 px-4 md:px-5"
-                      type="password"
-                      name="password"
-                    />
-                  </Form.Item>
-                  <Form.Item className="flex justify-center mt-6 w-full">
-                    <button
-                      className="bg-black text-white py-3 px-16 rounded-md w-full"
-                      type="submit"
-                    >
-                      Login
-                    </button>
-                  </Form.Item>
-                </div>
-              </Form>
-            </Spin>
+                    Login
+                  </button>
+                </Form.Item>
+              </div>
+            </Form>
           </div>
         </div>
       </main>

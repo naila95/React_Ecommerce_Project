@@ -9,7 +9,6 @@ import Details from "./layouts/site/main/pages/details/Details";
 import AuthLayout from "./layouts/site/auth/AuthLayout";
 import Login from "./layouts/site/auth/pages/Login";
 import Register from "./layouts/site/auth/pages/Register";
-import ProtectedRoute from "./helpers/ProtectedRoute";
 import Orders from "./layouts/dashboard/pages/orders/Orders";
 import Products from "./layouts/dashboard/pages/products/Products";
 import NotFound from "./layouts/site/main/pages/notfound/NotFound";
@@ -22,7 +21,7 @@ import { profileProcess } from "./services/auth";
 import { UserContext } from "./contexts/AuthContext";
 import ProtectedRouteForDashboard from "./helpers/ProtectedRouteForDashboard";
 import Brands from "./layouts/dashboard/pages/brands/Brands";
-import Cart from "./layouts/site/main/pages/home/homeComponents/Cart";
+import Cart from "./layouts/site/main/pages/cart/Cart";
 
 const router = createBrowserRouter([
   {

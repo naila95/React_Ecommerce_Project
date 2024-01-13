@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { FiShoppingCart } from "react-icons/fi";
+import { useSelector } from "react-redux";
 
 export default function Header({ setShowSearch, showSearch }) {
+  const basket = useSelector((state) => state.basket.value);
   return (
     <header className="w-full bg-white h-16 px-4 sm:h-20 md:px-8 lg:h-24">
       <div className="flex justify-between items-center ">
@@ -539,8 +541,11 @@ export default function Header({ setShowSearch, showSearch }) {
             </Link>
           </div>
           <div className="">
-            <Link>
+            <Link className="relative">
               <FiShoppingCart className="text-2xl" />
+              <h2 className="absolute top-[-10px] right-[-10px] text-white bg-black rounded-xl px-1.5">
+                {basket.length}
+              </h2>
             </Link>
           </div>
         </div>

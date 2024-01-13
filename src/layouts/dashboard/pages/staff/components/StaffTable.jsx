@@ -1,27 +1,56 @@
-import { Table } from "antd";
-import React, { useContext, useState } from "react";
+import { Button, Table } from "antd";
+import { useContext } from "react";
+import { MyModalContext } from "../../../../../contexts/MyModalContext";
+import { MdDeleteOutline } from "react-icons/md";
+import DeleteStaffModal from "./DeleteStaffModal";
 
-export default function StaffTable({ data }) {
+export default function StaffTable({ data, getStaffData }) {
+  const { setMyModal } = useContext(MyModalContext);
+
   const columns = [
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      sorter: (a, b) => a.name.length - b.name.length,
-      width: "13%",
+      width: "20%",
     },
     {
       title: "Surname",
       dataIndex: "surname",
       key: "surname",
-      sorter: (a, b) => a.name.length - b.name.length,
-      width: "13%",
+      width: "20%",
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "email",
-      width: "15%",
+      width: "20%",
+    },
+    {
+      title: "Action",
+      key: "action",
+      width: "20%",
+      render: (_, record) => {
+        return (
+          <Button
+            onClick={() => {
+              setMyModal({
+                open: true,
+                Component: (
+                  <DeleteStaffModal
+                    initialValues={record}
+                    getStaffData={getStaffData}
+                  />
+                ),
+              });
+            }}
+            danger
+            type="default"
+          >
+            <MdDeleteOutline />
+          </Button>
+        );
+      },
     },
   ];
   return (

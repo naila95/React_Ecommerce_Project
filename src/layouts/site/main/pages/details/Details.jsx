@@ -5,10 +5,15 @@ import { getSingleProduct } from "../../../../../services/homeProduct";
 import { useParams } from "react-router-dom";
 import Accordion from "./components/Accordion";
 import { Form } from "antd";
+import { useDispatch, useSelector } from "react-redux";
+import { addToBasket } from "../../../../../redux/features/basket";
 
 export default function Details() {
   const [details, setDetails] = useState([]);
+  const dispatch = useDispatch();
   let { itemId } = useParams();
+  const basket = useSelector((state) => state.basket.value);
+
   const getSingleProductData = () => {
     getSingleProduct(itemId)
       .then(({ data }) => {
@@ -19,15 +24,17 @@ export default function Details() {
       });
   };
 
-  console.log(details);
+  const addBasket = (id) => {
+    dispatch(addToBasket(id));
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
     getSingleProductData();
   }, []);
-  console.log(details);
+
   return (
-    <div className="px-4 py-8 md:px-12 2xl:px-16">
+    <div key={details._id} className="px-4 py-8 md:px-12 2xl:px-16">
       <div className="flex gap-10">
         {details.images ? (
           <div className="w-[27%] flex flex-col gap-2">
@@ -52,14 +59,13 @@ export default function Details() {
         ) : null}
         <div className="flex flex-col w-[60%]">
           <div className="flex flex-col gap-2 border-b border-gray-300 pb-5">
-            <h2 className="text-4xl font-semibold"></h2>
-            <h2 className="text-xl">Brand: </h2>
+            <h2 className="text-4xl font-semibold">{details.title}</h2>
             <div className="flex gap-3">
               <h2 className="text-2xl font-semibold">
-                {/* {details.salePrice ? details.salePrice : details.productPrice}$ */}
+                {details.salePrice ? details.salePrice : details.productPrice}$
               </h2>
               <h2 className="text-lg line-through text-gray-300">
-                {/* {details.salePrice ? details.productPrice : ""} */}
+                {details.salePrice ? details.productPrice : ""}
               </h2>
             </div>
             <h2 className="text-xl">{details.description}</h2>
@@ -90,7 +96,12 @@ export default function Details() {
                 <LuPlus />
               </div>
             </div>
-            <button className="bg-black rounded-md py-3 px-16 text-white font-semibold">
+            <button
+              onClick={() => {
+                addBasket(details._id);
+              }}
+              className="bg-black rounded-md py-3 px-16 text-white font-semibold"
+            >
               Add to Cart
             </button>
           </div>
