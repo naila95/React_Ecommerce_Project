@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Select, Checkbox } from "antd";
-import { getBrand } from "../../../../../services/brands";
+import { getBrandsForSite } from "../../../../../services/brands";
 import { dynamicUrl } from "../../../../../utils/generateUrl";
-import { getProduct } from "../../../../../services/product";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
+import { getProductForSite } from "../../../../../services/homeProduct";
 
 export default function Shop() {
   const [brands, setBrands] = useState([]);
@@ -13,7 +13,7 @@ export default function Shop() {
   const { setloading } = useContext(LoadingContext);
 
   const getBrandsForShop = () => {
-    getBrand()
+    getBrandsForSite()
       .then(({ data }) => {
         setBrands(data.data);
       })
@@ -32,7 +32,7 @@ export default function Shop() {
 
   const getDatas = () => {
     setloading(true);
-    getProduct(dynamicUrl(query))
+    getProductForSite(dynamicUrl(query))
       .then(({ data }) => {
         setProd(data.data.product);
       })

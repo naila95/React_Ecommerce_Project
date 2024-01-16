@@ -26,7 +26,7 @@ export default function Login() {
       <div className="flex relative flex-center p-6 md:p-10 2xl:p-8 bg-center bg-cover bg-[url('https://chawkbazar.vercel.app/assets/images/page-header.jpg')] ">
         <div className="flex items-center justify-center w-full py-10 md:py-14 lg:py-20 xl:py-24 2xl:py-32">
           <div className="absolute top-0 left-0 w-full h-full bg-black opacity-20 transition duration"></div>
-          <h2 className="text-xl md:text-2xl lg:text-3xl text-bold text-white">
+          <h2 className="text-xl md:text-2xl lg:text-3xl text-bold text-black italic">
             Sign In
           </h2>
         </div>

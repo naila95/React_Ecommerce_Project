@@ -19,3 +19,8 @@ export const deleteBrand = async (id) => {
   let data = await API.delete(`/dashboard/brands/${id}`);
   return data;
 };
+
+export const getBrandsForSite = async () => {
+  let data = await API.get("/site/brands");
+  return data;
+};

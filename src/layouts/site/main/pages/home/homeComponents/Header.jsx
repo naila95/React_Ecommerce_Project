@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import img from "../../../../../../assets/logo.svg";
 import { Link } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { FiShoppingCart } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { BasketContext } from "../../../../../../contexts/BasketContext";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { MdOutlineCancel } from "react-icons/md";
 
 export default function Header({ setShowSearch, showSearch }) {
-  const basket = useSelector((state) => state.basket.value);
+  const { basket } = useContext(BasketContext);
+  const [openMenu, setOpenMenu] = useState(false);
+
   return (
     <header className="w-full bg-white h-16 px-4 sm:h-20 md:px-8 lg:h-24">
       <div className="flex justify-between items-center ">
@@ -15,7 +19,7 @@ export default function Header({ setShowSearch, showSearch }) {
           <div className="py-8">
             <img src={img} />
           </div>
-          <div className="links px-16">
+          <div className="hidden sm:hidden md:hidden lg:block links px-16">
             <ul className="flex items-center justify-between">
               <li>
                 <div className="h-8 relative group">
@@ -541,13 +545,40 @@ export default function Header({ setShowSearch, showSearch }) {
             </Link>
           </div>
           <div className="">
-            <Link className="relative">
+            <Link to={"cart"} className="relative">
               <FiShoppingCart className="text-2xl" />
               <h2 className="absolute top-[-10px] right-[-10px] text-white bg-black rounded-xl px-1.5">
-                {basket.length}
+                {basket ? basket.length : 0}
               </h2>
             </Link>
           </div>
+          <div className="block sm:block md:block lg:hidden">
+            <RxHamburgerMenu
+              onClick={() => {
+                setOpenMenu(true);
+              }}
+              className="text-2xl cursor-pointer"
+            />
+          </div>
+          {openMenu && (
+            <div className="absolute top-0 right-0 flex gap-4 bg-gray-200 px-4 py-4">
+              <div className="flex flex-col">
+                <div className="text-base">Demos</div>
+                <div className="text-base">Men Wear</div>
+                <div className="text-base">Women Wear</div>
+                <div className="text-base">Shop</div>
+                <div className="text-base">Pages</div>
+              </div>
+              <div className="">
+                <MdOutlineCancel
+                  onClick={() => {
+                    setOpenMenu(false);
+                  }}
+                  className="text-base"
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>

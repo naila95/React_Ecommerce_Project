@@ -1,18 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LuMinus } from "react-icons/lu";
 import { LuPlus } from "react-icons/lu";
 import { getSingleProduct } from "../../../../../services/homeProduct";
 import { useParams } from "react-router-dom";
 import Accordion from "./components/Accordion";
 import { Form } from "antd";
-import { useDispatch, useSelector } from "react-redux";
-import { addToBasket } from "../../../../../redux/features/basket";
+import { BasketContext } from "../../../../../contexts/BasketContext";
 
 export default function Details() {
   const [details, setDetails] = useState([]);
-  const dispatch = useDispatch();
   let { itemId } = useParams();
-  const basket = useSelector((state) => state.basket.value);
+  const { basket, setBasket, count, setCount } = useContext(BasketContext);
+
+  const addToBasket = (id) => {
+    let basketItem = basket.find((item) => {
+      return item.id === id;
+    });
+    if (!basketItem) {
+      let newArr = [...basket];
+      newArr.push({
+        id: id,
+        count: count,
+      });
+      setBasket(newArr);
+    } else if (basketItem) {
+      let newArr = basket.map((item) => {
+        if (item._id === basketItem._id) {
+          let temp = { ...item, count };
+          return temp;
+        } else {
+          return item;
+        }
+      });
+      setBasket(newArr);
+    }
+  };
+
+  const increaseItem = () => {
+    setCount(count + 1);
+  };
+
+  const decreaseItem = () => {
+    if (count > 0) {
+      setCount(count - 1);
+    }
+  };
 
   const getSingleProductData = () => {
     getSingleProduct(itemId)
@@ -22,10 +54,6 @@ export default function Details() {
       .catch((err) => {
         console.log(err);
       });
-  };
-
-  const addBasket = (id) => {
-    dispatch(addToBasket(id));
   };
 
   useEffect(() => {
@@ -86,19 +114,29 @@ export default function Details() {
           </div>
           <div className="py-12 flex gap-6">
             <div className="flex items-center border py-3 border-gray-300 rounded-md">
-              <div className="border-r px-5 cursor-pointer">
+              <button
+                onClick={() => {
+                  decreaseItem();
+                }}
+                className="border-r px-5 cursor-pointer"
+              >
                 <LuMinus />
-              </div>
+              </button>
               <div className="px-7">
-                <h2 className="text-lg">4</h2>
+                <h2 className="text-lg">{count}</h2>
               </div>
-              <div className="border-l px-5 cursor-pointer">
+              <button
+                onClick={() => {
+                  increaseItem();
+                }}
+                className="border-l px-5 cursor-pointer"
+              >
                 <LuPlus />
-              </div>
+              </button>
             </div>
             <button
               onClick={() => {
-                addBasket(details._id);
+                addToBasket(details._id);
               }}
               className="bg-black rounded-md py-3 px-16 text-white font-semibold"
             >

@@ -1,8 +1,9 @@
 import React, { useContext, useRef, useState } from "react";
 import { dynamicUrl } from "../../../../../../utils/generateUrl";
-import { getProduct } from "../../../../../../services/product";
 import { LoadingContext } from "../../../../../../contexts/LoadingContext";
 import { Link } from "react-router-dom";
+import { getProductForSite } from "../../../../../../services/homeProduct";
+import { IoSearch } from "react-icons/io5";
 
 const MySearch = ({ setShowSearch }) => {
   const [query, setQuery] = useState({});
@@ -17,7 +18,7 @@ const MySearch = ({ setShowSearch }) => {
 
   const getDatas = () => {
     setloading(true);
-    getProduct(dynamicUrl(query))
+    getProductForSite(dynamicUrl(query))
       .then(({ data }) => {
         setProd(data.data.product);
       })
@@ -51,7 +52,7 @@ const MySearch = ({ setShowSearch }) => {
               className="bg-gray-300 text-black py-3 px-6 rounded-md"
               type="submit"
             >
-              Search
+              <IoSearch className="text-base" />
             </button>
           </div>
         </form>
