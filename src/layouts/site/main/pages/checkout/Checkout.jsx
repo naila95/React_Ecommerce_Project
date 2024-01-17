@@ -1,11 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Form } from "antd";
+import { postOrder } from "../../../../../services/orders";
+import { BasketContext } from "../../../../../contexts/BasketContext";
 
 export default function Checkout() {
-  const [value, setValue] = useState();
+  const { basket } = useContext(BasketContext);
+
   const onFinish = (values) => {
-    // setValue(values);
     console.log(values);
+    postOrder({ products: basket })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const [form] = Form.useForm();
   return (
@@ -20,7 +29,7 @@ export default function Checkout() {
       </div>
       <div className="mx-auto px-4 md:px-8 2xl:px-16 py-4 md:py-8 lg:py-10 2xl:py-12">
         <div className="flex justify-between gap-12">
-          <div className="flex flex-col w-[60%]">
+          <div className="flex flex-col w-[70%]">
             <h3 className="text-3xl font-bold mb-7">Shipping Address</h3>
             <Form
               name="basic"
@@ -223,21 +232,6 @@ export default function Checkout() {
                 </button>
               </Form.Item>
             </Form>
-          </div>
-          <div className="flex flex-col w-[40%]">
-            <h3 className="text-3xl font-bold mb-7">Your Order</h3>
-            <div className="flex justify-between border-b py-5">
-              <h2>Subtotal</h2>
-              <p>0.00$</p>
-            </div>
-            <div className="flex justify-between border-b py-5">
-              <h2>Shipping</h2>
-              <p>Free</p>
-            </div>
-            <div className="flex justify-between border-b py-5">
-              <h2 className="font-semibold text-xl">Total</h2>
-              <p>0.00$</p>
-            </div>
           </div>
         </div>
       </div>

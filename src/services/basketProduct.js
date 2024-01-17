@@ -9,3 +9,8 @@ export const getBasket = async () => {
   let data = await API.get("/site/basket");
   return data;
 };
+
+export const updateBasket = async (id, basketData) => {
+  let data = await API.put(`/site/basket/${id}`, basketData);
+  return data;
+};

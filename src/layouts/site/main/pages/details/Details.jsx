@@ -6,35 +6,81 @@ import { useParams } from "react-router-dom";
 import Accordion from "./components/Accordion";
 import { Form } from "antd";
 import { BasketContext } from "../../../../../contexts/BasketContext";
+import { UserContext } from "../../../../../contexts/AuthContext";
+import { postBasket } from "../../../../../services/basketProduct";
 
 export default function Details() {
   const [details, setDetails] = useState([]);
   let { itemId } = useParams();
   const { basket, setBasket, count, setCount } = useContext(BasketContext);
+  const { user } = useContext(UserContext);
 
   const addToBasket = (id) => {
-    let basketItem = basket.find((item) => {
-      return item.id === id;
-    });
-    if (!basketItem) {
-      let newArr = [...basket];
-      newArr.push({
-        id: id,
-        count: count,
+    if (user === null || user === false) {
+      let basketItem = basket.find((item) => {
+        return item.id === id;
       });
-      setBasket(newArr);
-    } else if (basketItem) {
-      let newArr = basket.map((item) => {
-        if (item._id === basketItem._id) {
-          let temp = { ...item, count };
-          return temp;
-        } else {
-          return item;
-        }
-      });
-      setBasket(newArr);
+      if (!basketItem) {
+        let newArr = [...basket];
+        newArr.push({
+          productId: id,
+          productCount: count,
+        });
+        setBasket(newArr);
+      } else if (basketItem) {
+        let newArr = basket.map((item) => {
+          if (item._id === basketItem._id) {
+            let temp = { ...item, productCount };
+            return temp;
+          } else {
+            return item;
+          }
+        });
+        setBasket(newArr);
+      }
     }
   };
+
+  // const increaseItem = (id) => {
+  //   setCount(
+  //     basket.map((item) => {
+  //       if (item.id === id) {
+  //         let count = (item.count += 1);
+  //         let obj = { ...item, count };
+  //         return obj;
+  //       } else {
+  //         return item;
+  //       }
+  //     })
+  //   );
+  // };
+
+  // const decreaseItem = (id) => {
+  //   setCount(
+  //     basket.map((item) => {
+  //       if (item.id === id) {
+  //         let count = (item.count -= 1);
+  //         let obj = { ...item, count };
+  //         return obj;
+  //       } else {
+  //         return item;
+  //       }
+  //     })
+  //   );
+  // };
+
+  // const getSingleProductData = () => {
+  //   getSingleProduct(itemId)
+  //     .then(({ data }) => {
+  //       let newEl = basket.find((el) => el.id == data.data?._id);
+  //       console.log(newEl);
+  //       let newObj = { ...data.data, count: newEl.count };
+  //       setDetails(newObj);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   const increaseItem = () => {
     setCount(count + 1);
@@ -57,9 +103,8 @@ export default function Details() {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     getSingleProductData();
-  }, []);
+  }, [basket]);
 
   return (
     <div key={details._id} className="px-4 py-8 md:px-12 2xl:px-16">
@@ -116,7 +161,7 @@ export default function Details() {
             <div className="flex items-center border py-3 border-gray-300 rounded-md">
               <button
                 onClick={() => {
-                  decreaseItem();
+                  decreaseItem(details._id);
                 }}
                 className="border-r px-5 cursor-pointer"
               >
@@ -127,7 +172,7 @@ export default function Details() {
               </div>
               <button
                 onClick={() => {
-                  increaseItem();
+                  increaseItem(details._id);
                 }}
                 className="border-l px-5 cursor-pointer"
               >

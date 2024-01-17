@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MyButton from "../../components/UI/MyButton";
 import { Form, Select } from "antd";
 import OrdersTable from "./components/OrdersTable";
+import { getOrder } from "../../../../services/orders";
 
 export default function Orders() {
+  const [data, setData] = useState([]);
+
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
@@ -11,6 +14,21 @@ export default function Orders() {
   const onFinish = (values) => {
     console.log(values);
   };
+
+  const getOrdersForDashboard = () => {
+    getOrder()
+      .then(({ data }) => {
+        setData(data.data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getOrdersForDashboard();
+  }, []);
+
   return (
     <>
       <h3 className="font-bold text-xl">All Orders</h3>
@@ -92,26 +110,7 @@ export default function Orders() {
           </Form.Item>
         </Form>
       </div>
-
-      {/* <div className="flex items-center gap-3 py-3">
-          <div className="">
-            <label htmlFor="start-date">Start Date</label>
-            <input
-              className="border w-full h-11 md:h-12 rounded-md border-[#94D5CB] py-1 px-4 md:px-5"
-              type="date"
-              name="start-date"
-            />
-          </div>
-          <div className="">
-            <label htmlFor="end-date">End Date</label>
-            <input
-              className="border w-full h-11 md:h-12 rounded-md border-[#94D5CB] py-1 px-4 md:px-5"
-              type="date"
-              name="end-date"
-            />
-          </div>
-        </div> */}
-      <OrdersTable />
+      <OrdersTable data={data} getOrdersForDashboard={getOrdersForDashboard} />
     </>
   );
 }

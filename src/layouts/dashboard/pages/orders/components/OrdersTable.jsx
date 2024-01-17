@@ -1,26 +1,35 @@
 import React from "react";
 import { Button, Space, Table, Tag } from "antd";
+import moment from "moment";
 
-export default function OrdersTable() {
+export default function OrdersTable({ data, getOrdersForDashboard }) {
   const columns = [
     {
-      title: "Invoice No",
-      dataIndex: "invoice-no",
-      key: "invoice-no",
-    },
-    {
       title: "Order Time",
-      dataIndex: "order-time",
-      key: "order-time",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (_, record) => {
+        let time = moment(record.createdAt).format("MMMM Do YYYY, h:mm:ss a");
+        return <>{time}</>;
+      },
     },
     {
       title: "Customer Name",
-      dataIndex: "customer-name",
+      dataIndex: "name",
       key: "customer-name",
+      render: (_, record) => {
+        let name = record.customer.name;
+        return <>{name}</>;
+      },
+    },
+    {
+      title: "Method",
+      dataIndex: "method",
+      key: "method",
     },
     {
       title: "Amount",
-      dataIndex: "amount",
+      dataIndex: "total",
       key: "amount",
     },
     {
@@ -48,24 +57,12 @@ export default function OrdersTable() {
       onFilter: (value, record) => record.brand.indexOf(value) === 0,
     },
     {
-      title: "Tags",
+      title: "Is delivered",
       key: "tags",
       dataIndex: "tags",
-      render: (_, { tags }) => (
-        <>
-          {tags.map((tag) => {
-            let color = tag.length > 5 ? "geekblue" : "green";
-            if (tag === "loser") {
-              color = "volcano";
-            }
-            return (
-              <Tag color={color} key={tag}>
-                {tag.toUpperCase()}
-              </Tag>
-            );
-          })}
-        </>
-      ),
+      render: (_, record) => {
+        return <></>;
+      },
     },
     {
       title: "Action",
@@ -79,6 +76,5 @@ export default function OrdersTable() {
       },
     },
   ];
-  const data = [];
   return <Table columns={columns} dataSource={data} />;
 }

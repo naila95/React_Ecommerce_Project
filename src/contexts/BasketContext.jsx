@@ -15,7 +15,7 @@ export function BasketProvider({ children }) {
     if (user === null || user === false) {
       localStorage.setItem("basket", JSON.stringify(basket));
     } else {
-      postBasket(basket)
+      postBasket({ basket })
         .then((res) => {
           console.log(res);
         })
@@ -23,7 +23,7 @@ export function BasketProvider({ children }) {
           console.log(err);
         });
     }
-  }, [basket, count]);
+  }, [basket, count, user]);
 
   useEffect(() => {
     if (user === null) {

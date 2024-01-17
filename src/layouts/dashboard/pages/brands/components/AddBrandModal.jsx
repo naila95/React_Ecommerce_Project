@@ -15,7 +15,6 @@ export default function AddBrandModal({ getBrands }) {
       name: values.brandName,
       image: file[0],
     };
-    console.log("Success:", brandData);
     setloading(true);
     postBrand(brandData)
       .then((res) => {

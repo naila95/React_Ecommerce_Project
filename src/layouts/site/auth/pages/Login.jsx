@@ -13,7 +13,7 @@ export default function Login() {
       .then(({ data }) => {
         localStorage.setItem("token", data.data.token);
         setUser(data.data.user);
-        navigate("/checkout");
+        navigate("/cart");
       })
       .catch((err) => {
         console.log(err);
