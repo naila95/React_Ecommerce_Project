@@ -56,34 +56,57 @@ const Cart = () => {
   };
 
   const getData = async () => {
+    console.log("user", user);
     if (user === null || user === false) {
       let localBasket = JSON.parse(localStorage.getItem("basket"));
-      let arr = localBasket.map((item) => {
-        return getSingleProduct(item.productId);
-      });
-      let res = await Promise.all(arr);
-      let data = res
-        .map((item) => {
-          return item.data.data;
-        })
-        .map((item) => {
-          let newItem = {
-            ...item,
-            count: basket.find((el) => el.productId == item._id).productCount,
-          };
-          return newItem;
+      if (localBasket != null) {
+        let arr = localBasket.map((item) => {
+          return getSingleProduct(item.productId);
         });
-      setDetails(data);
+        let res = await Promise.all(arr);
+        let data = res
+          .map((item) => {
+            return item.data.data;
+          })
+          .map((item) => {
+            let newItem = {
+              ...item,
+              count: basket.find((el) => el.productId == item._id).productCount,
+            };
+            return newItem;
+          });
+        setDetails(data);
+      }
+    } else if (
+      user.role === "client" ||
+      user.role === "admin" ||
+      user.role === "superadmin"
+    ) {
+      getBasket()
+        .then(({ data }) => {
+          let arr = data.data.map((item) => {
+            setUserCount(item.count);
+            return getSingleProduct(item._id);
+          });
+          let res = Promise.all(arr);
+          console.log(res);
+          let datas = res
+            .map((item) => {
+              return item.data.data;
+            })
+            .map((item) => {
+              let newItem = {
+                ...item,
+                count: userCount,
+              };
+              return newItem;
+            });
+          console.log(datas);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    // } else {
-    //   getBasket()
-    //     .then(({ data }) => {
-    //       console.log(data._id);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // }
   };
 
   const countTotal = () => {
@@ -111,7 +134,7 @@ const Cart = () => {
         </div>
       </div>
       <div className="lg:flex">
-        {basket.length > 0 ? (
+        {basket?.length > 0 ? (
           <div className="flex md:w-[100%] lg:w-[60%] flex-col px-4 py-8 md:px-12 2xl:px-16">
             {details.map((item) => {
               return (

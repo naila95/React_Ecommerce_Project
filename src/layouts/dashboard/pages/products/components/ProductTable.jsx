@@ -68,7 +68,7 @@ export default function ProductTable({ data, getDatas, setQuery, brands }) {
         return (
           <>
             <Switch
-              defaultChecked={true}
+              checked={record.isPublish == true}
               onChange={(checked) => {
                 if (checked) {
                   let newData = record;
@@ -79,6 +79,9 @@ export default function ProductTable({ data, getDatas, setQuery, brands }) {
                     })
                     .catch((err) => {
                       console.log(err);
+                    })
+                    .finally(() => {
+                      getDatas();
                     });
                 } else {
                   let newData = record;
@@ -89,6 +92,9 @@ export default function ProductTable({ data, getDatas, setQuery, brands }) {
                     })
                     .catch((err) => {
                       console.log(err);
+                    })
+                    .finally(() => {
+                      getDatas();
                     });
                 }
               }}

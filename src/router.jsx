@@ -126,7 +126,7 @@ const router = createBrowserRouter([
 
 export const MainRouter = () => {
   const { setUser } = useContext(UserContext);
-  useEffect(() => {
+  useEffect(()  => {
     profileProcess()
       .then(({ data }) => {
         setUser(data.user);

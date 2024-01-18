@@ -5,7 +5,12 @@ export const postOrder = async (orderData) => {
   return data;
 };
 
-export const getOrder = async () => {
-  let data = await API.get("/dashboard/orders");
+export const getOrder = async (query) => {
+  let data = await API.get(`/dashboard/orders${query && query}`);
+  return data;
+};
+
+export const updateOrder = async (id, orderData) => {
+  let data = await API.put(`/dashboard/orders/${id}`, orderData);
   return data;
 };

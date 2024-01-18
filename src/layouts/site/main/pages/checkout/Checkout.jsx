@@ -14,6 +14,9 @@ export default function Checkout() {
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        localStorage.removeItem("basket");
       });
   };
   const [form] = Form.useForm();

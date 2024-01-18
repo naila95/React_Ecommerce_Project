@@ -1,6 +1,7 @@
-import React from "react";
-import { Button, Space, Table, Tag } from "antd";
+import React, { useState } from "react";
+import { Button, Checkbox, Space, Table, Tag } from "antd";
 import moment from "moment";
+import { updateOrder } from "../../../../../services/orders";
 
 export default function OrdersTable({ data, getOrdersForDashboard }) {
   const columns = [
@@ -36,41 +37,35 @@ export default function OrdersTable({ data, getOrdersForDashboard }) {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      filters: [
-        {
-          text: "Pending",
-          value: "pending",
-        },
-        {
-          text: "Processing",
-          value: "processing",
-        },
-        {
-          text: "Pending",
-          value: "pending",
-        },
-        {
-          text: "Delivered",
-          value: "delivered",
-        },
-      ],
-      onFilter: (value, record) => record.brand.indexOf(value) === 0,
     },
     {
       title: "Is delivered",
       key: "tags",
       dataIndex: "tags",
       render: (_, record) => {
-        return <></>;
-      },
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => {
         return (
           <>
-            <Button></Button>
+            <Checkbox
+              checked={record.status == "delivered"}
+              disabled={record.status == "delivered"}
+              onChange={(e) => {
+                if (e.target.checked) {
+                  let data = {
+                    status: "delivered",
+                  };
+                  updateOrder(record._id, data)
+                    .then((res) => {
+                      console.log(res);
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    })
+                    .finally(() => {
+                      getOrdersForDashboard();
+                    });
+                }
+              }}
+            ></Checkbox>
           </>
         );
       },

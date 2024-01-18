@@ -8,22 +8,38 @@ export function BasketProvider({ children }) {
   const [basket, setBasket] = useState(
     JSON.parse(localStorage.getItem("basket"))
   );
+  const [userBasket, setUserBasket] = useState([]);
   const [count, setCount] = useState(1);
   const { user } = useContext(UserContext);
 
   useEffect(() => {
     if (user === null || user === false) {
       localStorage.setItem("basket", JSON.stringify(basket));
-    } else {
-      postBasket({ basket })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    } else if (
+      user.role === "client" ||
+      user.role === "admin" ||
+      user.role === "superadmin"
+    ) {
+      if (basket) {
+        postBasket({ basket })
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+      // } else {
+      //   postBasket({ basket: userBasket })
+      //     .then((res) => {
+      //       console.log(res);
+      //     })
+      //     .catch((err) => {
+      //       console.log(err);
+      //     });
+      // }
     }
-  }, [basket, count, user]);
+  }, [basket, count, user, userBasket]);
 
   useEffect(() => {
     if (user === null) {
@@ -35,7 +51,9 @@ export function BasketProvider({ children }) {
   }, []);
 
   return (
-    <BasketContext.Provider value={{ basket, setBasket, count, setCount }}>
+    <BasketContext.Provider
+      value={{ basket, setBasket, count, setCount, userBasket, setUserBasket }}
+    >
       {children}
     </BasketContext.Provider>
   );

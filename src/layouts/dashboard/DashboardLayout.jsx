@@ -10,15 +10,23 @@ import { AiFillSchedule } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { TbBrandMeta } from "react-icons/tb";
 import { UserContext } from "../../contexts/AuthContext";
-
-const { Header, Sider, Content } = Layout;
+import { IoLogInOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 export default function DashboardLayout() {
-  const { user } = useContext(UserContext);
+  const { Header, Sider, Content } = Layout;
+  const { user, setUser } = useContext(UserContext);
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    navigate("/");
+  };
 
   if (user.role === "superadmin") {
     return (
@@ -59,7 +67,10 @@ export default function DashboardLayout() {
             />
           </Sider>
           <Layout>
-            <Header className="bg-[#94D5CB]" style={{ padding: 0 }}>
+            <Header
+              className="bg-[#94D5CB] flex justify-between"
+              style={{ padding: 0 }}
+            >
               <Button
                 type="text"
                 icon={collapsed ? <FaRegFolderOpen /> : <FaRegFolderClosed />}
@@ -68,6 +79,18 @@ export default function DashboardLayout() {
                   fontSize: "16px",
                   width: 65,
                   height: 65,
+                }}
+              />
+              <Button
+                type="text"
+                style={{
+                  fontSize: "23px",
+                  width: 65,
+                  height: 65,
+                }}
+                icon={<IoLogInOutline />}
+                onClick={() => {
+                  logOut();
                 }}
               />
             </Header>

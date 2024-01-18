@@ -13,7 +13,7 @@ export default function Register() {
       .then(({ data }) => {
         localStorage.setItem("token", data.data.token);
         setUser(data.data.user);
-        navigate("/");
+        navigate("/auth/login");
       })
       .catch((err) => {
         console.log(err);

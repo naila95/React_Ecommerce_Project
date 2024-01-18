@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import img from "../../../../../../assets/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
-import { IoSearch } from "react-icons/io5";
+import { IoLogInOutline, IoSearch } from "react-icons/io5";
 import { FiShoppingCart } from "react-icons/fi";
 import { BasketContext } from "../../../../../../contexts/BasketContext";
 import { RxHamburgerMenu } from "react-icons/rx";
@@ -11,6 +11,13 @@ import { MdOutlineCancel } from "react-icons/md";
 export default function Header({ setShowSearch, showSearch }) {
   const { basket } = useContext(BasketContext);
   const [openMenu, setOpenMenu] = useState(false);
+  const navigate = useNavigate();
+
+  const logOut = () => {
+    localStorage.removeItem("token");
+    setUser(null);
+    navigate("/");
+  };
 
   return (
     <header className="w-full bg-white h-16 px-4 sm:h-20 md:px-8 lg:h-24">
@@ -551,6 +558,14 @@ export default function Header({ setShowSearch, showSearch }) {
                 {basket ? basket.length : 0}
               </h2>
             </Link>
+          </div>
+          <div className="">
+            <IoLogInOutline
+              onClick={() => {
+                logOut();
+              }}
+              className="text-2xl font-semibold cursor-pointer"
+            />
           </div>
           <div className="block sm:block md:block lg:hidden">
             <RxHamburgerMenu

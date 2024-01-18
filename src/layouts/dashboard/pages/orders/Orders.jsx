@@ -1,27 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import MyButton from "../../components/UI/MyButton";
 import { Form, Select } from "antd";
 import OrdersTable from "./components/OrdersTable";
 import { getOrder } from "../../../../services/orders";
+import { LoadingContext } from "../../../../contexts/LoadingContext";
+import { dynamicUrl } from "../../../../utils/generateUrl";
 
 export default function Orders() {
   const [data, setData] = useState([]);
+  const { setloading } = useContext(LoadingContext);
+  const [query, setQuery] = useState({});
+  const [selectInitialVal, setselectInitialVal] = useState("Status");
+  const [initialVal, setInitialVal] = useState("Order limits");
 
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
   const [form] = Form.useForm();
-  const onFinish = (values) => {
-    console.log(values);
+
+  const onFinish = () => {
+    getOrdersForDashboard();
+  };
+
+  const handleChange = (key, value) => {
+    setQuery({ ...query, [key]: value });
   };
 
   const getOrdersForDashboard = () => {
-    getOrder()
+    console.log(query);
+    setloading(true);
+    getOrder(dynamicUrl(query))
       .then(({ data }) => {
         setData(data.data.data);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        setloading(false);
       });
   };
 
@@ -46,7 +59,13 @@ export default function Orders() {
           onFinish={onFinish}
           autoComplete="off"
         >
-          <Form.Item name="search" className="w-[20%] mt-[22px]">
+          <Form.Item
+            onChange={(e) => {
+              setQuery({ ...query, search: e.target.value });
+            }}
+            name="search"
+            className="w-[20%] mt-[22px]"
+          >
             <input
               placeholder="Search by Customer name"
               type="search"
@@ -55,35 +74,39 @@ export default function Orders() {
           </Form.Item>
           <Form.Item className="w-[15%] mt-[22px]">
             <Select
+              value={selectInitialVal}
               className="bg-white w-full border rounded-md border-[#94D5CB] py-1 px-2 h-11 md:h-12 mr-3"
-              defaultValue="Status"
               style={{ outline: "none" }}
-              onChange={handleChange}
-              options={[
-                { value: "delivered", label: "Delivered" },
-                { value: "pending", label: "Pending" },
-                { value: "processing", label: "Processing" },
-                { value: "cancel", label: "Cancel" },
-              ]}
+              onChange={(e) => {
+                handleChange("status", e);
+                setselectInitialVal(e);
+              }}
+              options={[{ value: "delivered", label: "Delivered" }]}
             />
           </Form.Item>
           <Form.Item className="mt-[22px]">
             <Select
+              value={initialVal}
               className="bg-white w-[40%] border rounded-md border-[#94D5CB] py-1 px-2 h-11 md:h-12"
-              defaultValue="Order Limits"
               style={{ outline: "none" }}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange("day", e);
+                setInitialVal(e);
+              }}
               options={[
-                { value: "days", label: "Last 5 days" },
-                { value: "days", label: "Last 7 days" },
-                { value: "days", label: "Last 15 days" },
-                { value: "days", label: "Last 30 days" },
+                { value: "2", label: "Last 2 days" },
+                { value: "5", label: "Last 5 days" },
+                { value: "10", label: "Last 10 days" },
+                { value: "15", label: "Last 15 days" },
               ]}
             />
           </Form.Item>
           <Form.Item className="w-[25%]">
             <label htmlFor="start-date">Start Date</label>
             <input
+              onChange={(e) => {
+                handleChange("startDate", e.target.value);
+              }}
               className="border w-full h-11 md:h-12 rounded-md border-[#94D5CB] py-1 px-4 md:px-5"
               type="date"
               name="start-date"
@@ -92,6 +115,9 @@ export default function Orders() {
           <Form.Item className="w-[25%]">
             <label htmlFor="end-date">End Date</label>
             <input
+              onChange={(e) => {
+                handleChange("endDate", e.target.value);
+              }}
               className="border w-full h-11 md:h-12 rounded-md border-[#94D5CB] py-1 px-4 md:px-5"
               type="date"
               name="end-date"
@@ -104,7 +130,10 @@ export default function Orders() {
             <MyButton
               label={"Reset"}
               refFunc={() => {
-                console.log("test");
+                form.resetFields();
+                setQuery({});
+                selectInitialVal("Status");
+                setInitialVal("Order limits");
               }}
             />
           </Form.Item>

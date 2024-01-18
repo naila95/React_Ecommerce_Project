@@ -12,7 +12,8 @@ import { postBasket } from "../../../../../services/basketProduct";
 export default function Details() {
   const [details, setDetails] = useState([]);
   let { itemId } = useParams();
-  const { basket, setBasket, count, setCount } = useContext(BasketContext);
+  const { basket, setBasket, count, setCount, userBasket, setUserBasket } =
+    useContext(BasketContext);
   const { user } = useContext(UserContext);
 
   const addToBasket = (id) => {
@@ -38,49 +39,25 @@ export default function Details() {
         });
         setBasket(newArr);
       }
+    } else if (
+      user.role === "client" ||
+      user.role === "admin" ||
+      user.role === "superadmin"
+    ) {
+      userBasket.push({
+        productId: id,
+        productCount: count,
+      });
+      console.log(userBasket);
+      postBasket({ basket: userBasket })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
-
-  // const increaseItem = (id) => {
-  //   setCount(
-  //     basket.map((item) => {
-  //       if (item.id === id) {
-  //         let count = (item.count += 1);
-  //         let obj = { ...item, count };
-  //         return obj;
-  //       } else {
-  //         return item;
-  //       }
-  //     })
-  //   );
-  // };
-
-  // const decreaseItem = (id) => {
-  //   setCount(
-  //     basket.map((item) => {
-  //       if (item.id === id) {
-  //         let count = (item.count -= 1);
-  //         let obj = { ...item, count };
-  //         return obj;
-  //       } else {
-  //         return item;
-  //       }
-  //     })
-  //   );
-  // };
-
-  // const getSingleProductData = () => {
-  //   getSingleProduct(itemId)
-  //     .then(({ data }) => {
-  //       let newEl = basket.find((el) => el.id == data.data?._id);
-  //       console.log(newEl);
-  //       let newObj = { ...data.data, count: newEl.count };
-  //       setDetails(newObj);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
 
   const increaseItem = () => {
     setCount(count + 1);
@@ -104,8 +81,8 @@ export default function Details() {
 
   useEffect(() => {
     getSingleProductData();
-  }, [basket]);
-
+  }, []);
+  //  basket
   return (
     <div key={details._id} className="px-4 py-8 md:px-12 2xl:px-16">
       <div className="flex gap-10">
