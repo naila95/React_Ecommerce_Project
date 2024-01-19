@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import img from "../../../../../../assets/7.jpg";
 import { getSaleProduct } from "../../../../../../services/homeProduct";
+import { Link } from "react-router-dom";
 
 export default function FlashSale() {
   const [data, setData] = useState([]);
@@ -31,9 +32,9 @@ export default function FlashSale() {
           {data.map((item) => {
             return (
               <div className="flex flex-col cursor-pointer">
-                <div className="">
+                <Link to={`/details/${item._id}`} className="">
                   <img className="rounded-md" src={item.images[0].url} />
-                </div>
+                </Link>
                 <div className="py-3">
                   <h2 className="text-lg font-semibold">{item.title}</h2>
                   <p className="text-sm">{item.description}</p>

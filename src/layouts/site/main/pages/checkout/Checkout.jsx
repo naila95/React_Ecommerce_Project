@@ -4,10 +4,10 @@ import { postOrder } from "../../../../../services/orders";
 import { BasketContext } from "../../../../../contexts/BasketContext";
 
 export default function Checkout() {
-  const { basket } = useContext(BasketContext);
+  const { basket, setBasket, count, setCount } = useContext(BasketContext);
 
   const onFinish = (values) => {
-    console.log(values);
+    console.log(basket);
     postOrder({ products: basket })
       .then((res) => {
         console.log(res);
@@ -16,7 +16,8 @@ export default function Checkout() {
         console.log(err);
       })
       .finally(() => {
-        localStorage.removeItem("basket");
+        setBasket([]);
+        setCount(1);
       });
   };
   const [form] = Form.useForm();

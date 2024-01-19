@@ -1,5 +1,5 @@
 import { Form, Select, Spin } from "antd";
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import MyButton from "../../../components/UI/MyButton";
 import { updateProduct } from "../../../../../services/product";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
@@ -16,11 +16,11 @@ export default function ProductEditModal({
   const { loading, setloading } = useContext(LoadingContext);
   const { setMyModal } = useContext(MyModalContext);
   const [showImg, setShowImg] = useState(true);
+  const selectRef = useRef(null);
 
   const deleteImg = (public_id) => {
     setImages(images.filter((img) => img.public_id !== public_id));
   };
-  // console.log(images);
   const onFinish = (values) => {
     let newImgArr = images.map((item) => {
       if (!isNaN(item.public_id)) {
@@ -30,6 +30,11 @@ export default function ProductEditModal({
       }
     });
     values.images = newImgArr;
+    if (typeof initialValues.salePrice == "number") {
+      values.isDeal = true;
+    } else {
+      values.isDeal = false;
+    }
     setloading(true);
     updateProduct(initialValues._id, values)
       .then((res) => {
@@ -46,6 +51,7 @@ export default function ProductEditModal({
         getDatas();
       });
   };
+  console.log(typeof initialValues.salePrice);
 
   return (
     <>
@@ -121,6 +127,7 @@ export default function ProductEditModal({
           </Form.Item>
           <Form.Item name="salePrice">
             <input
+              ref={selectRef}
               placeholder="Sale Price"
               name="salePrice"
               type="text"
@@ -130,7 +137,6 @@ export default function ProductEditModal({
           <Form.Item name="brandId">
             <Select
               className="bg-white w-[10%] border rounded-md border-[#94D5CB] py-1 px-2 h-11 md:h-12 mr-3"
-              // defaultValue="Brand"
               style={{ outline: "none" }}
               // onChange={handleChange}
               options={brands}

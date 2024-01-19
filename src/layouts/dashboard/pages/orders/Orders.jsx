@@ -12,6 +12,8 @@ export default function Orders() {
   const [query, setQuery] = useState({});
   const [selectInitialVal, setselectInitialVal] = useState("Status");
   const [initialVal, setInitialVal] = useState("Order limits");
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
 
   const [form] = Form.useForm();
 
@@ -104,6 +106,7 @@ export default function Orders() {
           <Form.Item className="w-[25%]">
             <label htmlFor="start-date">Start Date</label>
             <input
+              ref={startDateRef}
               onChange={(e) => {
                 handleChange("startDate", e.target.value);
               }}
@@ -115,6 +118,7 @@ export default function Orders() {
           <Form.Item className="w-[25%]">
             <label htmlFor="end-date">End Date</label>
             <input
+              ref={endDateRef}
               onChange={(e) => {
                 handleChange("endDate", e.target.value);
               }}
@@ -132,8 +136,11 @@ export default function Orders() {
               refFunc={() => {
                 form.resetFields();
                 setQuery({});
-                selectInitialVal("Status");
+                setselectInitialVal("Status");
                 setInitialVal("Order limits");
+                console.log(endDateRef.current.value);
+                endDateRef.current.value = null;
+                startDateRef.current.value = null;
               }}
             />
           </Form.Item>

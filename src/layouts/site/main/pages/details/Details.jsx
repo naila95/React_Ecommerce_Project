@@ -12,8 +12,7 @@ import { postBasket } from "../../../../../services/basketProduct";
 export default function Details() {
   const [details, setDetails] = useState([]);
   let { itemId } = useParams();
-  const { basket, setBasket, count, setCount, userBasket, setUserBasket } =
-    useContext(BasketContext);
+  const { basket, setBasket, count, setCount } = useContext(BasketContext);
   const { user } = useContext(UserContext);
 
   const addToBasket = (id) => {
@@ -44,12 +43,13 @@ export default function Details() {
       user.role === "admin" ||
       user.role === "superadmin"
     ) {
-      userBasket.push({
+      console.log(count);
+      basket.push({
         productId: id,
         productCount: count,
       });
-      console.log(userBasket);
-      postBasket({ basket: userBasket })
+      console.log(basket);
+      postBasket({ basket })
         .then((res) => {
           console.log(res);
         })
@@ -81,8 +81,7 @@ export default function Details() {
 
   useEffect(() => {
     getSingleProductData();
-  }, []);
-  //  basket
+  }, [basket]);
   return (
     <div key={details._id} className="px-4 py-8 md:px-12 2xl:px-16">
       <div className="flex gap-10">

@@ -6,7 +6,7 @@ export const getProductForSite = async (query) => {
 };
 
 export const getSaleProduct = async () => {
-  let data = await API.get("/site/products?isDeal=true");
+  let data = await API.get("/site/products?isDeal=true&isPublish=true");
   return data;
 };
 

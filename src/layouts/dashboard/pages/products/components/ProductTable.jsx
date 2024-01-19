@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { Button, Switch, Table, Tag } from "antd";
+import { Button, Pagination, Switch, Table, Tag } from "antd";
 import { MdDeleteOutline } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
@@ -8,9 +8,15 @@ import { getBrand } from "../../../../../services/brands";
 import ProductDeleteModal from "./ProductDeleteModal";
 import { updateProduct } from "../../../../../services/product";
 
-export default function ProductTable({ data, getDatas, setQuery, brands }) {
+export default function ProductTable({
+  totalCount,
+  data,
+  getDatas,
+  setQuery,
+  brands,
+}) {
   const { setMyModal } = useContext(MyModalContext);
-
+  const [pagination, setPagination] = useState({ page: 1, perPage: 10 });
   useEffect(() => {
     getBrand();
   }, []);
@@ -158,8 +164,16 @@ export default function ProductTable({ data, getDatas, setQuery, brands }) {
   return (
     <>
       <div className="staff_table">
-        <Table columns={columns} dataSource={data} />
+        <Table pagination={false} columns={columns} dataSource={data} />
       </div>
+      <Pagination
+        onChange={(page, perPage) => {
+          console.log(page, perPage);
+        }}
+        showSizeChanger
+        defaultCurrent={pagination.page}
+        total={totalCount}
+      />
     </>
   );
 }

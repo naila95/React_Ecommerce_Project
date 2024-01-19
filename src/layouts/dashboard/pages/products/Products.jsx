@@ -16,6 +16,7 @@ export default function Products() {
   const { setloading } = useContext(LoadingContext);
   const [brands, setBrands] = useState([]);
   const [selectInitialVal, setselectInitialVal] = useState("Brand");
+  const [totalCount, setTotalCount] = useState(1);
   const form = useRef(null);
   const selectRef = useRef(null);
 
@@ -50,6 +51,7 @@ export default function Products() {
     getProduct(dynamicUrl(query))
       .then(({ data }) => {
         setProd(data.data.product);
+        setTotalCount(data.data.totalCount);
       })
       .catch((err) => {
         console.log(err);
@@ -112,6 +114,7 @@ export default function Products() {
         </form>
       </div>
       <ProductTable
+        totalCount={totalCount}
         data={prod}
         brands={brands}
         setQuery={setQuery}

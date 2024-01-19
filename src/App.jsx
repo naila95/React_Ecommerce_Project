@@ -4,17 +4,20 @@ import { MyLoadingProvider } from "./contexts/LoadingContext";
 import MyModalProvider from "./contexts/MyModalContext";
 import { MainRouter } from "./router";
 import { BasketProvider } from "./contexts/BasketContext";
+import { PaginationProvider } from "./contexts/PaginationContext";
 
 function App() {
   return (
     <UserProvider>
-      <MyLoadingProvider>
-        <MyModalProvider>
-          <BasketProvider>
-            <MainRouter />
-          </BasketProvider>
-        </MyModalProvider>
-      </MyLoadingProvider>
+      <PaginationProvider>
+        <MyLoadingProvider>
+          <MyModalProvider>
+            <BasketProvider>
+              <MainRouter />
+            </BasketProvider>
+          </MyModalProvider>
+        </MyLoadingProvider>
+      </PaginationProvider>
     </UserProvider>
   );
 }
