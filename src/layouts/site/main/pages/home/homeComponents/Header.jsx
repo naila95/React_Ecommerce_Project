@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import img from "../../../../../../assets/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
@@ -7,17 +7,35 @@ import { FiShoppingCart } from "react-icons/fi";
 import { BasketContext } from "../../../../../../contexts/BasketContext";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { MdOutlineCancel } from "react-icons/md";
+import { UserContext } from "../../../../../../contexts/AuthContext";
+import { getBasket } from "../../../../../../services/basketProduct";
 
 export default function Header({ setShowSearch, showSearch }) {
-  const { basket } = useContext(BasketContext);
+  const { basket, basketData, setBasketData } = useContext(BasketContext);
   const [openMenu, setOpenMenu] = useState(false);
   const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+  // const [basketDataforHeader, setBasketDataforHeader] = useState([]);
 
   const logOut = () => {
     localStorage.removeItem("token");
     setUser(null);
     navigate("/");
   };
+
+  // const getBasketForHeader = () => {
+  //   getBasket()
+  //     .then(({ data }) => {
+  //       setBasketDataforHeader(data.data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
+  // useEffect(() => {
+  //   getBasketForHeader();
+  // }, [basket, user]);
 
   return (
     <header className="w-full bg-white h-16 px-4 sm:h-20 md:px-8 lg:h-24">
@@ -555,7 +573,7 @@ export default function Header({ setShowSearch, showSearch }) {
             <Link to={"cart"} className="relative">
               <FiShoppingCart className="text-2xl" />
               <h2 className="absolute top-[-10px] right-[-10px] text-white bg-black rounded-xl px-1.5">
-                {basket ? basket.length : 0}
+                {user ? basketData.length : basket.length}
               </h2>
             </Link>
           </div>

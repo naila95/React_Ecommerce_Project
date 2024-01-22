@@ -5,21 +5,16 @@ import { getBasket, postBasket } from "../services/basketProduct";
 export const BasketContext = createContext();
 
 export function BasketProvider({ children }) {
-  const [basket, setBasket] = useState(
-    JSON.parse(localStorage.getItem("basket"))
-  );
+  const [basket, setBasket] = useState([]);
   const [count, setCount] = useState(1);
   const { user } = useContext(UserContext);
+  const [basketData, setBasketData] = useState([]);
 
   useEffect(() => {
     if (user === null || user === false) {
       localStorage.setItem("basket", JSON.stringify(basket));
-    } else if (
-      user.role === "client" ||
-      user.role === "admin" ||
-      user.role === "superadmin"
-    ) {
-      if (basket.length > 0) {
+    } else if (user) {
+      if (localStorage.getItem("basket") !== null) {
         postBasket({ basket })
           .then((res) => {
             console.log(res);
@@ -41,7 +36,9 @@ export function BasketProvider({ children }) {
   }, []);
 
   return (
-    <BasketContext.Provider value={{ basket, setBasket, count, setCount }}>
+    <BasketContext.Provider
+      value={{ basket, setBasket, count, setCount, basketData, setBasketData }}
+    >
       {children}
     </BasketContext.Provider>
   );

@@ -31,9 +31,12 @@ export default function FlashSale() {
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-x-3 md:gap-x-5 xl:gap-x-7 gap-y-4 lg:gap-y-5 2xl:gap-y-6">
           {data.map((item) => {
             return (
-              <div className="flex flex-col cursor-pointer">
+              <div className="flex flex-col cursor-pointer group transition duration-200 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
                 <Link to={`/details/${item._id}`} className="">
-                  <img className="rounded-md" src={item.images[0].url} />
+                  <img
+                    className="rounded-md group-hover:rounded-none"
+                    src={item.images[0].url}
+                  />
                 </Link>
                 <div className="py-3">
                   <h2 className="text-lg font-semibold">{item.title}</h2>

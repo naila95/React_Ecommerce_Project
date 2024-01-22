@@ -1,9 +1,21 @@
-import React, { useState } from "react";
-import { Button, Checkbox, Space, Table, Tag } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Checkbox, Pagination, Space, Table, Tag } from "antd";
 import moment from "moment";
 import { updateOrder } from "../../../../../services/orders";
 
-export default function OrdersTable({ data, getOrdersForDashboard }) {
+export default function OrdersTable({
+  data,
+  getOrdersForDashboard,
+  query,
+  setQuery,
+  totalCount,
+}) {
+  const [pagination, setPagination] = useState({ page: 1, perPage: 10 });
+
+  useEffect(() => {
+    setQuery({ ...query, page: pagination.page, perPage: pagination.perPage });
+  }, [pagination]);
+
   const columns = [
     {
       title: "Order Time",
@@ -71,5 +83,20 @@ export default function OrdersTable({ data, getOrdersForDashboard }) {
       },
     },
   ];
-  return <Table columns={columns} dataSource={data} />;
+  return (
+    <>
+      <div className="flex flex-col gap-5">
+        <Table pagination={false} columns={columns} dataSource={data} />
+        <Pagination
+          className="flex justify-end mr-16"
+          onChange={(page, perPage) => {
+            setPagination({ page, perPage });
+          }}
+          showSizeChanger
+          defaultCurrent={pagination.page}
+          total={totalCount}
+        />
+      </div>
+    </>
+  );
 }

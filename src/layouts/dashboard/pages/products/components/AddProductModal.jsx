@@ -15,6 +15,11 @@ export default function AddProductModal({ getDatas }) {
 
   const onFinish = (values) => {
     values.images = files;
+    if (values.salePrice) {
+      values.isDeal = true;
+    } else if (!values.salePrice) {
+      values.salePrice = false;
+    }
     console.log(values);
     setloading(true);
     postProduct(values)

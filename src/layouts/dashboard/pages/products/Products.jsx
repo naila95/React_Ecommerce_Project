@@ -46,6 +46,7 @@ export default function Products() {
   const handleChange = (key, value) => {
     setQuery({ ...query, [key]: value });
   };
+
   const getDatas = () => {
     setloading(true);
     getProduct(dynamicUrl(query))
@@ -63,7 +64,7 @@ export default function Products() {
   useEffect(() => {
     getBrands();
     getDatas();
-  }, []);
+  }, [query]);
   return (
     <>
       <h3 className="font-bold text-xl">All Products</h3>
@@ -118,6 +119,7 @@ export default function Products() {
         data={prod}
         brands={brands}
         setQuery={setQuery}
+        query={query}
         getDatas={getDatas}
       />
     </>

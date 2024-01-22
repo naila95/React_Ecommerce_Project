@@ -4,7 +4,8 @@ import { postOrder } from "../../../../../services/orders";
 import { BasketContext } from "../../../../../contexts/BasketContext";
 
 export default function Checkout() {
-  const { basket, setBasket, count, setCount } = useContext(BasketContext);
+  const { basket, setBasket, setCount, setBasketData } =
+    useContext(BasketContext);
 
   const onFinish = (values) => {
     console.log(basket);
@@ -18,6 +19,8 @@ export default function Checkout() {
       .finally(() => {
         setBasket([]);
         setCount(1);
+        setBasketData([]);
+        form.resetFields();
       });
   };
   const [form] = Form.useForm();

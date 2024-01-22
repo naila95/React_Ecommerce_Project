@@ -6,7 +6,9 @@ export const getProductForSite = async (query) => {
 };
 
 export const getSaleProduct = async () => {
-  let data = await API.get("/site/products?isDeal=true&isPublish=true");
+  let data = await API.get(
+    "/site/products?isDeal=true&isPublish=true&stock=inStock"
+  );
   return data;
 };
 
@@ -16,6 +18,8 @@ export const getSingleProduct = async (id) => {
 };
 
 export const getIsPublishedProduct = async () => {
-  let data = await API.get("/site/products?isPublish=true");
+  let data = await API.get(
+    "/site/products?isDeal=false&isPublish=true&stock=inStock"
+  );
   return data;
 };

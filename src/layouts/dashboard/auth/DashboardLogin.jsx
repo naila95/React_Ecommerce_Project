@@ -7,7 +7,7 @@ import { LoadingContext } from "../../../contexts/LoadingContext";
 
 export default function DashboardLogin() {
   const { user, setUser } = useContext(UserContext);
-  const { loading, setloading } = useContext(LoadingContext);
+  const { setloading } = useContext(LoadingContext);
   const navigate = useNavigate();
   const onFinish = (values) => {
     setloading(true);

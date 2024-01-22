@@ -30,7 +30,7 @@ export default function ProductEditModal({
       }
     });
     values.images = newImgArr;
-    if (typeof initialValues.salePrice == "number") {
+    if (typeof initialValues.salePrice === "number") {
       values.isDeal = true;
     } else {
       values.isDeal = false;
@@ -51,7 +51,6 @@ export default function ProductEditModal({
         getDatas();
       });
   };
-  console.log(typeof initialValues.salePrice);
 
   return (
     <>

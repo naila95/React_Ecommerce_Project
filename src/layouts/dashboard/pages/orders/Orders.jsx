@@ -14,6 +14,7 @@ export default function Orders() {
   const [initialVal, setInitialVal] = useState("Order limits");
   const startDateRef = useRef(null);
   const endDateRef = useRef(null);
+  const [totalCount, setTotalCount] = useState(1);
 
   const [form] = Form.useForm();
 
@@ -31,6 +32,7 @@ export default function Orders() {
     getOrder(dynamicUrl(query))
       .then(({ data }) => {
         setData(data.data.data);
+        setTotalCount(data.data.totalCount);
       })
       .catch((err) => {
         console.log(err);
@@ -42,7 +44,7 @@ export default function Orders() {
 
   useEffect(() => {
     getOrdersForDashboard();
-  }, []);
+  }, [query]);
 
   return (
     <>
@@ -146,7 +148,13 @@ export default function Orders() {
           </Form.Item>
         </Form>
       </div>
-      <OrdersTable data={data} getOrdersForDashboard={getOrdersForDashboard} />
+      <OrdersTable
+        data={data}
+        setQuery={setQuery}
+        query={query}
+        totalCount={totalCount}
+        getOrdersForDashboard={getOrdersForDashboard}
+      />
     </>
   );
 }

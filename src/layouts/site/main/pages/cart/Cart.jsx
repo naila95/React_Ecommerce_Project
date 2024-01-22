@@ -11,13 +11,16 @@ import {
   getBasket,
   updateBasket,
 } from "../../../../../services/basketProduct";
+import { LoadingContext } from "../../../../../contexts/LoadingContext";
 
 const Cart = () => {
-  const { basket, setBasket, count, setCount } = useContext(BasketContext);
+  const { basket, setBasket, count, setCount, basketData, setBasketData } =
+    useContext(BasketContext);
   const { user } = useContext(UserContext);
   const [details, setDetails] = useState([]);
   const [total, setTotal] = useState(0);
-  const [basketData, setBasketData] = useState([]);
+  // const [basketData, setBasketData] = useState([]);
+  const { setloading } = useContext(LoadingContext);
 
   const increaseItem = (id, count) => {
     if (user === null || user === false) {
@@ -64,6 +67,7 @@ const Cart = () => {
       setBasket(basket.filter((item) => item.productId !== id));
       getData();
     } else if (user) {
+      setloading(true);
       deleteBasket(id)
         .then((res) => {
           console.log(res);
@@ -73,6 +77,7 @@ const Cart = () => {
         })
         .finally(() => {
           getData();
+          setloading(false);
         });
     }
   };
@@ -98,7 +103,7 @@ const Cart = () => {
           });
         setDetails(data);
       }
-    } else if (user.role) {
+    } else if (user) {
       getBasket()
         .then(async ({ data }) => {
           setBasketData(data.data);

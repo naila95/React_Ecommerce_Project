@@ -13,13 +13,19 @@ export default function ProductTable({
   data,
   getDatas,
   setQuery,
+  query,
   brands,
 }) {
   const { setMyModal } = useContext(MyModalContext);
   const [pagination, setPagination] = useState({ page: 1, perPage: 10 });
+
   useEffect(() => {
     getBrand();
   }, []);
+
+  useEffect(() => {
+    setQuery({ ...query, page: pagination.page, perPage: pagination.perPage });
+  }, [pagination]);
 
   const columns = [
     {
@@ -163,17 +169,18 @@ export default function ProductTable({
 
   return (
     <>
-      <div className="staff_table">
+      <div className="flex flex-col gap-5">
         <Table pagination={false} columns={columns} dataSource={data} />
+        <Pagination
+          className="flex justify-end mr-16"
+          onChange={(page, perPage) => {
+            setPagination({ page, perPage });
+          }}
+          showSizeChanger
+          defaultCurrent={pagination.page}
+          total={totalCount}
+        />
       </div>
-      <Pagination
-        onChange={(page, perPage) => {
-          console.log(page, perPage);
-        }}
-        showSizeChanger
-        defaultCurrent={pagination.page}
-        total={totalCount}
-      />
     </>
   );
 }

@@ -38,26 +38,31 @@ export default function Details() {
         });
         setBasket(newArr);
       }
-    } else if (
-      user.role === "client" ||
-      user.role === "admin" ||
-      user.role === "superadmin"
-    ) {
-      console.log(count);
-      basket.push({
-        productId: id,
-        productCount: count,
-      });
-      console.log(basket);
-      postBasket({ basket })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    } else if (user) {
+      console.log(basket, "evvel");
+      setBasket([
+        {
+          productId: id,
+          productCount: count,
+        },
+      ]);
     }
   };
+
+  const postBasketForUser = () => {
+    console.log(basket, "sonra");
+    postBasket({ basket })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    postBasketForUser();
+  }, [basket]);
 
   const increaseItem = () => {
     setCount(count + 1);
