@@ -6,6 +6,7 @@ import { LoadingContext } from "../../../../../contexts/LoadingContext";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
 import FileConverter from "../../../../../utils/fileConverter";
 import { ImCancelCircle } from "react-icons/im";
+import { toast } from "react-toastify";
 
 export default function ProductEditModal({
   initialValues = {},
@@ -30,7 +31,7 @@ export default function ProductEditModal({
       }
     });
     values.images = newImgArr;
-    if (typeof initialValues.salePrice === "number") {
+    if (initialValues.salePrice > 0) {
       values.isDeal = true;
     } else {
       values.isDeal = false;
@@ -44,6 +45,7 @@ export default function ProductEditModal({
         console.log(err);
       })
       .finally(() => {
+        toast.success("Product is updated successfully!");
         setloading(false);
         setMyModal({
           open: false,

@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { deleteBrand } from "../../../../../services/brands";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
+import { toast } from "react-toastify";
 
 export default function BrandDeleteModal({ initialValues = {}, getBrands }) {
   const { setMyModal } = useContext(MyModalContext);
@@ -23,6 +24,7 @@ export default function BrandDeleteModal({ initialValues = {}, getBrands }) {
         setMyModal({
           open: false,
         });
+        toast.success("Brand is deleted successfully!");
       });
   };
   return (

@@ -17,6 +17,7 @@ export default function Checkout() {
         console.log(err);
       })
       .finally(() => {
+        localStorage.setItem("basket", JSON.stringify(""));
         setBasket([]);
         setCount(1);
         setBasketData([]);

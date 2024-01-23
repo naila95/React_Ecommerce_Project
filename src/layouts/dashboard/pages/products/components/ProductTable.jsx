@@ -7,6 +7,7 @@ import ProductEditModal from "./ProductEditModal";
 import { getBrand } from "../../../../../services/brands";
 import ProductDeleteModal from "./ProductDeleteModal";
 import { updateProduct } from "../../../../../services/product";
+import { toast } from "react-toastify";
 
 export default function ProductTable({
   totalCount,
@@ -65,7 +66,6 @@ export default function ProductTable({
       title: "Sale price",
       dataIndex: "salePrice",
       key: "salePrice",
-      sorter: (a, b) => a.salePrice - b.salePrice,
     },
     {
       title: "Stock",
@@ -93,6 +93,7 @@ export default function ProductTable({
                       console.log(err);
                     })
                     .finally(() => {
+                      toast.success("Product is published successfully!");
                       getDatas();
                     });
                 } else {
@@ -106,6 +107,8 @@ export default function ProductTable({
                       console.log(err);
                     })
                     .finally(() => {
+                      toast.warning("Product is not published!");
+
                       getDatas();
                     });
                 }

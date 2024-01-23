@@ -23,6 +23,7 @@ export default function ProductDeleteModal({ initialValues = {}, getDatas }) {
         setMyModal({
           open: false,
         });
+        toast.success("Product is deleted successfully!");
       });
   };
   return (

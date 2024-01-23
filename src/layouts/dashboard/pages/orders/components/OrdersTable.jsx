@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Checkbox, Pagination, Space, Table, Tag } from "antd";
 import moment from "moment";
 import { updateOrder } from "../../../../../services/orders";
+import { toast } from "react-toastify";
 
 export default function OrdersTable({
   data,
@@ -73,6 +74,7 @@ export default function OrdersTable({
                       console.log(err);
                     })
                     .finally(() => {
+                      toast.success("Order is updated successfully!");
                       getOrdersForDashboard();
                     });
                 }

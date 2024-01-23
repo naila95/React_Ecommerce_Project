@@ -19,7 +19,6 @@ const Cart = () => {
   const { user } = useContext(UserContext);
   const [details, setDetails] = useState([]);
   const [total, setTotal] = useState(0);
-  // const [basketData, setBasketData] = useState([]);
   const { setloading } = useContext(LoadingContext);
 
   const increaseItem = (id, count) => {
@@ -132,8 +131,10 @@ const Cart = () => {
   };
 
   const countTotal = () => {
+    console.log(details);
+
     return details.reduce((sum, item) => {
-      return setTotal(sum + item.productPrice * item.count);
+      console.log;
     }, 0);
   };
 
@@ -156,66 +157,127 @@ const Cart = () => {
         </div>
       </div>
       <div className="lg:flex">
-        <div className="flex md:w-[100%] lg:w-[60%] flex-col px-4 py-8 md:px-12 2xl:px-16">
-          {details?.map((item) => {
-            return (
-              <div key={item._id} className="flex items-center gap-16 py-4">
-                <div className="cursor-pointer">
-                  <MdOutlineCancel
-                    onClick={() => {
-                      deleteItem(item.basket._id);
-                    }}
-                    className="text-2xl text-gray-500"
-                  />
-                </div>
-                <div className="">
-                  <img
-                    className="h-[180px] w-[150px]"
-                    src={item.images[0]?.url}
-                  />
-                </div>
-                <div className="">
-                  <h2 className="text-xl">{item.title}</h2>
-                  <h2 className="text-base text-gray-400">
-                    {item.description}
-                  </h2>
-                </div>
-                <div className="">
-                  <h2 className="text-lg text-gray-700">
-                    {item.productPrice}$
-                  </h2>
-                </div>
-                <div className="">
-                  <div className="flex items-center border py-3 border-gray-300 rounded-md">
-                    <button
+        {user ? (
+          <div className="flex md:w-[100%] lg:w-[60%] flex-col px-4 py-8 md:px-12 2xl:px-16">
+            {details?.map((item) => {
+              return (
+                <div key={item._id} className="flex items-center gap-16 py-4">
+                  <div className="cursor-pointer">
+                    <MdOutlineCancel
                       onClick={() => {
-                        decreaseItem(item.basket._id, item.basket.productCount);
+                        deleteItem(item.basket._id);
                       }}
-                      className="border-r px-5 cursor-pointer"
-                    >
-                      <LuMinus />
-                    </button>
-                    <div className="px-7">
-                      <h2 className="text-lg">{item.basket.productCount}</h2>
+                      className="text-2xl text-gray-500"
+                    />
+                  </div>
+                  <div className="">
+                    <img
+                      className="h-[180px] w-[150px]"
+                      src={item.images[0]?.url}
+                    />
+                  </div>
+                  <div className="">
+                    <h2 className="text-xl">{item.title}</h2>
+                    <h2 className="text-base text-gray-400">
+                      {item.description}
+                    </h2>
+                  </div>
+                  <div className="">
+                    <h2 className="text-lg text-gray-700">
+                      {item.productPrice}$
+                    </h2>
+                  </div>
+                  <div className="">
+                    <div className="flex items-center border py-3 border-gray-300 rounded-md">
+                      <button
+                        onClick={() => {
+                          decreaseItem(
+                            item.basket._id,
+                            item.basket.productCount
+                          );
+                        }}
+                        className="border-r px-5 cursor-pointer"
+                      >
+                        <LuMinus />
+                      </button>
+                      <div className="px-7">
+                        <h2 className="text-lg">{item.basket?.productCount}</h2>
+                      </div>
+                      <button
+                        onClick={() => {
+                          increaseItem(
+                            item.basket._id,
+                            item.basket.productCount
+                          );
+                        }}
+                        className="border-l px-5 cursor-pointer"
+                      >
+                        <LuPlus />
+                      </button>
                     </div>
-                    <button
-                      onClick={() => {
-                        increaseItem(item.basket._id, item.basket.productCount);
-                      }}
-                      className="border-l px-5 cursor-pointer"
-                    >
-                      <LuPlus />
-                    </button>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-        {/* <div className="w-[60%] flex justify-center items-center">
-            <h3 className="text-xl font-semibold">No product added</h3>
-          </div> */}
-
+              );
+            })}
+          </div>
+        ) : (
+          <div className="flex md:w-[100%] lg:w-[60%] flex-col px-4 py-8 md:px-12 2xl:px-16">
+            {details?.map((item) => {
+              return (
+                <div key={item._id} className="flex items-center gap-16 py-4">
+                  <div className="cursor-pointer">
+                    <MdOutlineCancel
+                      onClick={() => {
+                        deleteItem(item._id);
+                      }}
+                      className="text-2xl text-gray-500"
+                    />
+                  </div>
+                  <div className="">
+                    <img
+                      className="h-[180px] w-[150px]"
+                      src={item.images[0]?.url}
+                    />
+                  </div>
+                  <div className="">
+                    <h2 className="text-xl">{item.title}</h2>
+                    <h2 className="text-base text-gray-400">
+                      {item.description}
+                    </h2>
+                  </div>
+                  <div className="">
+                    <h2 className="text-lg text-gray-700">
+                      {item.productPrice}$
+                    </h2>
+                  </div>
+                  <div className="">
+                    <div className="flex items-center border py-3 border-gray-300 rounded-md">
+                      <button
+                        onClick={() => {
+                          decreaseItem(item._id, item.count);
+                        }}
+                        className="border-r px-5 cursor-pointer"
+                      >
+                        <LuMinus />
+                      </button>
+                      <div className="px-7">
+                        <h2 className="text-lg">{item.count}</h2>
+                      </div>
+                      <button
+                        onClick={() => {
+                          increaseItem(item._id, item.count);
+                        }}
+                        className="border-l px-5 cursor-pointer"
+                      >
+                        <LuPlus />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
         <div className="flex md:w-[100%] lg:w-[35%] flex-col px-4 py-8 md:px-12 2xl:px-16">
           <div className="px-4 py-4 bg-gray-100">
             <h2 className="font-semibold text-3xl uppercase tracking-wider">

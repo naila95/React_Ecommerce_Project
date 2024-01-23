@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { UserContext } from "./AuthContext";
-import { getBasket, postBasket } from "../services/basketProduct";
+import { postBasket } from "../services/basketProduct";
 
 export const BasketContext = createContext();
 
 export function BasketProvider({ children }) {
-  const [basket, setBasket] = useState([]);
+  const [basket, setBasket] = useState(
+    JSON.parse(localStorage.getItem("basket"))
+  );
   const [count, setCount] = useState(1);
   const { user } = useContext(UserContext);
   const [basketData, setBasketData] = useState([]);

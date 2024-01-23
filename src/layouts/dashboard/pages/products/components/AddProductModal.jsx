@@ -6,6 +6,7 @@ import { postProduct } from "../../../../../services/product";
 import { getBrand } from "../../../../../services/brands";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
+import { toast } from "react-toastify";
 
 export default function AddProductModal({ getDatas }) {
   const [files, setFile] = useState(null);
@@ -17,7 +18,7 @@ export default function AddProductModal({ getDatas }) {
     values.images = files;
     if (values.salePrice) {
       values.isDeal = true;
-    } else if (!values.salePrice) {
+    } else if (!values.salePrice || values.salePrice == 0) {
       values.salePrice = false;
     }
     console.log(values);
@@ -35,6 +36,7 @@ export default function AddProductModal({ getDatas }) {
       })
       .finally(() => {
         setloading(false);
+        toast.success("Product is added successfully!");
       });
   };
 

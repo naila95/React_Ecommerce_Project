@@ -5,6 +5,7 @@ import FileConverter from "../../../../../utils/fileConverter";
 import { updateBrand } from "../../../../../services/brands";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
+import { toast } from "react-toastify";
 
 export default function BrandEditModal({ initialValues = {}, getBrands }) {
   const { loading, setloading } = useContext(LoadingContext);
@@ -27,6 +28,7 @@ export default function BrandEditModal({ initialValues = {}, getBrands }) {
           open: false,
         });
         setloading(false);
+        toast.success("Brand is updated successfully!");
       });
   };
   return (

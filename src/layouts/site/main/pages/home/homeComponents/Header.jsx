@@ -573,7 +573,13 @@ export default function Header({ setShowSearch, showSearch }) {
             <Link to={"cart"} className="relative">
               <FiShoppingCart className="text-2xl" />
               <h2 className="absolute top-[-10px] right-[-10px] text-white bg-black rounded-xl px-1.5">
-                {user ? basketData.length : basket.length}
+                {user
+                  ? basketData
+                    ? basketData.length
+                    : 0
+                  : basket
+                  ? basket.length
+                  : 0}
               </h2>
             </Link>
           </div>

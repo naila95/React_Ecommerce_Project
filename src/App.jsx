@@ -5,6 +5,8 @@ import MyModalProvider from "./contexts/MyModalContext";
 import { MainRouter } from "./router";
 import { BasketProvider } from "./contexts/BasketContext";
 import { PaginationProvider } from "./contexts/PaginationContext";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
         <MyLoadingProvider>
           <MyModalProvider>
             <BasketProvider>
+              <ToastContainer />
               <MainRouter />
             </BasketProvider>
           </MyModalProvider>

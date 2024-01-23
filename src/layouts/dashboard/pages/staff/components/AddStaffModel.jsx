@@ -4,6 +4,7 @@ import { Form, Spin } from "antd";
 import { postStaff } from "../../../../../services/staff";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
+import { toast } from "react-toastify";
 
 export default function AddStaffModel({ getStaffData }) {
   const { loading, setloading } = useContext(LoadingContext);
@@ -24,6 +25,7 @@ export default function AddStaffModel({ getStaffData }) {
           open: false,
         });
         getStaffData();
+        toast.success("Staff is added successfully!");
       });
   };
   return (

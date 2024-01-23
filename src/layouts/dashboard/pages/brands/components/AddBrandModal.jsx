@@ -5,6 +5,7 @@ import FileConverter from "../../../../../utils/fileConverter";
 import { postBrand } from "../../../../../services/brands";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
+import { toast } from "react-toastify";
 
 export default function AddBrandModal({ getBrands }) {
   const [file, setFile] = useState(null);
@@ -29,6 +30,7 @@ export default function AddBrandModal({ getBrands }) {
         setMyModal({
           open: false,
         });
+        toast.success("Brand is added successfully!");
       });
   };
 

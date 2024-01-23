@@ -9,7 +9,6 @@ export default function SellingProducts({ data }) {
       </div>
       <div className="grid mx-auto grid-cols-2 sm:grid-cols-3 gap-4 lg:grid-cols-4 xl:grid-cols-4 2xl:grid-cols-5">
         {data.map((item) => {
-          console.log(data);
           return (
             <div
               key={item._id}

@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
 import { deleteStaff } from "../../../../../services/staff";
+import { toast } from "react-toastify";
 
 const DeleteStaffModal = ({ initialValues = {}, getStaffData }) => {
   const { setMyModal } = useContext(MyModalContext);
@@ -23,6 +24,7 @@ const DeleteStaffModal = ({ initialValues = {}, getStaffData }) => {
         setMyModal({
           open: false,
         });
+        toast.success("Staff is deleted successfully!");
       });
   };
   return (

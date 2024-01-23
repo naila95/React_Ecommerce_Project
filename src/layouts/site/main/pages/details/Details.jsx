@@ -14,6 +14,8 @@ export default function Details() {
   let { itemId } = useParams();
   const { basket, setBasket, count, setCount } = useContext(BasketContext);
   const { user } = useContext(UserContext);
+  const [src, setSrc] = useState(null);
+  const [oldSrc, setOldSrc] = useState(src);
 
   const addToBasket = (id) => {
     if (user === null || user === false) {
@@ -39,7 +41,6 @@ export default function Details() {
         setBasket(newArr);
       }
     } else if (user) {
-      console.log(basket, "evvel");
       setBasket([
         {
           productId: id,
@@ -50,7 +51,6 @@ export default function Details() {
   };
 
   const postBasketForUser = () => {
-    console.log(basket, "sonra");
     postBasket({ basket })
       .then((res) => {
         console.log(res);
@@ -78,6 +78,7 @@ export default function Details() {
     getSingleProduct(itemId)
       .then(({ data }) => {
         setDetails(data.data);
+        setSrc(data.data.images[0].url);
       })
       .catch((err) => {
         console.log(err);
@@ -93,19 +94,31 @@ export default function Details() {
         {details.images ? (
           <div className="w-[27%] flex flex-col gap-2">
             <div className="">
-              <img src={details?.images[0]?.url} />
+              <img src={src} />
             </div>
             <div className="flex gap-2">
               <img
-                className="w-[112px] h-[140px]"
+                onClick={(e) => {
+                  setSrc(e.target.src);
+                  e.target.src = src;
+                }}
+                className="w-[112px] h-[140px] cursor-pointer"
                 src={details?.images[1].url}
               />
               <img
-                className="w-[112px] h-[140px]"
+                onClick={(e) => {
+                  setSrc(e.target.src);
+                  e.target.src = src;
+                }}
+                className="w-[112px] h-[140px] cursor-pointer"
                 src={details?.images[2].url}
               />
               <img
-                className="w-[112px] h-[140px]"
+                onClick={(e) => {
+                  setSrc(e.target.src);
+                  e.target.src = src;
+                }}
+                className="w-[112px] h-[140px] cursor-pointer"
                 src={details?.images[3].url}
               />
             </div>
