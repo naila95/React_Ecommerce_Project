@@ -15,27 +15,12 @@ export default function Header({ setShowSearch, showSearch }) {
   const [openMenu, setOpenMenu] = useState(false);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
-  // const [basketDataforHeader, setBasketDataforHeader] = useState([]);
 
   const logOut = () => {
     localStorage.removeItem("token");
     setUser(null);
     navigate("/");
   };
-
-  // const getBasketForHeader = () => {
-  //   getBasket()
-  //     .then(({ data }) => {
-  //       setBasketDataforHeader(data.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   getBasketForHeader();
-  // }, [basket, user]);
 
   return (
     <header className="w-full bg-white h-16 px-4 sm:h-20 md:px-8 lg:h-24">

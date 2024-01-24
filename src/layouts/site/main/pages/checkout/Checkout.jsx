@@ -1,11 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Form } from "antd";
 import { postOrder } from "../../../../../services/orders";
 import { BasketContext } from "../../../../../contexts/BasketContext";
+import { deleteBasket, getBasket } from "../../../../../services/basketProduct";
 
 export default function Checkout() {
   const { basket, setBasket, setCount, setBasketData } =
     useContext(BasketContext);
+  const [data, setData] = useState([]);
 
   const onFinish = (values) => {
     console.log(basket);
@@ -17,13 +19,36 @@ export default function Checkout() {
         console.log(err);
       })
       .finally(() => {
-        localStorage.setItem("basket", JSON.stringify(""));
+        localStorage.setItem("basket", JSON.stringify([]));
         setBasket([]);
         setCount(1);
         setBasketData([]);
         form.resetFields();
+        getData();
       });
   };
+
+  const getData = () => {
+    getBasket()
+      .then(({ data }) => {
+        setData(data.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const setAllData = async () => {
+    let arr = data.map((item) => {
+      return deleteBasket(item._id);
+    });
+    let res = await Promise.all(arr);
+  };
+
+  useEffect(() => {
+    setAllData();
+  }, [data]);
+
   const [form] = Form.useForm();
   return (
     <main>

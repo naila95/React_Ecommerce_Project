@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BasketContext } from "../../../../../contexts/BasketContext";
-import { LuMinus, LuPlus } from "react-icons/lu";
 import { UserContext } from "../../../../../contexts/AuthContext";
 import { getSingleProduct } from "../../../../../services/homeProduct";
-import { MdOutlineCancel } from "react-icons/md";
 import { Form } from "antd";
 import { Link } from "react-router-dom";
 import {
@@ -12,6 +10,8 @@ import {
   updateBasket,
 } from "../../../../../services/basketProduct";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
+import UserComponent from "./components/UserComponent";
+import NullUserComponent from "./components/NullUserComponent";
 
 const Cart = () => {
   const { basket, setBasket, count, setCount, basketData, setBasketData } =
@@ -19,67 +19,66 @@ const Cart = () => {
   const { user } = useContext(UserContext);
   const [details, setDetails] = useState([]);
   const [total, setTotal] = useState(0);
-  const { setloading } = useContext(LoadingContext);
 
-  const increaseItem = (id, count) => {
-    if (user === null || user === false) {
-      setBasket(
-        basket.map((item) => {
-          if (item.productId === id) {
-            let productCount = (item.productCount += 1);
-            let newObj = { ...item, productCount };
-            return newObj;
-          } else {
-            return item;
-          }
-        })
-      );
-    } else if (user) {
-      let newCount = { productCount: count + 1 };
-      updateBasket(id, newCount);
-      getData();
-    }
-  };
+  // const increaseItem = (id, count) => {
+  //   if (user === null || user === false) {
+  //     setBasket(
+  //       basket.map((item) => {
+  //         if (item.productId === id) {
+  //           let productCount = (item.productCount += 1);
+  //           let newObj = { ...item, productCount };
+  //           return newObj;
+  //         } else {
+  //           return item;
+  //         }
+  //       })
+  //     );
+  //   } else if (user) {
+  //     let newCount = { productCount: count + 1 };
+  //     updateBasket(id, newCount);
+  //     getData();
+  //   }
+  // };
 
-  const decreaseItem = (id, count) => {
-    if (user === null || user === false) {
-      setBasket(
-        basket.map((item) => {
-          if (item.productId === id) {
-            let productCount = (item.productCount -= 1);
-            let newObj = { ...item, productCount };
-            return newObj;
-          } else {
-            return item;
-          }
-        })
-      );
-    } else if (user) {
-      let newCount = { productCount: count - 1 };
-      updateBasket(id, newCount);
-      getData();
-    }
-  };
+  // const decreaseItem = (id, count) => {
+  //   if (user === null || user === false) {
+  //     setBasket(
+  //       basket.map((item) => {
+  //         if (item.productId === id) {
+  //           let productCount = (item.productCount -= 1);
+  //           let newObj = { ...item, productCount };
+  //           return newObj;
+  //         } else {
+  //           return item;
+  //         }
+  //       })
+  //     );
+  //   } else if (user) {
+  //     let newCount = { productCount: count - 1 };
+  //     updateBasket(id, newCount);
+  //     getData();
+  //   }
+  // };
 
-  const deleteItem = (id) => {
-    if (user === null || user === false) {
-      setBasket(basket.filter((item) => item.productId !== id));
-      getData();
-    } else if (user) {
-      setloading(true);
-      deleteBasket(id)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          getData();
-          setloading(false);
-        });
-    }
-  };
+  // const deleteItem = (id) => {
+  //   if (user === null || user === false) {
+  //     setBasket(basket.filter((item) => item.productId !== id));
+  //     getData();
+  //   } else if (user) {
+  //     setloading(true);
+  //     deleteBasket(id)
+  //       .then((res) => {
+  //         console.log(res);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err);
+  //       })
+  //       .finally(() => {
+  //         getData();
+  //         setloading(false);
+  //       });
+  //   }
+  // };
 
   const getData = async () => {
     if (user === null || user === false) {
@@ -104,7 +103,7 @@ const Cart = () => {
       }
     } else if (user) {
       getBasket()
-        .then(async ({ data }) => {
+        .then(({ data }) => {
           setBasketData(data.data);
         })
         .catch((err) => {
@@ -119,32 +118,33 @@ const Cart = () => {
 
   const setAllData = async () => {
     let arr = basketData.map((item) => {
+      console.log(item.productId);
       return getSingleProduct(item.productId);
     });
     let res = await Promise.all(arr);
     res = res.map((item) => {
       let a = basketData.find((el) => el.productId === item.data.data._id);
+      console.log(a);
       let myObj = { ...item.data.data, basket: a };
       return myObj;
     });
     setDetails(res);
   };
 
-  const countTotal = () => {
-    console.log(details);
+  // const countTotal = () => {
+  //   console.log(details);
+  //   return details.reduce((sum, item) => {
+  //     console.log;
+  //   }, 0);
+  // };
 
-    return details.reduce((sum, item) => {
-      console.log;
-    }, 0);
-  };
-
-  useEffect(() => {
-    countTotal();
-  }, [basket]);
+  // useEffect(() => {
+  //   countTotal();
+  // }, [basket]);
 
   useEffect(() => {
     getData();
-  }, [basket, user]);
+  }, [user]);
 
   return (
     <div>
@@ -158,125 +158,9 @@ const Cart = () => {
       </div>
       <div className="lg:flex">
         {user ? (
-          <div className="flex md:w-[100%] lg:w-[60%] flex-col px-4 py-8 md:px-12 2xl:px-16">
-            {details?.map((item) => {
-              return (
-                <div key={item._id} className="flex items-center gap-16 py-4">
-                  <div className="cursor-pointer">
-                    <MdOutlineCancel
-                      onClick={() => {
-                        deleteItem(item.basket._id);
-                      }}
-                      className="text-2xl text-gray-500"
-                    />
-                  </div>
-                  <div className="">
-                    <img
-                      className="h-[180px] w-[150px]"
-                      src={item.images[0]?.url}
-                    />
-                  </div>
-                  <div className="">
-                    <h2 className="text-xl">{item.title}</h2>
-                    <h2 className="text-base text-gray-400">
-                      {item.description}
-                    </h2>
-                  </div>
-                  <div className="">
-                    <h2 className="text-lg text-gray-700">
-                      {item.productPrice}$
-                    </h2>
-                  </div>
-                  <div className="">
-                    <div className="flex items-center border py-3 border-gray-300 rounded-md">
-                      <button
-                        onClick={() => {
-                          decreaseItem(
-                            item.basket._id,
-                            item.basket.productCount
-                          );
-                        }}
-                        className="border-r px-5 cursor-pointer"
-                      >
-                        <LuMinus />
-                      </button>
-                      <div className="px-7">
-                        <h2 className="text-lg">{item.basket?.productCount}</h2>
-                      </div>
-                      <button
-                        onClick={() => {
-                          increaseItem(
-                            item.basket._id,
-                            item.basket.productCount
-                          );
-                        }}
-                        className="border-l px-5 cursor-pointer"
-                      >
-                        <LuPlus />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <UserComponent details={details} getData={getData} />
         ) : (
-          <div className="flex md:w-[100%] lg:w-[60%] flex-col px-4 py-8 md:px-12 2xl:px-16">
-            {details?.map((item) => {
-              return (
-                <div key={item._id} className="flex items-center gap-16 py-4">
-                  <div className="cursor-pointer">
-                    <MdOutlineCancel
-                      onClick={() => {
-                        deleteItem(item._id);
-                      }}
-                      className="text-2xl text-gray-500"
-                    />
-                  </div>
-                  <div className="">
-                    <img
-                      className="h-[180px] w-[150px]"
-                      src={item.images[0]?.url}
-                    />
-                  </div>
-                  <div className="">
-                    <h2 className="text-xl">{item.title}</h2>
-                    <h2 className="text-base text-gray-400">
-                      {item.description}
-                    </h2>
-                  </div>
-                  <div className="">
-                    <h2 className="text-lg text-gray-700">
-                      {item.productPrice}$
-                    </h2>
-                  </div>
-                  <div className="">
-                    <div className="flex items-center border py-3 border-gray-300 rounded-md">
-                      <button
-                        onClick={() => {
-                          decreaseItem(item._id, item.count);
-                        }}
-                        className="border-r px-5 cursor-pointer"
-                      >
-                        <LuMinus />
-                      </button>
-                      <div className="px-7">
-                        <h2 className="text-lg">{item.count}</h2>
-                      </div>
-                      <button
-                        onClick={() => {
-                          increaseItem(item._id, item.count);
-                        }}
-                        className="border-l px-5 cursor-pointer"
-                      >
-                        <LuPlus />
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          <NullUserComponent setDetails={setDetails} details={details} />
         )}
         <div className="flex md:w-[100%] lg:w-[35%] flex-col px-4 py-8 md:px-12 2xl:px-16">
           <div className="px-4 py-4 bg-gray-100">

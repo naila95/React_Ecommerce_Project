@@ -16,7 +16,7 @@ export function BasketProvider({ children }) {
     if (user === null || user === false) {
       localStorage.setItem("basket", JSON.stringify(basket));
     } else if (user) {
-      if (localStorage.getItem("basket") !== null) {
+      if (localStorage.getItem("basket").length > 4) {
         postBasket({ basket })
           .then((res) => {
             console.log(res);

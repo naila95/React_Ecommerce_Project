@@ -15,7 +15,6 @@ export default function Details() {
   const { basket, setBasket, count, setCount } = useContext(BasketContext);
   const { user } = useContext(UserContext);
   const [src, setSrc] = useState(null);
-  const [oldSrc, setOldSrc] = useState(src);
 
   const addToBasket = (id) => {
     if (user === null || user === false) {

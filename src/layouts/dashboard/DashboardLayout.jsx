@@ -137,7 +137,10 @@ export default function DashboardLayout() {
             />
           </Sider>
           <Layout>
-            <Header className="bg-[#94D5CB]" style={{ padding: 0 }}>
+            <Header
+              className="bg-[#94D5CB] flex justify-between"
+              style={{ padding: 0 }}
+            >
               <Button
                 type="text"
                 icon={collapsed ? <FaRegFolderOpen /> : <FaRegFolderClosed />}
@@ -146,6 +149,18 @@ export default function DashboardLayout() {
                   fontSize: "16px",
                   width: 65,
                   height: 65,
+                }}
+              />
+              <Button
+                type="text"
+                style={{
+                  fontSize: "23px",
+                  width: 65,
+                  height: 65,
+                }}
+                icon={<IoLogInOutline />}
+                onClick={() => {
+                  logOut();
                 }}
               />
             </Header>
