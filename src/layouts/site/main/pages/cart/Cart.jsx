@@ -131,17 +131,6 @@ const Cart = () => {
     setDetails(res);
   };
 
-  // const countTotal = () => {
-  //   console.log(details);
-  //   return details.reduce((sum, item) => {
-  //     console.log;
-  //   }, 0);
-  // };
-
-  // useEffect(() => {
-  //   countTotal();
-  // }, [basket]);
-
   useEffect(() => {
     getData();
   }, [user]);
@@ -170,14 +159,6 @@ const Cart = () => {
             <div className="flex py-6 text-xl border-b border-black justify-between">
               <h2>Shipping</h2>
               <h2>0$</h2>
-            </div>
-            <div className="py-4 flex justify-between">
-              <h2 className="font-semibold text-xl uppercase tracking-wider">
-                total
-              </h2>
-              <h2 className="font-semibold text-xl uppercase tracking-wider">
-                {total}$
-              </h2>
             </div>
             <Form>
               <Form.Item className="w-full">
