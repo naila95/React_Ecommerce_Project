@@ -11,21 +11,21 @@ export default function Checkout() {
 
   const onFinish = (values) => {
     console.log(basket);
-    postOrder({ products: basket })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        localStorage.setItem("basket", JSON.stringify([]));
-        setBasket([]);
-        setCount(1);
-        setBasketData([]);
-        form.resetFields();
-        getData();
-      });
+    // postOrder({ products: basket })
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
+    //   .finally(() => {
+    //     localStorage.setItem("basket", JSON.stringify([]));
+    //     setBasket([]);
+    //     setCount(1);
+    //     setBasketData([]);
+    //     form.resetFields();
+    //     getData();
+    //   });
   };
 
   const getData = () => {
@@ -77,12 +77,12 @@ export default function Checkout() {
                 <Form.Item
                   className="w-[49%]"
                   name="firstName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your first name!",
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: "Please input your first name!",
+                  //   },
+                  // ]}
                 >
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
@@ -102,12 +102,12 @@ export default function Checkout() {
                 <Form.Item
                   className="w-[49%]"
                   name="lastName"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your last name!",
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: "Please input your last name!",
+                  //   },
+                  // ]}
                 >
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
@@ -129,12 +129,12 @@ export default function Checkout() {
                 <Form.Item
                   className="w-full"
                   name="address"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your address!",
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: "Please input your address!",
+                  //   },
+                  // ]}
                 >
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
@@ -156,12 +156,12 @@ export default function Checkout() {
                 <Form.Item
                   className="w-[49%]"
                   name="number"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your number!",
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: "Please input your number!",
+                  //   },
+                  // ]}
                 >
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
@@ -181,12 +181,12 @@ export default function Checkout() {
                 <Form.Item
                   className="w-[49%]"
                   name="email"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your email!",
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: "Please input your email!",
+                  //   },
+                  // ]}
                 >
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
@@ -208,12 +208,12 @@ export default function Checkout() {
                 <Form.Item
                   className="w-[49%]"
                   name="city"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your city!",
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: "Please input your city!",
+                  //   },
+                  // ]}
                 >
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
@@ -233,12 +233,12 @@ export default function Checkout() {
                 <Form.Item
                   className="w-[49%]"
                   name="postcode"
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input your postcode!",
-                    },
-                  ]}
+                  // rules={[
+                  //   {
+                  //     required: true,
+                  //     message: "Please input your postcode!",
+                  //   },
+                  // ]}
                 >
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"

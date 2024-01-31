@@ -72,7 +72,7 @@ const router = createBrowserRouter([
       },
     ],
   },
-  { path: "dashboard/qwerty123/login", element: <DashboardLogin /> },
+  { path: "dashboard/login", element: <DashboardLogin /> },
   {
     path: "dashboard",
     element: (
@@ -126,7 +126,7 @@ const router = createBrowserRouter([
 
 export const MainRouter = () => {
   const { setUser } = useContext(UserContext);
-  useEffect(()  => {
+  useEffect(() => {
     profileProcess()
       .then(({ data }) => {
         setUser(data.user);

@@ -4,131 +4,49 @@ import { UserContext } from "../../../../../contexts/AuthContext";
 import { getSingleProduct } from "../../../../../services/homeProduct";
 import { Form } from "antd";
 import { Link } from "react-router-dom";
-import {
-  deleteBasket,
-  getBasket,
-  updateBasket,
-} from "../../../../../services/basketProduct";
+import { getBasket } from "../../../../../services/basketProduct";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
 import UserComponent from "./components/UserComponent";
 import NullUserComponent from "./components/NullUserComponent";
+import DetailCard from "./components/DetailCard";
 
 const Cart = () => {
-  const { basket, setBasket, count, setCount, basketData, setBasketData } =
+  const { basket, setBasket, basketData, setBasketData } =
     useContext(BasketContext);
   const { user } = useContext(UserContext);
-  const [details, setDetails] = useState([]);
-  const [total, setTotal] = useState(0);
-
-  // const increaseItem = (id, count) => {
-  //   if (user === null || user === false) {
-  //     setBasket(
-  //       basket.map((item) => {
-  //         if (item.productId === id) {
-  //           let productCount = (item.productCount += 1);
-  //           let newObj = { ...item, productCount };
-  //           return newObj;
-  //         } else {
-  //           return item;
-  //         }
-  //       })
-  //     );
-  //   } else if (user) {
-  //     let newCount = { productCount: count + 1 };
-  //     updateBasket(id, newCount);
-  //     getData();
-  //   }
-  // };
-
-  // const decreaseItem = (id, count) => {
-  //   if (user === null || user === false) {
-  //     setBasket(
-  //       basket.map((item) => {
-  //         if (item.productId === id) {
-  //           let productCount = (item.productCount -= 1);
-  //           let newObj = { ...item, productCount };
-  //           return newObj;
-  //         } else {
-  //           return item;
-  //         }
-  //       })
-  //     );
-  //   } else if (user) {
-  //     let newCount = { productCount: count - 1 };
-  //     updateBasket(id, newCount);
-  //     getData();
-  //   }
-  // };
-
-  // const deleteItem = (id) => {
-  //   if (user === null || user === false) {
-  //     setBasket(basket.filter((item) => item.productId !== id));
-  //     getData();
-  //   } else if (user) {
-  //     setloading(true);
-  //     deleteBasket(id)
-  //       .then((res) => {
-  //         console.log(res);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       })
-  //       .finally(() => {
-  //         getData();
-  //         setloading(false);
-  //       });
-  //   }
-  // };
-
+  console.log(basket);
   const getData = async () => {
-    if (user === null || user === false) {
-      let localBasket = JSON.parse(localStorage.getItem("basket"));
-      if (localBasket != null) {
-        let arr = localBasket.map((item) => {
-          return getSingleProduct(item.productId);
-        });
-        let res = await Promise.all(arr);
-        let data = res
-          .map((item) => {
-            return item.data.data;
-          })
-          .map((item) => {
-            let newItem = {
-              ...item,
-              count: basket.find((el) => el.productId == item._id).productCount,
-            };
-            return newItem;
-          });
-        setDetails(data);
-      }
-    } else if (user) {
-      getBasket()
-        .then(({ data }) => {
-          setBasketData(data.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  };
-
-  useEffect(() => {
-    setAllData();
-  }, [basketData]);
-
-  const setAllData = async () => {
-    let arr = basketData.map((item) => {
-      console.log(item.productId);
-      return getSingleProduct(item.productId);
-    });
-    let res = await Promise.all(arr);
-    res = res.map((item) => {
-      let a = basketData.find((el) => el.productId === item.data.data._id);
-      console.log(a);
-      let myObj = { ...item.data.data, basket: a };
-      return myObj;
-    });
-    setDetails(res);
+    // if (user === null || user === false) {
+    //   let localBasket = JSON.parse(localStorage.getItem("basket"));
+    //   if (localBasket != null) {
+    //     let arr = localBasket.map((item) => {
+    //       return getSingleProduct(item.productId);
+    //     });
+    //     let res = await Promise.all(arr);
+    //     let data = res
+    //       .map((item) => {
+    //         return item.data.data;
+    //       })
+    //       .map((item) => {
+    //         let newItem = {
+    //           ...item,
+    //           count: basket.find((el) => el.productId == item._id).productCount,
+    //         };
+    //         return newItem;
+    //       });
+    //     setDetails(data);
+    //   }
+    // } else if (user) {
+    //   console.log(basketData);
+    //   console.log(basket);
+    //   getBasket()
+    //     .then(({ data }) => {
+    //       setBasketData(data.data);
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // }
   };
 
   useEffect(() => {
@@ -146,11 +64,11 @@ const Cart = () => {
         </div>
       </div>
       <div className="lg:flex">
-        {user ? (
-          <UserComponent details={details} getData={getData} />
-        ) : (
-          <NullUserComponent setDetails={setDetails} details={details} />
-        )}
+        <div className="flex md:w-[100%] lg:w-[60%] flex-col px-4 py-8 md:px-12 2xl:px-16">
+          {basket?.map((item) => {
+            return <DetailCard value={item} key={item._id} />;
+          })}
+        </div>
         <div className="flex md:w-[100%] lg:w-[35%] flex-col px-4 py-8 md:px-12 2xl:px-16">
           <div className="px-4 py-4 bg-gray-100">
             <h2 className="font-semibold text-3xl uppercase tracking-wider">
@@ -166,6 +84,9 @@ const Cart = () => {
                   to={"/checkout"}
                   className="bg-black text-white text-center py-3 tracking-wider rounded-md w-full"
                   type="submit"
+                  onClick={() => {
+                    console.log(basket);
+                  }}
                 >
                   PROCEED TO CHECKOUT
                 </Link>

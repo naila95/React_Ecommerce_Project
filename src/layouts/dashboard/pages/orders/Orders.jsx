@@ -27,7 +27,6 @@ export default function Orders() {
   };
 
   const getOrdersForDashboard = () => {
-    console.log(query);
     setloading(true);
     getOrder(dynamicUrl(query))
       .then(({ data }) => {
@@ -45,6 +44,8 @@ export default function Orders() {
   useEffect(() => {
     getOrdersForDashboard();
   }, [query]);
+
+  console.log(data);
 
   return (
     <>

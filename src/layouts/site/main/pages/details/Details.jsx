@@ -12,9 +12,10 @@ import { postBasket } from "../../../../../services/basketProduct";
 export default function Details() {
   const [details, setDetails] = useState([]);
   let { itemId } = useParams();
-  const { basket, setBasket, count, setCount } = useContext(BasketContext);
+  const { basket, setBasket } = useContext(BasketContext);
   const { user } = useContext(UserContext);
   const [src, setSrc] = useState(null);
+  const [count, setCount] = useState(1);
 
   const addToBasket = (id) => {
     if (user === null || user === false) {
