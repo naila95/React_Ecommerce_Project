@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Button, Checkbox, Pagination, Space, Table, Tag } from "antd";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Checkbox, Drawer, Pagination, Space, Table, Tag } from "antd";
 import moment from "moment";
 import { updateOrder } from "../../../../../services/orders";
 import { toast } from "react-toastify";
+import { BiDetail } from "react-icons/bi";
+import OrderDetailModal from "./OrderDetailModal";
+import { MyModalContext } from "../../../../../contexts/MyModalContext";
 
 export default function OrdersTable({
   data,
@@ -12,6 +15,7 @@ export default function OrdersTable({
   totalCount,
 }) {
   const [pagination, setPagination] = useState({ page: 1, perPage: 10 });
+  const { setMyModal } = useContext(MyModalContext);
 
   useEffect(() => {
     setQuery({ ...query, page: pagination.page, perPage: pagination.perPage });
@@ -80,6 +84,30 @@ export default function OrdersTable({
                 }
               }}
             ></Checkbox>
+          </>
+        );
+      },
+    },
+    {
+      title: "Details",
+      key: "details",
+      render: (_, record) => {
+        return (
+          <>
+            <Button
+              className="mr-2"
+              type="primary"
+              ghost
+              onClick={() => {
+                setMyModal({
+                  open: true,
+                  width: "85%",
+                  Component: <OrderDetailModal initialValues={record} />,
+                });
+              }}
+            >
+              <BiDetail />
+            </Button>
           </>
         );
       },

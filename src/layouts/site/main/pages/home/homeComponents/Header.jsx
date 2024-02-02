@@ -18,7 +18,7 @@ export default function Header({ setShowSearch, showSearch }) {
 
   const logOut = () => {
     localStorage.removeItem("token");
-    setUser(null);
+    setUser(false);
     navigate("/");
   };
 
@@ -549,22 +549,18 @@ export default function Header({ setShowSearch, showSearch }) {
               }}
             />
           </div>
-          <div className="">
-            <Link to={"auth/login"} className="text-lg font-semibold">
-              Sign In
-            </Link>
-          </div>
+          {!user && (
+            <div className="">
+              <Link to={"auth/login"} className="text-lg font-semibold">
+                Sign In
+              </Link>
+            </div>
+          )}
           <div className="">
             <Link to={"cart"} className="relative">
               <FiShoppingCart className="text-2xl" />
               <h2 className="absolute top-[-10px] right-[-10px] text-white bg-black rounded-xl px-1.5">
-                {user
-                  ? basketData
-                    ? basketData.length
-                    : 0
-                  : basket
-                  ? basket.length
-                  : 0}
+                {basket ? basket.length : 0}
               </h2>
             </Link>
           </div>

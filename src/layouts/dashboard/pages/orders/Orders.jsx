@@ -45,8 +45,6 @@ export default function Orders() {
     getOrdersForDashboard();
   }, [query]);
 
-  console.log(data);
-
   return (
     <>
       <h3 className="font-bold text-xl">All Orders</h3>

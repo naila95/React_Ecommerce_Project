@@ -1,57 +1,23 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BasketContext } from "../../../../../contexts/BasketContext";
-import { UserContext } from "../../../../../contexts/AuthContext";
-import { getSingleProduct } from "../../../../../services/homeProduct";
 import { Form } from "antd";
 import { Link } from "react-router-dom";
-import { getBasket } from "../../../../../services/basketProduct";
-import { LoadingContext } from "../../../../../contexts/LoadingContext";
-import UserComponent from "./components/UserComponent";
-import NullUserComponent from "./components/NullUserComponent";
+
 import DetailCard from "./components/DetailCard";
 
 const Cart = () => {
-  const { basket, setBasket, basketData, setBasketData } =
-    useContext(BasketContext);
-  const { user } = useContext(UserContext);
-  console.log(basket);
-  const getData = async () => {
-    // if (user === null || user === false) {
-    //   let localBasket = JSON.parse(localStorage.getItem("basket"));
-    //   if (localBasket != null) {
-    //     let arr = localBasket.map((item) => {
-    //       return getSingleProduct(item.productId);
-    //     });
-    //     let res = await Promise.all(arr);
-    //     let data = res
-    //       .map((item) => {
-    //         return item.data.data;
-    //       })
-    //       .map((item) => {
-    //         let newItem = {
-    //           ...item,
-    //           count: basket.find((el) => el.productId == item._id).productCount,
-    //         };
-    //         return newItem;
-    //       });
-    //     setDetails(data);
-    //   }
-    // } else if (user) {
-    //   console.log(basketData);
-    //   console.log(basket);
-    //   getBasket()
-    //     .then(({ data }) => {
-    //       setBasketData(data.data);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // }
-  };
+  const { basket } = useContext(BasketContext);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    getData();
-  }, [user]);
+    const sumWithInitial = basket.reduce((accumulator, item) => {
+      return (
+        accumulator +
+        item.count * (item.salePrice ? item.salePrice : item.productPrice)
+      );
+    }, 0);
+    setTotal(sumWithInitial);
+  }, [basket]);
 
   return (
     <div>
@@ -77,6 +43,10 @@ const Cart = () => {
             <div className="flex py-6 text-xl border-b border-black justify-between">
               <h2>Shipping</h2>
               <h2>0$</h2>
+            </div>
+            <div className="flex py-6 text-xl justify-between">
+              <h2 className="font-semibold">Total Count</h2>
+              <h2 className="font-semibold">{total}$</h2>
             </div>
             <Form>
               <Form.Item className="w-full">

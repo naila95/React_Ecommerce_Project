@@ -1,56 +1,143 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { UserContext } from "./AuthContext";
-import { deleteBasket, getBasket, postBasket } from "../services/basketProduct";
+import {
+  deleteBasket,
+  getBasket,
+  postBasket,
+  updateBasket,
+} from "../services/basketProduct";
 import { getSingleProduct } from "../services/homeProduct";
-import { LoadingContext } from "./LoadingContext";
-
 export const BasketContext = createContext();
 
 export function BasketProvider({ children }) {
   const [basket, setBasket] = useState([]);
-  const [localBasket, setLocalBasket] = useState(null);
+  const [localBasket, setLocalBasket] = useState([]);
   const { user } = useContext(UserContext);
   const [basketData, setBasketData] = useState([]);
-  const { setloading } = useContext(LoadingContext);
-
-  // JSON.parse(localStorage.getItem("basket"))
 
   useEffect(() => {
-    let basket = localStorage.getItem("basket");
-    if (!user) {
-      if (typeof basket !== "object" && !basket.length > 0) {
-        localStorage.setItem("basket", JSON.stringify(localBasket));
-      }
+    if (JSON.parse(localStorage.getItem("basket")) === null) {
+      localStorage.setItem("basket", JSON.stringify([]));
     }
-  }, [localBasket, user]);
+  }, []);
 
-  const addBasketData = (basket) => {
-    let localBasket = JSON.stringify(localStorage.getItem("basket"));
-    let basketItem = localBasket.find((item) => {
-      return item._id === basket._id;
-    });
-    if (!basketItem) {
-      let newArr = [...localBasket];
-      newArr.push({
-        productId: _id,
-        productCount: basket.count,
+  useEffect(() => {
+    if (
+      user &&
+      localStorage.getItem("basket") &&
+      Array.isArray(basket) &&
+      basket.length > 0
+    ) {
+      const newArray = basket.map((item) => {
+        return { productId: item._id, productCount: item.count };
       });
-      setLocalBasket(newArr);
-    } else if (basketItem) {
-      let newArr = localBasket.map((item) => {
-        if (item._id === basketItem._id) {
-          let temp = { ...item, productCount: basket.count };
-          return temp;
+      postBasket({ basket: newArray })
+        .then((res) => {
+          console.log(res);
+          localStorage.setItem("basket", false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [basket]);
+
+  const addBasketData = (param) => {
+    if (!user) {
+      let basketItem = localBasket.find((item) => {
+        return item?.productId === param?._id;
+      });
+      if (!basketItem) {
+        let newArr = [...localBasket];
+        newArr.push({
+          productId: param._id,
+          productCount: param.count,
+        });
+        setLocalBasket(newArr);
+        localStorage.setItem("basket", JSON.stringify(newArr));
+      } else {
+        let newArr = localBasket.map((item) => {
+          if (item?._id === basketItem?._id) {
+            let temp = { ...item, productCount: param.count };
+            return temp;
+          } else {
+            return item;
+          }
+        });
+        setLocalBasket(newArr);
+        localStorage.setItem("basket", JSON.stringify(newArr));
+      }
+    } else {
+      getBasket()
+        .then((res) => {
+          let basketItem = res.data.data?.find((item) => {
+            return item?.productId === param?._id;
+          });
+          if (!basketItem) {
+            postBasket({
+              basket: [{ productId: param._id, productCount: param.count }],
+            })
+              .then((res) => {
+                console.log(res);
+                getBasketData();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          } else {
+            updateBasket(basketItem._id, { productCount: param.count })
+              .then((res) => {
+                console.log(res);
+                getBasketData();
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  const updateBasketData = (_id, prop) => {
+    if (!user) {
+      let newArr = [];
+      basket.forEach((elem) => {
+        if (elem._id === _id) {
+          let newObj = { ...elem, count: prop };
+          newArr.push(newObj);
         } else {
-          return item;
+          newArr.push(elem);
         }
       });
-      setLocalBasket(newArr);
+      setBasket(newArr);
+      localStorage.setItem(
+        "basket",
+        JSON.stringify(
+          newArr.map((item) => {
+            return { productId: item._id, productCount: item.count };
+          })
+        )
+      );
+    } else {
+      updateBasket(_id, { productCount: prop })
+        .then((res) => {
+          console.log(res);
+          getBasketData();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   };
 
   const deleteBasketData = (_id) => {
     if (!user) {
+      let newArr = localBasket.filter((item) => item?.productId !== _id);
+      localStorage.setItem("basket", JSON.stringify(newArr));
+      setLocalBasket(newArr);
     } else {
       deleteBasket(_id)
         .then((res) => {
@@ -67,20 +154,12 @@ export function BasketProvider({ children }) {
 
   useEffect(() => {
     getBasketData();
-    // if (user === null) {
-    //   let localBasket = JSON.parse(localStorage.getItem("basket"));
-    //   if (localBasket && basket.length > 0) {
-    //     setBasket(localBasket);
-    //   }
-    // } else if (user) {
-    //   setBasket([]);
-    // }
-  }, [user]);
+  }, [user, localBasket]);
 
   const getBasketData = async () => {
     if (!user) {
       let localBasket = JSON.parse(localStorage.getItem("basket"));
-      if (localBasket != null && localBasket.length > 0) {
+      if (localBasket != null) {
         generateBasket(localBasket)
           .then((res) => {
             setBasket(res);
@@ -125,7 +204,14 @@ export function BasketProvider({ children }) {
   };
   return (
     <BasketContext.Provider
-      value={{ basket, setBasket, deleteBasketData, count: 1 }}
+      value={{
+        basket,
+        setBasket,
+        deleteBasketData,
+        addBasketData,
+        localBasket,
+        updateBasketData,
+      }}
     >
       {children}
     </BasketContext.Provider>

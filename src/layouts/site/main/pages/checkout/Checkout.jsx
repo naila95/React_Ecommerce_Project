@@ -5,27 +5,25 @@ import { BasketContext } from "../../../../../contexts/BasketContext";
 import { deleteBasket, getBasket } from "../../../../../services/basketProduct";
 
 export default function Checkout() {
-  const { basket, setBasket, setCount, setBasketData } =
-    useContext(BasketContext);
+  const { basket } = useContext(BasketContext);
   const [data, setData] = useState([]);
 
-  const onFinish = (values) => {
-    console.log(basket);
-    // postOrder({ products: basket })
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   })
-    //   .finally(() => {
-    //     localStorage.setItem("basket", JSON.stringify([]));
-    //     setBasket([]);
-    //     setCount(1);
-    //     setBasketData([]);
-    //     form.resetFields();
-    //     getData();
-    //   });
+  const onFinish = () => {
+    const newArray = basket.map((item) => {
+      return { productId: item._id, productCount: item.count };
+    });
+    postOrder({ products: newArray })
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("basket", JSON.stringify([]));
+        getData();
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        form.resetFields();
+      });
   };
 
   const getData = () => {
@@ -74,16 +72,7 @@ export default function Checkout() {
               autoComplete="off"
             >
               <div className="flex justify-between items-center">
-                <Form.Item
-                  className="w-[49%]"
-                  name="firstName"
-                  // rules={[
-                  //   {
-                  //     required: true,
-                  //     message: "Please input your first name!",
-                  //   },
-                  // ]}
-                >
+                <Form.Item className="w-[49%]" name="firstName">
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
                     htmlFor="firstName"
@@ -99,16 +88,7 @@ export default function Checkout() {
                     name="firstName"
                   />
                 </Form.Item>
-                <Form.Item
-                  className="w-[49%]"
-                  name="lastName"
-                  // rules={[
-                  //   {
-                  //     required: true,
-                  //     message: "Please input your last name!",
-                  //   },
-                  // ]}
-                >
+                <Form.Item className="w-[49%]" name="lastName">
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
                     htmlFor="lastName"
@@ -126,16 +106,7 @@ export default function Checkout() {
                 </Form.Item>
               </div>
               <div className="w-full">
-                <Form.Item
-                  className="w-full"
-                  name="address"
-                  // rules={[
-                  //   {
-                  //     required: true,
-                  //     message: "Please input your address!",
-                  //   },
-                  // ]}
-                >
+                <Form.Item className="w-full" name="address">
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
                     htmlFor="address"
@@ -153,16 +124,7 @@ export default function Checkout() {
                 </Form.Item>
               </div>
               <div className="flex justify-between items-center">
-                <Form.Item
-                  className="w-[49%]"
-                  name="number"
-                  // rules={[
-                  //   {
-                  //     required: true,
-                  //     message: "Please input your number!",
-                  //   },
-                  // ]}
-                >
+                <Form.Item className="w-[49%]" name="number">
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
                     htmlFor="number"
@@ -178,16 +140,7 @@ export default function Checkout() {
                     name="number"
                   />
                 </Form.Item>
-                <Form.Item
-                  className="w-[49%]"
-                  name="email"
-                  // rules={[
-                  //   {
-                  //     required: true,
-                  //     message: "Please input your email!",
-                  //   },
-                  // ]}
-                >
+                <Form.Item className="w-[49%]" name="email">
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
                     htmlFor="email"
@@ -205,16 +158,7 @@ export default function Checkout() {
                 </Form.Item>
               </div>
               <div className="flex justify-between items-center">
-                <Form.Item
-                  className="w-[49%]"
-                  name="city"
-                  // rules={[
-                  //   {
-                  //     required: true,
-                  //     message: "Please input your city!",
-                  //   },
-                  // ]}
-                >
+                <Form.Item className="w-[49%]" name="city">
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
                     htmlFor="city"
@@ -230,16 +174,7 @@ export default function Checkout() {
                     name="city"
                   />
                 </Form.Item>
-                <Form.Item
-                  className="w-[49%]"
-                  name="postcode"
-                  // rules={[
-                  //   {
-                  //     required: true,
-                  //     message: "Please input your postcode!",
-                  //   },
-                  // ]}
-                >
+                <Form.Item className="w-[49%]" name="postcode">
                   <label
                     className="text-gray-600 font-semibold text-sm mb-1 block"
                     htmlFor="postcode"

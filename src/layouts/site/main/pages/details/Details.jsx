@@ -6,63 +6,17 @@ import { useParams } from "react-router-dom";
 import Accordion from "./components/Accordion";
 import { Form } from "antd";
 import { BasketContext } from "../../../../../contexts/BasketContext";
-import { UserContext } from "../../../../../contexts/AuthContext";
-import { postBasket } from "../../../../../services/basketProduct";
 
 export default function Details() {
   const [details, setDetails] = useState([]);
   let { itemId } = useParams();
-  const { basket, setBasket } = useContext(BasketContext);
-  const { user } = useContext(UserContext);
+  const { basket, addBasketData } = useContext(BasketContext);
   const [src, setSrc] = useState(null);
   const [count, setCount] = useState(1);
 
   const addToBasket = (id) => {
-    if (user === null || user === false) {
-      let basketItem = basket.find((item) => {
-        return item.id === id;
-      });
-      if (!basketItem) {
-        let newArr = [...basket];
-        newArr.push({
-          productId: id,
-          productCount: count,
-        });
-        setBasket(newArr);
-      } else if (basketItem) {
-        let newArr = basket.map((item) => {
-          if (item._id === basketItem._id) {
-            let temp = { ...item, productCount };
-            return temp;
-          } else {
-            return item;
-          }
-        });
-        setBasket(newArr);
-      }
-    } else if (user) {
-      setBasket([
-        {
-          productId: id,
-          productCount: count,
-        },
-      ]);
-    }
+    addBasketData({ _id: id, count });
   };
-
-  const postBasketForUser = () => {
-    postBasket({ basket })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  useEffect(() => {
-    postBasketForUser();
-  }, [basket]);
 
   const increaseItem = () => {
     setCount(count + 1);
@@ -88,6 +42,12 @@ export default function Details() {
   useEffect(() => {
     getSingleProductData();
   }, [basket]);
+
+  useEffect(() => {
+
+    
+  }, []);
+
   return (
     <div key={details._id} className="px-4 py-8 md:px-12 2xl:px-16">
       <div className="flex gap-10">

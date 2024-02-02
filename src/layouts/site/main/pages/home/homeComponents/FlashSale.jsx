@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import img from "../../../../../../assets/7.jpg";
 import { getSaleProduct } from "../../../../../../services/homeProduct";
 import { Link } from "react-router-dom";
 
