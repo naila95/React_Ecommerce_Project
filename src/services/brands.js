@@ -1,26 +1,26 @@
 import { API } from "../config/axios";
 
 export const postBrand = async (userData) => {
-  let data = await API.post("/dashboard/brands", userData);
+  let data = await API().post("/dashboard/brands", userData);
   return data;
 };
 
 export const getBrand = async () => {
-  let data = await API.get("/dashboard/brands");
+  let data = await API().get("/dashboard/brands");
   return data;
 };
 
 export const updateBrand = async (id, userData) => {
-  let data = await API.put(`/dashboard/brands/${id}`, userData);
+  let data = await API().put(`/dashboard/brands/${id}`, userData);
   return data;
 };
 
 export const deleteBrand = async (id) => {
-  let data = await API.delete(`/dashboard/brands/${id}`);
+  let data = await API().delete(`/dashboard/brands/${id}`);
   return data;
 };
 
 export const getBrandsForSite = async () => {
-  let data = await API.get("/site/brands");
+  let data = await API().get("/site/brands");
   return data;
 };

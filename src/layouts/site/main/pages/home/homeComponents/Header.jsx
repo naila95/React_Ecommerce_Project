@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import img from "../../../../../../assets/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { FaAngleDown } from "react-icons/fa6";
@@ -8,10 +8,9 @@ import { BasketContext } from "../../../../../../contexts/BasketContext";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { MdOutlineCancel } from "react-icons/md";
 import { UserContext } from "../../../../../../contexts/AuthContext";
-import { getBasket } from "../../../../../../services/basketProduct";
 
 export default function Header({ setShowSearch, showSearch }) {
-  const { basket, basketData, setBasketData } = useContext(BasketContext);
+  const { basket } = useContext(BasketContext);
   const [openMenu, setOpenMenu] = useState(false);
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
@@ -549,7 +548,7 @@ export default function Header({ setShowSearch, showSearch }) {
               }}
             />
           </div>
-          {!user && (
+          {user == false && (
             <div className="">
               <Link to={"auth/login"} className="text-lg font-semibold">
                 Sign In
@@ -564,14 +563,16 @@ export default function Header({ setShowSearch, showSearch }) {
               </h2>
             </Link>
           </div>
-          <div className="">
-            <IoLogInOutline
-              onClick={() => {
-                logOut();
-              }}
-              className="text-2xl font-semibold cursor-pointer"
-            />
-          </div>
+          {user != false && (
+            <div className="">
+              <IoLogInOutline
+                onClick={() => {
+                  logOut();
+                }}
+                className="text-2xl font-semibold cursor-pointer"
+              />
+            </div>
+          )}
           <div className="block sm:block md:block lg:hidden">
             <RxHamburgerMenu
               onClick={() => {

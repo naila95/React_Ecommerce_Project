@@ -13,7 +13,6 @@ export function BasketProvider({ children }) {
   const [basket, setBasket] = useState([]);
   const [localBasket, setLocalBasket] = useState([]);
   const { user } = useContext(UserContext);
-  const [basketData, setBasketData] = useState([]);
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("basket")) === null) {
