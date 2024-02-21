@@ -16,12 +16,13 @@ export default function AddProductModal({ getDatas }) {
 
   const onFinish = (values) => {
     values.images = files;
-    if (values.salePrice) {
+    let numberPrice = Number(values.salePrice);
+    console.log(typeof numberPrice);
+    if (numberPrice) {
       values.isDeal = true;
-    } else if (!values.salePrice || values.salePrice == 0) {
-      values.salePrice = false;
+    } else if (!numberPrice || numberPrice == 0) {
+      values.isDeal = false;
     }
-    console.log(values);
     setloading(true);
     postProduct(values)
       .then((res) => {

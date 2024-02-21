@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
-import { Button, Pagination, Switch, Table, Tag } from "antd";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Pagination, Switch, Table } from "antd";
 import { MdDeleteOutline } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
@@ -37,7 +37,7 @@ export default function ProductTable({
           <>
             <img
               className="rounded-md w-[70px] h-[50px]"
-              src={record.images[record.images.length - 1].url}
+              src={record.images[0].url}
             />
           </>
         );
@@ -107,7 +107,7 @@ export default function ProductTable({
                       console.log(err);
                     })
                     .finally(() => {
-                      toast.warning("Product is not published!");
+                      toast.success("Product is not published!");
 
                       getDatas();
                     });

@@ -13,7 +13,7 @@ export default function Header({ setShowSearch, showSearch }) {
   const { basket } = useContext(BasketContext);
   const [openMenu, setOpenMenu] = useState(false);
   const navigate = useNavigate();
-  const { user } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const logOut = () => {
     localStorage.removeItem("token");

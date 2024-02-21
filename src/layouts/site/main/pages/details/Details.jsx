@@ -43,11 +43,6 @@ export default function Details() {
     getSingleProductData();
   }, [basket]);
 
-  useEffect(() => {
-
-    
-  }, []);
-
   return (
     <div key={details._id} className="px-4 py-8 md:px-12 2xl:px-16">
       <div className="flex gap-10">
@@ -57,30 +52,36 @@ export default function Details() {
               <img src={src} />
             </div>
             <div className="flex gap-2">
-              <img
-                onClick={(e) => {
-                  setSrc(e.target.src);
-                  e.target.src = src;
-                }}
-                className="w-[112px] h-[140px] cursor-pointer"
-                src={details?.images[1].url}
-              />
-              <img
-                onClick={(e) => {
-                  setSrc(e.target.src);
-                  e.target.src = src;
-                }}
-                className="w-[112px] h-[140px] cursor-pointer"
-                src={details?.images[2].url}
-              />
-              <img
-                onClick={(e) => {
-                  setSrc(e.target.src);
-                  e.target.src = src;
-                }}
-                className="w-[112px] h-[140px] cursor-pointer"
-                src={details?.images[3].url}
-              />
+              {details?.images[1]?.url ? (
+                <img
+                  onClick={(e) => {
+                    setSrc(e.target.src);
+                    e.target.src = src;
+                  }}
+                  className="w-[112px] h-[140px] cursor-pointer"
+                  src={details?.images[1]?.url}
+                />
+              ) : null}
+              {details?.images[2]?.url ? (
+                <img
+                  onClick={(e) => {
+                    setSrc(e.target.src);
+                    e.target.src = src;
+                  }}
+                  className="w-[112px] h-[140px] cursor-pointer"
+                  src={details?.images[2]?.url}
+                />
+              ) : null}
+              {details?.images[3]?.url ? (
+                <img
+                  onClick={(e) => {
+                    setSrc(e.target.src);
+                    e.target.src = src;
+                  }}
+                  className="w-[112px] h-[140px] cursor-pointer"
+                  src={details?.images[3]?.url}
+                />
+              ) : null}
             </div>
           </div>
         ) : null}
@@ -92,7 +93,7 @@ export default function Details() {
                 {details.salePrice ? details.salePrice : details.productPrice}$
               </h2>
               <h2 className="text-lg line-through text-gray-300">
-                {details.salePrice ? details.productPrice : ""}
+                {details.salePrice ? `${details.productPrice}$` : ""}
               </h2>
             </div>
             <h2 className="text-xl">{details.description}</h2>

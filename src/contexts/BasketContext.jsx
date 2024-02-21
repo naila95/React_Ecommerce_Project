@@ -27,19 +27,45 @@ export function BasketProvider({ children }) {
       Array.isArray(basket) &&
       basket.length > 0
     ) {
+      console.log("oldu");
+      console.log(basket);
       const newArray = basket.map((item) => {
         return { productId: item._id, productCount: item.count };
       });
       postBasket({ basket: newArray })
         .then((res) => {
           console.log(res);
-          localStorage.setItem("basket", false);
+          // localStorage.setItem("basket", false);
         })
         .catch((err) => {
           console.log(err);
         });
+      // getBasket().then((res) => {
+      //   let basketItem = res.data.data?.find((item) => {
+      //     return (
+      //       item?.productId ===
+      //       basket.find((item) => {
+      //         item.productId;
+      //       })
+      //     );
+      //   });
+      //   if (!basketItem) {
+      //     const newArray = basket.map((item) => {
+      //       return { productId: item._id, productCount: item.count };
+      //     });
+      //     postBasket({ basket: newArray })
+      //       .then((res) => {
+      //         console.log(res);
+      //         localStorage.setItem("basket", false);
+      //       })
+      //       .catch((err) => {
+      //         console.log(err);
+      //       });
+      //   } else {
+      //   }
+      // });
     }
-  }, [basket]);
+  }, [basket, user]);
 
   const addBasketData = (param) => {
     if (!user) {

@@ -31,21 +31,19 @@ export default function FlashSale() {
           {data.map((item) => {
             return (
               <div className="flex flex-col cursor-pointer group transition duration-200 ease-in-out transform hover:-translate-y-1 hover:shadow-xl">
-                <Link to={`/details/${item._id}`} className="">
+                <Link to={`/details/${item._id}`}>
                   <img
                     className="rounded-md group-hover:rounded-none"
                     src={item.images[0].url}
                   />
                 </Link>
-                <div className="py-3">
+                <div className="py-4 px-3">
                   <h2 className="text-lg font-semibold">{item.title}</h2>
                   <p className="text-sm">{item.description}</p>
                   <div className="flex mt-2 gap-x-2">
-                    <h2 className="font-semibold text-lg">
-                      {item.productPrice}$
-                    </h2>
+                    <h2 className="font-semibold text-lg">{item.salePrice}$</h2>
                     <h2 className="font-normal text-lg text-gray-600 line-through">
-                      {item.salePrice}$
+                      {item.productPrice}$
                     </h2>
                   </div>
                 </div>

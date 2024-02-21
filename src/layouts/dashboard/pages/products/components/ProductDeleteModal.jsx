@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { MyModalContext } from "../../../../../contexts/MyModalContext";
 import { LoadingContext } from "../../../../../contexts/LoadingContext";
 import { deleteProduct } from "../../../../../services/product";
+import { toast } from "react-toastify";
 
 export default function ProductDeleteModal({ initialValues = {}, getDatas }) {
   const { setMyModal } = useContext(MyModalContext);

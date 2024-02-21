@@ -12,6 +12,7 @@ export default function Checkout() {
     const newArray = basket.map((item) => {
       return { productId: item._id, productCount: item.count };
     });
+    console.log(newArray);
     postOrder({ products: newArray })
       .then((res) => {
         console.log(res);

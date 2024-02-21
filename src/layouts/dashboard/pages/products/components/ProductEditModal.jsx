@@ -22,6 +22,7 @@ export default function ProductEditModal({
   const deleteImg = (public_id) => {
     setImages(images.filter((img) => img.public_id !== public_id));
   };
+
   const onFinish = (values) => {
     let newImgArr = images.map((item) => {
       if (!isNaN(item.public_id)) {
@@ -31,10 +32,12 @@ export default function ProductEditModal({
       }
     });
     values.images = newImgArr;
-    if (initialValues.salePrice > 0) {
-      values.isDeal = true;
-    } else {
+    let numberPrice = Number(initialValues.salePrice);
+    console.log(typeof numberPrice);
+    if (numberPrice === null || numberPrice == 0 || numberPrice.length == 0) {
       values.isDeal = false;
+    } else {
+      values.isDeal = true;
     }
     setloading(true);
     updateProduct(initialValues._id, values)
@@ -139,7 +142,6 @@ export default function ProductEditModal({
             <Select
               className="bg-white w-[10%] border rounded-md border-[#94D5CB] py-1 px-2 h-11 md:h-12 mr-3"
               style={{ outline: "none" }}
-              // onChange={handleChange}
               options={brands}
             />
           </Form.Item>
