@@ -5,6 +5,7 @@ import OrdersTable from "./components/OrdersTable";
 import { getOrder } from "../../../../services/orders";
 import { LoadingContext } from "../../../../contexts/LoadingContext";
 import { dynamicUrl } from "../../../../utils/generateUrl";
+import moment from "moment";
 
 export default function Orders() {
   const [data, setData] = useState([]);
@@ -109,7 +110,7 @@ export default function Orders() {
             <input
               ref={startDateRef}
               onChange={(e) => {
-                handleChange("startDate", e.target.value);
+                handleChange("startDate", new Date(e.target.value));
               }}
               className="border w-full h-11 md:h-12 rounded-md border-[#94D5CB] py-1 px-4 md:px-5"
               type="date"
@@ -121,7 +122,7 @@ export default function Orders() {
             <input
               ref={endDateRef}
               onChange={(e) => {
-                handleChange("endDate", e.target.value);
+                handleChange("endDate", new Date(e.target.value));
               }}
               className="border w-full h-11 md:h-12 rounded-md border-[#94D5CB] py-1 px-4 md:px-5"
               type="date"

@@ -3,6 +3,7 @@ import { Form } from "antd";
 import { postOrder } from "../../../../../services/orders";
 import { BasketContext } from "../../../../../contexts/BasketContext";
 import { deleteBasket, getBasket } from "../../../../../services/basketProduct";
+import { toast } from "react-toastify";
 
 export default function Checkout() {
   const { basket } = useContext(BasketContext);
@@ -16,11 +17,13 @@ export default function Checkout() {
     postOrder({ products: newArray })
       .then((res) => {
         console.log(res);
+        toast.success("Order is created successfully!");
         localStorage.setItem("basket", JSON.stringify([]));
         getData();
       })
       .catch((err) => {
         console.log(err);
+        toast.error("Order is not created!");
       })
       .finally(() => {
         form.resetFields();
